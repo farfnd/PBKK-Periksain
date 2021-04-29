@@ -16,3 +16,51 @@ use Illuminate\Support\Facades\Route;
 Route::get('/', function () {
     return view('landing');
 });
+
+Route::get('/akun/pengaturan', function () {
+    return view('settings_profile');
+});
+
+Route::get('/akun/laporkan/bank', function () {
+    return view('report_bank');
+});
+
+Route::get('/akun/laporkan/telepon', function () {
+    return view('report_phone');
+});
+
+Route::get('/akun/laporan/riwayat', function () {
+    return view('report_history');
+});
+
+Route::get('/akun/sanggahan/buat', function () {
+    return view('disclaimer_create');
+});
+
+Route::get('/akun/sanggahan/riwayat', function () {
+    return view('disclaimer_history');
+});
+
+Route::get('/akun/verifikasi', function () {
+    return view('user_verify');
+});
+
+Route::get('/akun/masuk', function () {
+    return view('sign-in');
+});
+
+Route::get('/akun/daftar', function () {
+    return view('sign-up');
+});
+
+Route::get('/akun/reset', function () {
+    return view('forgot-password');
+});
+
+Route::get('/akun/laporkan', function () {
+    return redirect('/akun/laporkan/bank');
+});
+
+Route::get('/404', function () {
+    return view('404');
+});
