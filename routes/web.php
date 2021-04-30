@@ -61,6 +61,15 @@ Route::get('/akun/laporkan', function () {
     return redirect('/akun/laporkan/bank');
 });
 
+Route::get('/cek/rekening/{no_rek}', function ($no_rek) {
+    return view('cek_rekening', ['no_rek' => $no_rek]);
+});
+
+Route::get('/cek/telepon/{no_telepon}', function ($no_telepon) {
+    return view('cek_telepon', ['no_telepon' => $no_telepon]);
+});
+
+
 Route::get('/404', function () {
     return view('404');
 });
