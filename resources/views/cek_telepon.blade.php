@@ -84,15 +84,15 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Nomor Telepon</th>
-                                                    <td>{{ $no_telepon }}</td>
+                                                    <td>{{ $data->kontak_pelaku }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Nama Pemilik</th>
-                                                    <td>{Nama Pemilik}</td>
+                                                    <td>{{ $data->nama_terlapor }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Provider</th>
-                                                    <td>Telkomsel</td>
+                                                    <td> - </td>
                                                 </tr>
                                             </tbody>
                                         </table>       

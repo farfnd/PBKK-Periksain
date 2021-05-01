@@ -71,7 +71,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Laporkan Rekening</h5>
-                                        <form method="POST" action="{{route('post_bank')}}" >
+                                        <form method="POST" action="{{route('post_bank')}}">
                                             @csrf
                                             <p><b>Informasi Rekening</b></p>
                                             <div class="form-group">

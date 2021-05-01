@@ -10,7 +10,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in - Laporkan Penipuan</title>
+        <title>Periksa.in - Buat Sanggahan</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -18,8 +18,6 @@
         <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
         <link href="/connect_assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="/connect_assets/plugins/font-awesome/css/all.min.css" rel="stylesheet">
-        <link href="/connect_assets/plugins/DataTables/datatables.min.css" rel="stylesheet">   
-
 
       
         <!-- Theme Styles -->
@@ -55,7 +53,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Riwayat Pelaporan</li>
+                                <li class="breadcrumb-item active" aria-current="page">Buat Sanggahan</li>
                             </ol>
                         </nav>
                     </div>
@@ -63,51 +61,37 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>RIWAYAT PELAPORAN</b></h5>
-                                    <!-- <p class="page-desc" style="text-align:center;">Laporkan penipuan yang terjadi agar yang lainnya tidak terkena penipuan yang sama.</p> -->
+                                    <h5 class="card-title" style="text-align:center; "><b>Sanggahan Laporan</b></h5>
+                                    <p class="page-desc" style="text-align:center;">Sanggah laporan seseorang yang berusaha merusak nama baik Anda.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
+                            <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">RIWAYAT PELAPORAN ANDA</h5>
-                                        <!-- <p>DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.</p> -->
-                                        <table id="zero-conf" class="display" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Tipe</th>
-                                                    <th>Nomor</th>
-                                                    <th>Waktu Pelaporan</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($reports as $report)
-                                                <tr>
-                                                    <td>{{ $report->id }}</td>
-                                                    <td>
-                                                        @if($report->tipe_laporan == 'rekening')
-                                                        Rekening
-                                                        @else
-                                                        Telepon
-                                                        @endif
-                                                    </td>
-                                                    <td>
-                                                        @if($report->tipe_laporan == 'rekening')
-                                                        {{ $report->nomor_rekening }}
-                                                        @else
-                                                        {{ $report->kontak_pelaku }}
-                                                        @endif
-                                                    </td>
-                                                    <td>{{$report->created_at}}</td>
-                                                    <td>Disetujui</td>
-                                                </tr>
-                                                @endforeach
-                                            </tbody>
-                                        </table>
+                                        <h5 class="card-title">Sanggahan</h5>
+                                        <form method="POST" action="{{route('post_disclaimer')}}">
+                                            @csrf
+                                            <p></p>
+                                            <p><b>ID Laporan</b></p>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="id_laporan" placeholder="ID Laporan" multiple name="id_laporan">
+                                            </div>
+                                            <p></p>
+                                            <p><b>Keterangan</b></p>
+                                            <div class="form-group">
+                                                <textarea class="form-control" id="sanggahan" rows="5" placeholder="Tuliskan sanggahan anda" name="sanggahan"></textarea>
+                                            </div>
+                                            <p></p>
+                                            <p><b>File-file Pendukung</b></p>
+                                            <div class="form-group">
+                                                <label for="file">Wajib menyertakan foto/tangkapan layar yang bisa menjadi bukti kuat sanggahan</label>
+                                                <input type="file" class="form-control" id="file" placeholder="File Pendukung" multiple name="file">
+                                            </div>
+                                            <input type="timestamp" class="form-control" id="created_at" name="created_at" value="<?php date_default_timezone_set("Asia/Jakarta"); echo date("Y-m-d H:i:s"); ?>" hidden>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -131,8 +115,6 @@
         <script src="/connect_assets/plugins/bootstrap/popper.min.js"></script>
         <script src="/connect_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="/connect_assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-        <script src="/connect_assets/plugins/DataTables/datatables.min.js"></script>
         <script src="/connect_assets/js/connect.min.js"></script>
-        <script src="/connect_assets/js/pages/datatables.js"></script>
     </body>
 </html>

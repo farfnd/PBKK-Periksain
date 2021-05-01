@@ -84,15 +84,15 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Nomor Rekening</th>
-                                                    <td>{{ $no_rek }}</td>
+                                                    <td>{{ $data->nomor_rekening }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Nama Pemilik</th>
-                                                    <td>{Nama Pemilik}</td>
+                                                    <td>{{ $data->nama_terlapor }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Bank</th>
-                                                    <td>BRI</td>
+                                                    <td>{{ $data->bank }}</td>
                                                 </tr>
                                             </tbody>
                                         </table>       

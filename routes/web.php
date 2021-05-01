@@ -1,7 +1,10 @@
 <?php
 
+use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportController;
+use App\Http\Controllers\DisclaimerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,9 +21,13 @@ Route::get('/', function () {
     return view('landing');
 });
 
+Route::post('/', [HomeController::class, 'cek'])->name('post_cek');
+
 Route::get('/akun/pengaturan', function () {
     return view('settings_profile');
 });
+
+Route::get('/akun/laporan/riwayat', [ReportController::class, 'index']);
 
 Route::get('/akun/laporkan/bank', [ReportController::class, 'create_bank']);
 Route::post('/akun/laporkan/bank', [ReportController::class, 'store_bank'])->name('post_bank');
@@ -28,15 +35,10 @@ Route::post('/akun/laporkan/bank', [ReportController::class, 'store_bank'])->nam
 Route::get('/akun/laporkan/telepon', [ReportController::class, 'create_phone']);
 Route::post('/akun/laporkan/telepon', [ReportController::class, 'store_phone'])->name('post_phone');
 
-Route::get('/akun/laporan/riwayat', [ReportController::class, 'index']);
+Route::get('/akun/sanggahan/riwayat', [DisclaimerController::class, 'index']);
 
-Route::get('/akun/sanggahan/buat', function () {
-    return view('disclaimer_create');
-});
-
-Route::get('/akun/sanggahan/riwayat', function () {
-    return view('disclaimer_history');
-});
+Route::get('/akun/sanggahan/buat', [DisclaimerController::class, 'create']);
+Route::post('/akun/sanggahan/buat', [DisclaimerController::class, 'store'])->name('post_disclaimer');
 
 Route::get('/akun/verifikasi', function () {
     return view('user_verify');
@@ -58,14 +60,9 @@ Route::get('/akun/laporkan', function () {
     return redirect('/akun/laporkan/bank');
 });
 
-Route::get('/cek/rekening/{no_rek}', function ($no_rek) {
-    return view('cek_rekening', ['no_rek' => $no_rek]);
-});
+Route::get('/cek/rekening/{no_rek}', [HomeController::class, 'get_cek_rek'])->name('cek_rekening');
 
-Route::get('/cek/telepon/{no_telepon}', function ($no_telepon) {
-    return view('cek_telepon', ['no_telepon' => $no_telepon]);
-});
-
+Route::get('/cek/telepon/{no_telepon}', [HomeController::class, 'get_cek_telp'])->name('cek_telepon');
 
 Route::get('/404', function () {
     return view('404');

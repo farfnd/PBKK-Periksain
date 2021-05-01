@@ -53,26 +53,26 @@
     }
   });
 
-  // FORM VALIDATION
+  // // FORM VALIDATION
 
-  $(".subscribe-form input").jqBootstrapValidation({
-    preventSubmit: true,
-    submitSuccess: function($form, event) {
-      event.preventDefault(); // prevent default submit behaviour
-      $.ajax({
-        success: function() {
-          $('#subscribe-success').html("<div class='alert alert-success'>");
-          $('#subscribe-success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
-            .append("</button>");
-          $('#subscribe-success > .alert-success')
-            .append("<strong>Your message has been sent. </strong>");
-          $('#subscribe-success > .alert-success')
-            .append('</div>');
-        }
-      })
+  // $(".subscribe-form input").jqBootstrapValidation({
+  //   preventSubmit: true,
+  //   submitSuccess: function($form, event) {
+  //     event.preventDefault(); // prevent default submit behaviour
+  //     $.ajax({
+  //       success: function() {
+  //         $('#subscribe-success').html("<div class='alert alert-success'>");
+  //         $('#subscribe-success > .alert-success').html("<button type='button' class='close' data-dismiss='alert' aria-hidden='true'>&times;")
+  //           .append("</button>");
+  //         $('#subscribe-success > .alert-success')
+  //           .append("<strong>Your message has been sent. </strong>");
+  //         $('#subscribe-success > .alert-success')
+  //           .append('</div>');
+  //       }
+  //     })
 
-    }
-  });
+  //   }
+  // });
 
   $("#contactForm input, #contactForm textarea").jqBootstrapValidation({
     preventSubmit: true,

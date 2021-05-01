@@ -67,8 +67,9 @@
                     <h1 class="intro-lead-in">Periksain, cek sebelum bertindak</h1>
                     <span class="intro-heading">Mengidentifikasi apakah nomor rekening/telepon seseorang pernah terindikasi penipuan</span>
                     <div id="subscribe" class="header-buttons">
-                        <form class="subscribe-form">
-                            <input type="text"  placeholder="Nomor telepon/rekening"/>
+                        <form class="subscribe-form" method="POST" action="{{route('post_cek')}}">
+                            @csrf
+                            <input type="text" id="nomor" name="nomor" placeholder="Nomor telepon/rekening"/>
                             <button type="submit">Periksa</button>
                             <div id="subscribe-success"></div>
                         </form>

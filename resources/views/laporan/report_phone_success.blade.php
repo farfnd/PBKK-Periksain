@@ -53,7 +53,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item">Laporkan Penipuan</li>
+                                <li class="breadcrumb-item"><a href="/akun/laporkan/telepon">Laporkan Penipuan</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Laporan Terkirim</li>
                             </ol>
                         </nav>
@@ -99,8 +99,8 @@
                                             <p><b>File-file Pendukung</b></p>
                                                 <img src="{{$report->file}}" alt="Data tidak ditemukan" />
                                             </div>
-                                            <input type="timestamp" class="form-control" id="created_at" name="created_at" value="<?php date_default_timezone_set("Asia/Jakarta"); echo date("Y-m-d H:i:s"); ?>" hidden>
-                                            <a type="submit" class="btn btn-primary" href="/" >Kembali ke halaman utama</a>
+                                            <p></p>
+                                            <a type="submit" class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
                                         </form>
                                     </div>
                                 </div>

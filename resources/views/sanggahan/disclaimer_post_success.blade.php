@@ -18,8 +18,6 @@
         <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
         <link href="/connect_assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="/connect_assets/plugins/font-awesome/css/all.min.css" rel="stylesheet">
-        <link href="/connect_assets/plugins/DataTables/datatables.min.css" rel="stylesheet">   
-
 
       
         <!-- Theme Styles -->
@@ -55,7 +53,8 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Riwayat Sanggahan</li>
+                                <li class="breadcrumb-item"><a href="/akun/sanggahan/buat">Buat Sanggahan</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Sanggahan Terkirim</li>
                             </ol>
                         </nav>
                     </div>
@@ -63,60 +62,33 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>RIWAYAT SANGGAHAN</b></h5>
-                                    <!-- <p class="page-desc" style="text-align:center;">Laporkan penipuan yang terjadi agar yang lainnya tidak terkena penipuan yang sama.</p> -->
+                                    <h5 class="card-title" style="text-align:center; "><b>Sanggahan Laporan</b></h5>
+                                    <p class="page-desc" style="text-align:center;">Sanggah laporan seseorang yang berusaha merusak nama baik Anda.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
+                            <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">RIWAYAT SANGGAHAN ANDA</h5>
-                                        <!-- <p>DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.</p> -->
-                                        <table id="zero-conf" class="display" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Tipe</th>
-                                                    <th>Nomor</th>
-                                                    <th>Tanggal Sanggahan</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>#1234</td>
-                                                    <td>Rekening</td>
-                                                    <td>123456789</td>
-                                                    <td>2011/04/25</td>
-                                                    <td>Disetujui</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#1234</td>
-                                                    <td>Rekening</td>
-                                                    <td>123456789</td>
-                                                    <td>2011/04/25</td>
-                                                    <td>Disetujui</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#1234</td>
-                                                    <td>Telepon</td>
-                                                    <td>081234567890</td>
-                                                    <td>2011/04/25</td>
-                                                    <td>Menunggu Persetujuan</td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Tipe</th>
-                                                    <th>Nomor</th>
-                                                    <th>Tanggal Sanggahan</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
+                                        <h5 class="card-title">Sanggahan</h5>
+                                        <form method="POST" action="{{route('post_disclaimer')}}">
+                                            <p></p>
+                                            <p><b>ID Laporan</b></p>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="id_laporan" name="id_laporan" value="{{$disclaimer->id_laporan}}" readonly>
+                                            </div>
+                                            <p></p>
+                                            <p><b>Keterangan Sanggahan</b></p>
+                                            <div class="form-group">
+                                                <textarea class="form-control" id="sanggahan" rows="5" name="sanggahan" readonly>{{$disclaimer->sanggahan}}</textarea>
+                                            </div>
+                                            <p></p>
+                                            <p><b>File-file Pendukung</b></p>
+                                            <img src="{{$disclaimer->file}}" alt="Data tidak ditemukan">
+                                            <p></p>
+                                            <a type="submit" class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -140,8 +112,6 @@
         <script src="/connect_assets/plugins/bootstrap/popper.min.js"></script>
         <script src="/connect_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="/connect_assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-        <script src="/connect_assets/plugins/DataTables/datatables.min.js"></script>
         <script src="/connect_assets/js/connect.min.js"></script>
-        <script src="/connect_assets/js/pages/datatables.js"></script>
     </body>
 </html>
