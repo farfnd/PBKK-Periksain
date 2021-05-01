@@ -34,7 +34,9 @@
         <![endif]-->
     </head>
     <body>
-        
+        @php
+            $count=1;
+        @endphp
         <div class='loader'>
             <div class='spinner-grow text-primary' role='status'>
                 <span class='sr-only'>Loading...</span>
@@ -52,7 +54,7 @@
                     <div class="page-info container">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Periksa</a></li>
+                                <li class="breadcrumb-item"><a href="/#header">Periksa</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Nomor Telepon</li>
                             </ol>
                         </nav>
@@ -84,11 +86,11 @@
                                             <tbody>
                                                 <tr>
                                                     <th scope="row">Nomor Telepon</th>
-                                                    <td>{{ $data->kontak_pelaku }}</td>
+                                                    <td>{{ $data->first()->kontak_pelaku }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Nama Pemilik</th>
-                                                    <td>{{ $data->nama_terlapor }}</td>
+                                                    <td>{{ $data->first()->nama_terlapor }}</td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Provider</th>
@@ -110,21 +112,28 @@
                                         <table class="table">
                                             <thead class="thead-dark">
                                                 <tr>
-                                                    <th scope="col">#</th>
-                                                    <th scope="col">Pelapor</th>
-                                                    <th scope="col">Tanggal</th>
+                                                    <th scope="col">No.</th>
+                                                    <th scope="col">Waktu Pelaporan</th>
                                                     <th scope="col">Total Kerugian</th>
                                                     <th scope="col">Selengkapnya</th>
                                                 </tr>
                                             </thead>
                                             <tbody>
+                                                @foreach ($data as $report)
                                                 <tr>
-                                                    <th scope="row">1</th>
-                                                    <td>Mark Zuckerberg</td>
-                                                    <td>31/12/2021</td>
-                                                    <td>Rp. 124.521,00</td>
-                                                    <td><a href="#">Selengkapnya</a></td>
+                                                    <th scope="row"><?php
+                                                        echo $count++;
+                                                    ?>
+                                                    </th>
+                                                    <td>{{$report->created_at}}</td>
+                                                    <td>
+                                                        <?php echo "Rp".number_format($report->total_kerugian,2,',','.'); ?>
+                                                    </td>
+                                                    <td>
+                                                        <a href="#">Selengkapnya</a>
+                                                    </td>
                                                 </tr>
+                                                @endforeach
                                             </tbody>
                                         </table>   
                                     </div>

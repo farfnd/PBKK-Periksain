@@ -49,7 +49,7 @@
                             <a class="page-scroll" href="/akun/laporkan/">Laporkan Penipuan</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="/akun/sanggahan">Sanggahan</a>
+                            <a class="page-scroll" href="/akun/sanggahan/">Sanggahan</a>
                         </li>
                         <li>
                             <a class="page-scroll" href="/akun/masuk">Login</a>
@@ -94,21 +94,25 @@
                 <div class="row">
                     <div class="col-md-3">
                         <i class="nc-icon-outline wallet"></i>
+                        <br><br>
                         <h4 class="service-heading">189484+</h4>
                         <p class="">Kasus Penipuan Dilaporkan</p>
                     </div>
                     <div class="col-md-3">
                         <i class="nc-icon-outline wallet"></i>
+                        <br><br>
                         <h4 class="service-heading">189484+</h4>
                         <p class="">Rekening Dilaporkan</p>
                     </div>
                     <div class="col-md-3">
                         <i class="nc-icon-outline wallet"></i>
+                        <br><br>
                         <h4 class="service-heading">189484+</h4>
                         <p class="">Nomor Telepon Dilaporkan</p>
                     </div>
                     <div class="col-md-3 last">
                         <i class="nc-icon-outline pc"></i>
+                        <br><br>
                         <h4 class="service-heading">2 Juta</h4>
                         <p class="">Total Kerugian</p>
                     </div>
@@ -243,7 +247,7 @@
         <!-- CLIENTS -->
 
         <!-- END CLIENTS -->
-        <!-- SUBSCRIBE -->
+        {{-- <!-- SUBSCRIBE -->
         <section id="subscribe" class="parallax">
             <div class="container">
                 <div class="row">
@@ -256,7 +260,7 @@
                 </div>
             </div>
         </section>
-        <!-- END SUBSCRIBE -->
+        <!-- END SUBSCRIBE --> --}}
         <!-- CONTACT -->
         <!-- END CONTACT -->
         <!-- FOOTER -->
@@ -266,31 +270,33 @@
                     <!-- UPPER FOOTER -->
                     <div class="upper-footer">
                         <div class="pull-left">
-                            <a class="logo page-scroll" href="#page-top"><img src="softkey_assets/img/logo.png" class="img-responsive" alt=""></a>
-                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco. Qui officia deserunt mollit anim id est laborum. </p>
+                            <a href="/" class="logo page-scroll">
+                                <h3 style="color: white; font-weight: 700; text-align: left;">Periksa.in</h3>
+                            </a>
+                            <p>Cek sebelum bertindak. Periksa nomor rekening dan nomor telepon untuk menghindari kejahatan.</p>
                         </div>
-                        <div class="pull-right">
+                        <div class="pull-right" style="width: auto">
                             <ul class="footer-nav">
                                 <li class="">
-                                    <a class="page-scroll" href="#services">About</a>
+                                    <a class="page-scroll" href="#header">Periksa</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="#features">Features</a>
+                                    <a class="page-scroll" href="/akun/laporkan/bank">Laporkan Nomor Rekening</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="#video">Video</a>
+                                    <a class="page-scroll" href="#statistik">Statistik</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="#pricing">Pricing</a>
+                                    <a class="page-scroll" href="/akun/laporkan/telepon">Laporkan Nomor Telepon</a>
                                 </li>
                                 <li class="active">
-                                    <a class="page-scroll" href="#team">Team</a>
+                                    <a class="page-scroll" href="/akun/sanggahan/">Sanggah Laporan</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="#clients">Clients</a>
+                                    <a class="page-scroll" href="/akun/laporan/riwayat">Riwayat Laporan</a>
                                 </li>
                             </ul>
-                            <ul class="footer-secondary-nav">
+                            {{-- <ul class="footer-secondary-nav">
                                 <li class="">
                                     <a class="page-scroll" href="#"><span class="fa fa-phone"></span>+44-12-3456-7890</a>
                                 </li>
@@ -300,25 +306,25 @@
                                 <li class="">
                                     <a class="page-scroll" href="#"><span class="fa fa-map-marker"></span>Glen Road, E13 8 New York</a>
                                 </li>
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                     <!-- END UPPER FOOTER -->
                     <!-- LOWER FOOTER -->
                     <div class="lower-footer">
                         <div class="pull-left">
-                            <span>© 2015 LoremIpsum Themes. All rights reserved </span>
+                            <span>2021 © Periksa.in </span>
                             <a href="#"> Terms of Service </a>
                             <a href="#"> Privacy Policy </a>
                         </div>
-                        <div class="pull-right">
+                        {{-- <div class="pull-right">
                             <a href="#"><span class="fa fa-facebook"></span></a>
                             <a href="#"><span class="fa fa-twitter"></span></a>
                             <a href="#"><span class="fa fa-linkedin"></span></a>
                             <a href="#"><span class="fa fa-youtube"></span></a>
                             <a href="#"><span class="fa fa-pinterest"></span></a>
                             <a href="#"><span class="fa fa-skype"></span></a>
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- END LOWER FOOTER -->
                 </div>

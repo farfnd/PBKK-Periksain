@@ -60,6 +60,10 @@ Route::get('/akun/laporkan', function () {
     return redirect('/akun/laporkan/bank');
 });
 
+Route::get('/akun/sanggahan', function () {
+    return redirect('/akun/sanggahan/buat');
+});
+
 Route::get('/cek/rekening/{no_rek}', [HomeController::class, 'get_cek_rek'])->name('cek_rekening');
 
 Route::get('/cek/telepon/{no_telepon}', [HomeController::class, 'get_cek_telp'])->name('cek_telepon');

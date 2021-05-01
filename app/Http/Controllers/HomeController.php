@@ -21,13 +21,13 @@ class HomeController extends Controller
 
     public function get_cek_rek($no_rek)
     {
-        $data = Report::where('nomor_rekening', $no_rek)->get()->first();
+        $data = Report::where('nomor_rekening', $no_rek)->get();
         return view('cek_rekening', ['data' => $data]);
     }
 
     public function get_cek_telp($no_telepon)
     {
-        $data = Report::where('kontak_pelaku', $no_telepon)->get()->first();
+        $data = Report::where('kontak_pelaku', $no_telepon)->get();
         return view('cek_telepon', ['data' => $data]);
     }
 }
