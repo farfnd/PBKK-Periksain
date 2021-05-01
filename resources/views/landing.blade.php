@@ -67,7 +67,7 @@
                     <h1 class="intro-lead-in">Periksain, cek sebelum bertindak</h1>
                     <span class="intro-heading">Mengidentifikasi apakah nomor rekening/telepon seseorang pernah terindikasi penipuan</span>
                     <div id="subscribe" class="header-buttons">
-                        <form class="subscribe-form" method="POST" action="{{route('post_cek')}}">
+                        <form class="subscribe-form" method="POST" action="{{route('post_periksa')}}">
                             @csrf
                             <input type="text" id="nomor" name="nomor" placeholder="Nomor telepon/rekening"/>
                             <button type="submit">Periksa</button>
@@ -281,19 +281,19 @@
                                     <a class="page-scroll" href="#header">Periksa</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="/akun/laporkan/bank">Laporkan Nomor Rekening</a>
+                                    <a class="page-scroll" href="{{ route('get_bank_form') }}">Laporkan Nomor Rekening</a>
                                 </li>
                                 <li class="">
                                     <a class="page-scroll" href="#statistik">Statistik</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="/akun/laporkan/telepon">Laporkan Nomor Telepon</a>
+                                    <a class="page-scroll" href="{{ route('get_phone_form') }}">Laporkan Nomor Telepon</a>
                                 </li>
                                 <li class="active">
                                     <a class="page-scroll" href="/akun/sanggahan/">Sanggah Laporan</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="/akun/laporan/riwayat">Riwayat Laporan</a>
+                                    <a class="page-scroll" href="{{ route('get_report_history') }}">Riwayat Laporan</a>
                                 </li>
                             </ul>
                             {{-- <ul class="footer-secondary-nav">

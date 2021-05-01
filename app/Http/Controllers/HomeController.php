@@ -7,7 +7,11 @@ use App\Models\Report;
 
 class HomeController extends Controller
 {
-    public function cek(Request $request)
+    public function index(){
+        return view('landing');
+    }
+
+    public function show(Request $request)
     {
         $cek_no = $request->nomor;
         $data_rekening = Report::where('nomor_rekening', $cek_no)->get()->first();
@@ -19,15 +23,15 @@ class HomeController extends Controller
         }
     }
 
-    public function get_cek_rek($no_rek)
+    public function index_rek($no_rek)
     {
-        $data = Report::where('nomor_rekening', $no_rek)->get();
+        $data = Report::where('nomor_rekening', $no_rek)->paginate(10);
         return view('cek_rekening', ['data' => $data]);
     }
 
-    public function get_cek_telp($no_telepon)
+    public function index_telp($no_telepon)
     {
-        $data = Report::where('kontak_pelaku', $no_telepon)->get();
+        $data = Report::where('kontak_pelaku', $no_telepon)->paginate(10);
         return view('cek_telepon', ['data' => $data]);
     }
 }

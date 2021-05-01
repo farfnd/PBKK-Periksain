@@ -53,7 +53,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item"><a href="/akun/sanggahan/buat">Buat Sanggahan</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('get_disclaimer_form') }}">Buat Sanggahan</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Sanggahan Terkirim</li>
                             </ol>
                         </nav>

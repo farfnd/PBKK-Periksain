@@ -53,7 +53,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item"><a href="/akun/laporkan/telepon">Laporkan Penipuan</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('get_phone_form') }}">Laporkan Penipuan</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Laporan Terkirim</li>
                             </ol>
                         </nav>

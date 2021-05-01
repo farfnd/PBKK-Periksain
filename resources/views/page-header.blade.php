@@ -14,8 +14,8 @@
                                 </a>
                                 <div class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/akun/verifikasi">Verifikasi Akun</a>
-                                    <a class="dropdown-item" href="/akun/pengaturan">Settings &amp Privacy</a>
-                                    <a class="dropdown-item" href="/akun/logout">Log out</a>
+                                    <a class="dropdown-item" href="/akun/pengaturan">Pengaturan Akun</a>
+                                    <a class="dropdown-item" href="/akun/logout">Keluar</a>
                                 </div>
                             </li>
                             <li class="nav-item">

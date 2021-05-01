@@ -17,27 +17,29 @@ use App\Http\Controllers\DisclaimerController;
 |
 */
 
-Route::get('/', function () {
-    return view('landing');
-});
+Route::get('/', [HomeController::class, 'index'])->name('home');
 
-Route::post('/', [HomeController::class, 'cek'])->name('post_cek');
+Route::post('/', [HomeController::class, 'show'])->name('post_periksa');
 
 Route::get('/akun/pengaturan', function () {
     return view('settings_profile');
-});
+})->name('get_account_setting')->name('get_account_setting');
 
-Route::get('/akun/laporan/riwayat', [ReportController::class, 'index']);
+Route::post('/akun/pengaturan', function () {
+    return view('settings_profile');
+})->name('get_account_setting')->name('post_account_setting');
 
-Route::get('/akun/laporkan/bank', [ReportController::class, 'create_bank']);
-Route::post('/akun/laporkan/bank', [ReportController::class, 'store_bank'])->name('post_bank');
+Route::get('/akun/laporan/riwayat', [ReportController::class, 'index'])->name('get_report_history');
 
-Route::get('/akun/laporkan/telepon', [ReportController::class, 'create_phone']);
+Route::get('/akun/laporkan/rekening', [ReportController::class, 'create_bank'])->name('get_bank_form');
+Route::post('/akun/laporkan/rekening', [ReportController::class, 'store_bank'])->name('post_bank');
+
+Route::get('/akun/laporkan/telepon', [ReportController::class, 'create_phone'])->name('get_phone_form');
 Route::post('/akun/laporkan/telepon', [ReportController::class, 'store_phone'])->name('post_phone');
 
-Route::get('/akun/sanggahan/riwayat', [DisclaimerController::class, 'index']);
+Route::get('/akun/sanggahan/riwayat', [DisclaimerController::class, 'index'])->name('get_disclaimer_history');
 
-Route::get('/akun/sanggahan/buat', [DisclaimerController::class, 'create']);
+Route::get('/akun/sanggahan/buat', [DisclaimerController::class, 'create'])->name('get_disclaimer_form');
 Route::post('/akun/sanggahan/buat', [DisclaimerController::class, 'store'])->name('post_disclaimer');
 
 Route::get('/akun/verifikasi', function () {
@@ -57,16 +59,16 @@ Route::get('/akun/reset', function () {
 });
 
 Route::get('/akun/laporkan', function () {
-    return redirect('/akun/laporkan/bank');
+    return redirect()->route('get_bank_form');
 });
 
 Route::get('/akun/sanggahan', function () {
-    return redirect('/akun/sanggahan/buat');
+    return redirect()->route('get_disclaimer_form');
 });
 
-Route::get('/cek/rekening/{no_rek}', [HomeController::class, 'get_cek_rek'])->name('cek_rekening');
+Route::get('/cek/rekening/{no_rek}', [HomeController::class, 'index_rek'])->name('cek_rekening');
 
-Route::get('/cek/telepon/{no_telepon}', [HomeController::class, 'get_cek_telp'])->name('cek_telepon');
+Route::get('/cek/telepon/{no_telepon}', [HomeController::class, 'index_telp'])->name('cek_telepon');
 
 Route::get('/404', function () {
     return view('404');
