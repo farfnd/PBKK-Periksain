@@ -1,6 +1,7 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\ReportController;
 
 /*
 |--------------------------------------------------------------------------
@@ -21,17 +22,13 @@ Route::get('/akun/pengaturan', function () {
     return view('settings_profile');
 });
 
-Route::get('/akun/laporkan/bank', function () {
-    return view('report_bank');
-});
+Route::get('/akun/laporkan/bank', [ReportController::class, 'create_bank']);
+Route::post('/akun/laporkan/bank', [ReportController::class, 'store_bank'])->name('post_bank');
 
-Route::get('/akun/laporkan/telepon', function () {
-    return view('report_phone');
-});
+Route::get('/akun/laporkan/telepon', [ReportController::class, 'create_phone']);
+Route::post('/akun/laporkan/telepon', [ReportController::class, 'store_phone'])->name('post_phone');
 
-Route::get('/akun/laporan/riwayat', function () {
-    return view('report_history');
-});
+Route::get('/akun/laporan/riwayat', [ReportController::class, 'index']);
 
 Route::get('/akun/sanggahan/buat', function () {
     return view('disclaimer_create');
@@ -72,4 +69,4 @@ Route::get('/cek/telepon/{no_telepon}', function ($no_telepon) {
 
 Route::get('/404', function () {
     return view('404');
-});
+})->name('show_404');

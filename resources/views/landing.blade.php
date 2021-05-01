@@ -34,7 +34,7 @@
                     <span class="icon-bar"></span>
                     </button>
                     <!-- MAIN NAV LOGO -->
-                    <a class="logo page-scroll" href="#header"><img src="softkey_assets/img/logo.png" class="img-responsive" alt=""></a>
+                    <a href="/" class="logo-text"><h3 style="margin-top: 10px; color: white; font-weight: 700;">Periksa.in</h3></a>
                 </div>
                 <div class="collapse navbar-collapse" id="main-menu">
                     <!-- MAIN NAV LINKS -->

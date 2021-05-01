@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Responsive Admin Dashboard Template">
         <meta name="keywords" content="admin,dashboard">
-        <meta name="author" content="stacks">
+        <meta name="author" content="Periksa.in">
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
@@ -18,8 +18,6 @@
         <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
         <link href="/connect_assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="/connect_assets/plugins/font-awesome/css/all.min.css" rel="stylesheet">
-        <link href="/connect_assets/plugins/DataTables/datatables.min.css" rel="stylesheet">   
-
 
       
         <!-- Theme Styles -->
@@ -55,7 +53,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Riwayat Pelaporan</li>
+                                <li class="breadcrumb-item active" aria-current="page">Laporkan Penipuan</li>
                             </ol>
                         </nav>
                     </div>
@@ -63,60 +61,48 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>RIWAYAT PELAPORAN</b></h5>
-                                    <!-- <p class="page-desc" style="text-align:center;">Laporkan penipuan yang terjadi agar yang lainnya tidak terkena penipuan yang sama.</p> -->
+                                    <h5 class="card-title" style="text-align:center; "><b>LAPORKAN PENIPUAN</b></h5>
+                                    <p class="page-desc" style="text-align:center;">Laporkan penipuan yang terjadi agar yang lainnya tidak terkena penipuan yang sama.</p>
                                 </div>
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col">
+                            <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">RIWAYAT PELAPORAN ANDA</h5>
-                                        <!-- <p>DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.</p> -->
-                                        <table id="zero-conf" class="display" style="width:100%">
-                                            <thead>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Tipe</th>
-                                                    <th>Nomor</th>
-                                                    <th>Tanggal Pelaporan</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                <tr>
-                                                    <td>#1234</td>
-                                                    <td>Rekening</td>
-                                                    <td>123456789</td>
-                                                    <td>2011/04/25</td>
-                                                    <td>Disetujui</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#1234</td>
-                                                    <td>Rekening</td>
-                                                    <td>123456789</td>
-                                                    <td>2011/04/25</td>
-                                                    <td>Disetujui</td>
-                                                </tr>
-                                                <tr>
-                                                    <td>#1234</td>
-                                                    <td>Telepon</td>
-                                                    <td>081234567890</td>
-                                                    <td>2011/04/25</td>
-                                                    <td>Menunggu Persetujuan</td>
-                                                </tr>
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>ID</th>
-                                                    <th>Tipe</th>
-                                                    <th>Nomor</th>
-                                                    <th>Tanggal Pelaporan</th>
-                                                    <th>Status</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
+                                        <h5 class="card-title">Laporkan Nomor Telepon</h5>
+                                        <form method="POST" action="{{route('post_phone')}}" >
+                                            @csrf
+                                            <p></p>
+                                            <p><b>Kontak Pelaku</b></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pelaku"  name="nama_terlapor">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <input type="text" class="form-control" id="kontak_pelaku" placeholder="Nomor Telepon Pelaku" name="kontak_pelaku">
+                                                </div>
+                                            </div>
+                                            <p></p>
+                                            <p><b>Kronologi</b></p>
+                                            <div class="form-group">
+                                                <textarea class="form-control" id="kronologi" rows="5" placeholder="Ceritakan konologi selengkap mungkin"  name="kronologi"></textarea>
+                                            </div>
+                                            <p></p>
+                                            <p><b>Total Kerugian</b></p>
+                                            <div class="form-group">
+                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple  name="total_kerugian">
+                                            </div>
+                                            <p></p>
+                                            <p><b>File-file Pendukung</b></p>
+                                            <div class="form-group">
+                                                <label for="file">Wajib menyertakan foto/tangkapan layar yang terkait dengan kronologi kejadian</label>
+                                                <input type="file" class="form-control" id="file" placeholder="File Pendukung" multiple  name="file">
+                                            </div>
+                                            <input type="timestamp" class="form-control" id="created_at" name="created_at" value="<?php date_default_timezone_set("Asia/Jakarta"); echo date("Y-m-d H:i:s"); ?>" hidden>
+                                            <input type="text" class="form-control" name="tipe_laporan" value="telepon" hidden>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -127,7 +113,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2019 © stacks</span>
+                                <span class="footer-text">2021 © Periksa.in</span>
                             </div>
                         </div>
                     </div>
@@ -140,8 +126,6 @@
         <script src="/connect_assets/plugins/bootstrap/popper.min.js"></script>
         <script src="/connect_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="/connect_assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
-        <script src="/connect_assets/plugins/DataTables/datatables.min.js"></script>
         <script src="/connect_assets/js/connect.min.js"></script>
-        <script src="/connect_assets/js/pages/datatables.js"></script>
     </body>
 </html>

@@ -1,4 +1,4 @@
-                    <div class="logo-box"><a href="#" class="logo-text">Periksa.in</a></div>
+                    <div class="logo-box"><a href="/" class="logo-text">Periksa.in</a></div>
                     <a href="#" class="hide-horizontal-bar"><i class="material-icons">close</i></a>
                     <div class="container">
                         <div class="row">

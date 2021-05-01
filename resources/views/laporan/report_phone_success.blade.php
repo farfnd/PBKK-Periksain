@@ -10,7 +10,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in - Akun Settings</title>
+        <title>Periksa.in - Laporkan Penipuan</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -53,45 +53,17 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Pengaturan</li>
+                                <li class="breadcrumb-item">Laporkan Penipuan</li>
+                                <li class="breadcrumb-item active" aria-current="page">Laporan Terkirim</li>
                             </ol>
                         </nav>
                     </div>
                     <div class="main-wrapper container">
-                        <!-- <div class="row">
+                        <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <p class="page-desc">Examples and usage guidelines for form control styles, layout options, and custom components for creating a wide variety of forms.</p>
-                                </div>
-                            </div>
-                        </div> -->
-                        <div class="row">
-                            <div class="col-xl">
-                                <div class="card">
-                                    <div class="card-body">
-                                        <h5 class="card-title">Pengaturan Akun</h5>
-                                        <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
-                                        <form>
-                                            <div class="form-group">
-                                                <label for="settings_firstname">Nama Depan</label>
-                                                <input type="text" class="form-control" id="settings_firstname" placeholder="Nama Depan">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="settings_lastname">Nama Belakang</label>
-                                                <input type="text" class="form-control" id="settings_lastname" placeholder="Nama Belakang">
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputEmail1">Alamat Email</label>
-                                                <input type="email" class="form-control" id="settings_email" aria-describedby="emailHelp" placeholder="Enter email">
-                                                <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
-                                            </div>
-                                            <div class="form-group">
-                                                <label for="exampleInputPassword1">Password</label>
-                                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
-                                        </form>
-                                    </div>
+                                    <h5 class="card-title" style="text-align:center; "><b>PELAPORAN BERHASIL</b></h5>
+                                    <p class="page-desc" style="text-align:center;">Laporan berhasil terkirim dengan data sebagai berikut.</p>
                                 </div>
                             </div>
                         </div>
@@ -99,28 +71,41 @@
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Ganti Password</h5>
-                                        <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
-                                        <form>
-                                        <div class="form-group">
-                                                <label for="old_password">Password lama</label>
-                                                <input type="password" class="form-control" id="old_password" placeholder="Password lama">
+                                        <h5 class="card-title">Laporan Nomor Telepon</h5>
+                                        <form method="POST" action="{{route('post_phone')}}" >
+                                            @csrf
+                                            <p><b>Kontak Pelaku</b></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="nama_terlapor">Nama Pelaku</label>
+                                                    <input type="text" class="form-control" id="nama_terlapor" name="nama_terlapor" value="{{$report->nama_terlapor}}" readonly>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="kontak_pelaku">Kontak Pelaku</label>
+                                                    <input type="text" class="form-control" id="kontak_pelaku" name="kontak_pelaku" value="{{$report->kontak_pelaku}}" readonly>
+                                                </div>
                                             </div>
+                                            <p></p>
+                                            <p><b>Kronologi</b></p>
                                             <div class="form-group">
-                                                <label for="old_password">Password baru</label>
-                                                <input type="password" class="form-control" id="new_password" placeholder="Password baru">
+                                                <textarea class="form-control" id="kronologi" rows="5" name="kronologi"  readonly>{{$report->kronologi}}</textarea>
                                             </div>
+                                            <p></p>
+                                            <p><b>Total Kerugian</b></p>
                                             <div class="form-group">
-                                                <label for="old_password">Konfirmasi password baru</label>
-                                                <input type="password" class="form-control" id="new_password_confirm" placeholder="Konfirmasi password baru">
+                                                <input type="text" class="form-control" id="total_kerugian" name="total_kerugian" value="<?php echo "Rp".number_format($report->total_kerugian,2,',','.'); ?>" readonly>
                                             </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <p></p>
+                                            <p><b>File-file Pendukung</b></p>
+                                                <img src="{{$report->file}}" alt="Data tidak ditemukan" />
+                                            </div>
+                                            <input type="timestamp" class="form-control" id="created_at" name="created_at" value="<?php date_default_timezone_set("Asia/Jakarta"); echo date("Y-m-d H:i:s"); ?>" hidden>
+                                            <a type="submit" class="btn btn-primary" href="/" >Kembali ke halaman utama</a>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
-
                     </div>
                 </div>
                 <div class="page-footer">
