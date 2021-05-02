@@ -2,7 +2,7 @@
                         use App\Http\Controllers\UserController;
     
                         $account = json_decode(UserController::get_user());
-
+                        
                         $name = $account->first_name . " " . $account->last_name;
                         $status_verified = $account->is_verified ? "Verified" : "Not Verified";
                     ?>

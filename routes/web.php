@@ -19,7 +19,7 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-Route::post('/', [HomeController::class, 'show'])->name('post_periksa');
+// Route::post('/', [HomeController::class, 'show'])->name('post_periksa');
 
 Route::get('/akun/pengaturan', [UserController::class, 'show_settings'])->name('get_account_setting');
 Route::post('/akun/pengaturan', [UserController::class, 'update_user'])->name('post_account_setting');

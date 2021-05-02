@@ -2130,3 +2130,29 @@ text-transform: uppercase;
 #colors li #orange {
     background: #ff9800;
 }
+
+.switch {
+    -webkit-text-size-adjust: 100%;
+    -webkit-tap-highlight-color: rgba(0, 0, 0, 0);
+    box-sizing: border-box;
+    font: inherit;
+    overflow: visible;
+    -webkit-appearance: button;
+    cursor: pointer;
+    line-height: inherit;
+    width: 150px;
+    border: 2px solid white;
+    height: 50px;
+    font-family: PTSans;
+    font-size: 14px;
+    font-weight: 700;
+    text-transform: uppercase;
+    outline: none;
+    background-color: white;
+    transition: 0.3s;
+    margin: 0;
+    color: #1080f2;
+    border-radius: 0;
+    border-top-right-radius: 2px;
+    border-bottom-right-radius: 2px;
+}

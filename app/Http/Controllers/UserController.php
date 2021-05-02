@@ -72,8 +72,8 @@ class UserController extends Controller
         }
     }
 
-    public function isAuth(){
-        $account = json_decode($this->get_user());
+    public static function isAuth(){
+        $account = json_decode(UserController::get_user());
 
         if($account->error_msg != 0) return false;
         else return true;
@@ -126,6 +126,6 @@ class UserController extends Controller
     }
 
     public function post_verify(Request $request){
-        
+
     }
 }

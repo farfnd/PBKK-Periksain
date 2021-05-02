@@ -45,24 +45,24 @@
         <div class="connect-container align-content-stretch d-flex flex-wrap">
             <div class="page-container">
                 <div class="page-header">
-                    @include('page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
+                    @include('includes.page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
                 </div>
                 <div class="horizontal-bar">
-                    @include('horizontal-bar')
+                    @include('includes.horizontal-bar')
                 </div>
                 <div class="page-content">
                     <div class="page-info container">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="/#header">Periksa</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Nomor Telepon</li>
+                                <li class="breadcrumb-item active" aria-current="page">Rekening</li>
                             </ol>
                         </nav>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="page-title">
-                                <h5 class="card-title" style="text-align:center; "><b>Hasil Periksa Nomor Telepon</b></h5>
+                                <h5 class="card-title" style="text-align:center; "><b>Hasil Periksa Nomor Rekening</b></h5>
                             </div>
                         </div>
                     </div>
@@ -71,8 +71,12 @@
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Informasi Rekening</h5>
-                                        <div class="alert alert-danger outline-alert" role="alert" style="text-align:center;">Hati-hati, nomor telepon ini memiliki catatan laporan penipuan!</div>
+                                        <h5 class="card-title">Informasi Nomor Rekening</h5>
+                                        @isset($data->first()->nomor_rekening)
+                                            <div class="alert alert-danger outline-alert" role="alert" style="text-align:center;">Hati-hati, rekening memiliki catatan laporan penipuan!</div>
+                                        @else
+                                            <div class="alert alert-success outline-alert" role="alert" style="text-align:center;">Rekening ini tidak memiliki riwayat laporan penipuan!</div>
+                                        @endisset
                                         <!-- <p>Using the most basic table markup, here’s how <code>.table</code>-based tables look in Bootstrap.</p> -->
                                         <table class="table">
                                             <thead>
@@ -85,16 +89,34 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <th scope="row">Nomor Telepon</th>
-                                                    <td>{{ $data->first()->kontak_pelaku }}</td>
+                                                    <th scope="row">Nomor Rekening</th>
+                                                    <td>
+                                                        @isset($data->first()->nomor_rekening)
+                                                            {{ $data->first()->nomor_rekening }}
+                                                        @else
+                                                            {{ $no_rek }}
+                                                        @endisset
+                                                    </td>
                                                 </tr>
                                                 <tr>
                                                     <th scope="row">Nama Pemilik</th>
-                                                    <td>{{ $data->first()->nama_terlapor }}</td>
+                                                    <td>
+                                                        @isset($data->first()->nama_terlapor)
+                                                            {{ $data->first()->nama_terlapor }}
+                                                        @else
+                                                            Tidak diketahui
+                                                        @endisset
+                                                    </td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row">Provider</th>
-                                                    <td> - </td>
+                                                    <th scope="row">Bank</th>
+                                                    <td>
+                                                        @isset($data->first()->bank)
+                                                            {{ $data->first()->bank }}
+                                                        @else
+                                                            Tidak diketahui
+                                                        @endisset
+                                                    </td>
                                                 </tr>
                                             </tbody>
                                         </table>       
@@ -135,8 +157,8 @@
                                                 </tr>
                                                 @endforeach
                                             </tbody>
-                                        </table> 
-                                        {{ $data->links() }}  
+                                        </table>
+                                        {{ $data->links() }}
                                     </div>
                                 </div>
                             </div>
@@ -147,7 +169,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2021 © Periksa.in</span>
+                                <span class="footer-text"> 2021 © Periksa.in</span>
                             </div>
                         </div>
                     </div>

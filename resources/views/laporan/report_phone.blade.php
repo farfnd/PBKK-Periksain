@@ -43,10 +43,10 @@
         <div class="connect-container align-content-stretch d-flex flex-wrap">
             <div class="page-container">
                 <div class="page-header">
-                    @include('page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
+                    @include('includes.page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
                 </div>
                 <div class="horizontal-bar">
-                    @include('horizontal-bar')
+                    @include('includes.horizontal-bar')
                 </div>
                 <div class="page-content">
                     <div class="page-info container">

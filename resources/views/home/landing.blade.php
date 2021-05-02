@@ -18,6 +18,7 @@
         <link href="{{ URL::asset('softkey_assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ URL::asset('softkey_assets/css/style.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('softkey_assets/css/responsive.css') }}" rel="stylesheet">
+
         <!-- DEMO COLORS  -->
         <link href="#" class="css-color" rel="stylesheet">
 
@@ -71,13 +72,16 @@
                 <div class="intro-text">
                     <h1 class="intro-lead-in">Periksain, cek sebelum bertindak</h1>
                     <span class="intro-heading">Mengidentifikasi apakah nomor rekening/telepon seseorang pernah terindikasi penipuan</span>
+                    
                     <div id="subscribe" class="header-buttons">
-                        <form class="subscribe-form" method="POST" action="{{route('post_periksa')}}">
-                            @csrf
+                        <button class="switch" id="switch_rekening" style="background:#273140;" onclick="updateForm('rekening')">REKENING</button>
+                        <button class="switch" id="switch_telepon" onclick="updateForm('telepon')">TELEPON</button>
+
+                        <div class="subscribe-form" style="margin-top: 20px;" action="#">
                             <input type="text" id="nomor" name="nomor" placeholder="Nomor telepon/rekening"/>
-                            <button type="submit">Periksa</button>
+                            <button type="submit" onclick="periksa()">Periksa</button>
                             <div id="subscribe-success"></div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -100,25 +104,25 @@
                     <div class="col-md-3">
                         <i class="nc-icon-outline wallet"></i>
                         <br><br>
-                        <h4 class="service-heading">189484+</h4>
+                        <h4 class="service-heading">{{ $total_kasus }}</h4>
                         <p class="">Kasus Penipuan Dilaporkan</p>
                     </div>
                     <div class="col-md-3">
                         <i class="nc-icon-outline wallet"></i>
                         <br><br>
-                        <h4 class="service-heading">189484+</h4>
+                        <h4 class="service-heading">{{ $total_rek }}</h4>
                         <p class="">Rekening Dilaporkan</p>
                     </div>
                     <div class="col-md-3">
                         <i class="nc-icon-outline wallet"></i>
                         <br><br>
-                        <h4 class="service-heading">189484+</h4>
+                        <h4 class="service-heading">{{ $total_tel }}</h4>
                         <p class="">Nomor Telepon Dilaporkan</p>
                     </div>
                     <div class="col-md-3 last">
                         <i class="nc-icon-outline pc"></i>
                         <br><br>
-                        <h4 class="service-heading">2 Juta</h4>
+                        <h4 class="service-heading">{{ $total_rugi }}</h4>
                         <p class="">Total Kerugian</p>
                     </div>
                 </div>
@@ -147,26 +151,26 @@
                     <div class="slider">
                         <!-- TESTIMONIALS 1 -->
                         <div class="tt-content">
-                            <h3><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain is really helping all of us to make collaboration a differentiating factor to win is really helping all of us.</h3>
+                            <h3><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain sangat membantu kita dalam memeriksa apakah sebuah rekening atau nomor telepon terindikasi kasus penipuan.</h3>
                             <div class="tt-container">
-                                <h4 >Antony Casalena</h4>
-                                <span class="content">Vice president, IQTeam</span>
+                                <h4 >Anisa Heart</h4>
+                                <span class="content">ITS - Surabaya</span>
                             </div>
                         </div>
                         <!-- TESTIMONIALS 2 -->
                         <div class="tt-content">
-                            <h3 ><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain is really helping all of us to make collaboration a differentiating factor to win is really helping all of us.</h3>
+                            <h3><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain sangat membantu kita dalam memeriksa apakah sebuah rekening atau nomor telepon terindikasi kasus penipuan.</h3>
                             <div class="tt-container">
-                                <h4 >Antony Casalena</h4>
-                                <span class="content">Vice president, IQTeam</span>
+                                <h4 >Anisa Heart</h4>
+                                <span class="content">ITS - Surabaya</span>
                             </div>
                         </div>
                         <!-- TESTIMONIALS 3 -->
                         <div class="tt-content">
-                            <h3 ><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain is really helping all of us to make collaboration a differentiating factor to win is really helping all of us.</h3>
+                            <h3><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain sangat membantu kita dalam memeriksa apakah sebuah rekening atau nomor telepon terindikasi kasus penipuan.</h3>
                             <div class="tt-container">
-                                <h4 >Antony Casalena</h4>
-                                <span class="content">Vice president, IQTeam</span>
+                                <h4 >Anisa Heart</h4>
+                                <span class="content">ITS - Surabaya</span>
                             </div>
                         </div>
                     </div>
@@ -204,9 +208,9 @@
                                 <a href="#"><span class="fa fa-linkedin"></span></a>
                             </div>
                             <div class="team-content">
-                                <h5>Jerry Mack</h5>
-                                <span class="team-subtitle">Web Developer</span>
-                                <p>He enjoys the finer details of a project, considering every stage of his.</p>
+                                <h5>Farhan Arifandi</h5>
+                                <span class="team-subtitle">Backend Developer</span>
+                                <p>05111940000061</p>
                                 <span class="triangle"></span>
                             </div>
                         </div>
@@ -215,9 +219,9 @@
                     <div class="col-md-4 team-wrapper">
                         <div class="row team-member team-member-down">
                             <div class="team-content">
-                                <h5>Anna Shaw</h5>
-                                <span class="team-subtitle">Project Manager</span>
-                                <p>He enjoys the finer details of a project, considering every stage of her.</p>
+                                <h5>Abdulatif Fajar Sidiq</h5>
+                                <span class="team-subtitle">Database Manager</span>
+                                <p>05111840007002</p>
                                 <span class="triangle"></span>
                             </div>
                             <div class="team-socials">
@@ -238,9 +242,9 @@
                                 <a href="#"><span class="fa fa-linkedin"></span></a>
                             </div>
                             <div class="team-content">
-                                <h5>Leon Thompson</h5>
-                                <span class="team-subtitle">UX Designer</span>
-                                <p>She enjoys the finer details of a project, considering every stage of her.</p>
+                                <h5>I Kadek Agus Ariesta Putra</h5>
+                                <span class="team-subtitle">Frontend Developer</span>
+                                <p>05111940000105</p>
                                 <span class="triangle"></span>
                             </div>
                         </div>
@@ -358,5 +362,24 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
         <!-- custom script -->
         <script src="softkey_assets/js/scripts.js"></script>
+        <script type="text/javascript">
+            var curr_type = 'rekening';
+            function updateForm(type) {
+                curr_type = type;
+                
+                if(curr_type == 'rekening'){
+                    document.getElementById("switch_rekening").style.background = "#273140";
+                    document.getElementById("switch_telepon").style.background = "#fff";
+                }else{
+                    document.getElementById("switch_telepon").style.background = "#273140";
+                    document.getElementById("switch_rekening").style.background = "#fff";
+                }
+            }
+
+            function periksa(){
+                var nomor = document.getElementById("nomor").value;
+                location.replace("/cek/" + curr_type + "/" + nomor);
+            }
+        </script>
     </body>
 </html>
