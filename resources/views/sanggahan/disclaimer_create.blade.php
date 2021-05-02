@@ -6,11 +6,11 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Responsive Admin Dashboard Template">
         <meta name="keywords" content="admin,dashboard">
-        <meta name="author" content="stacks">
+        <meta name="author" content="Periksa.in">
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in - Laporkan Penipuan</title>
+        <title>Periksa.in - Buat Sanggahan</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -43,17 +43,17 @@
         <div class="connect-container align-content-stretch d-flex flex-wrap">
             <div class="page-container">
                 <div class="page-header">
-                    @include('page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
+                    @include('includes.page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
                 </div>
                 <div class="horizontal-bar">
-                    @include('horizontal-bar')
+                    @include('includes.horizontal-bar')
                 </div>
                 <div class="page-content">
                     <div class="page-info container">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Laporkan Penipuan</li>
+                                <li class="breadcrumb-item active" aria-current="page">Buat Sanggahan</li>
                             </ol>
                         </nav>
                     </div>
@@ -61,8 +61,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>LAPORKAN PENIPUAN</b></h5>
-                                    <p class="page-desc" style="text-align:center;">Laporkan penipuan yang terjadi agar yang lainnya tidak terkena penipuan yang sama.</p>
+                                    <h5 class="card-title" style="text-align:center; "><b>Sanggahan Laporan</b></h5>
+                                    <p class="page-desc" style="text-align:center;">Sanggah laporan seseorang yang berusaha merusak nama baik Anda.</p>
                                 </div>
                             </div>
                         </div>
@@ -70,34 +70,26 @@
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Laporkan Nomor Telepon</h5>
-                                        <form>
+                                        <h5 class="card-title">Sanggahan</h5>
+                                        <form method="POST" action="{{route('post_disclaimer')}}">
+                                            @csrf
                                             <p></p>
-                                            <p><b>Kontak Pelaku</b></p>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="report_name" placeholder="Nama Pelaku">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="report_phone" placeholder="Nomor Telepon Pelaku">
-                                                </div>
+                                            <p><b>ID Laporan</b></p>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="id_laporan" placeholder="ID Laporan" multiple name="id_laporan">
                                             </div>
                                             <p></p>
-                                            <p><b>Kronologi</b></p>
+                                            <p><b>Keterangan</b></p>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="report_cronology" rows="5" placeholder="Ceritakan konologi selengkap mungkin"></textarea>
-                                            </div>
-                                            <p></p>
-                                            <p><b>Total Kerugian</b></p>
-                                            <div class="form-group">
-                                                <input type="number" class="form-control" id="report_loss" placeholder="Rp." multiple>
+                                                <textarea class="form-control" id="sanggahan" rows="5" placeholder="Tuliskan sanggahan anda" name="sanggahan"></textarea>
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
                                             <div class="form-group">
-                                                <label for="report_files">Wajib menyertakan foto/tangkap layar terkait kronologi</label>
-                                                <input type="file" class="form-control" id="report_files" placeholder="File Pendukung" multiple>
+                                                <label for="file">Wajib menyertakan foto/tangkapan layar yang bisa menjadi bukti kuat sanggahan</label>
+                                                <input type="file" class="form-control" id="file" placeholder="File Pendukung" multiple name="file">
                                             </div>
+                                            <input type="timestamp" class="form-control" id="created_at" name="created_at" value="<?php date_default_timezone_set("Asia/Jakarta"); echo date("Y-m-d H:i:s"); ?>" hidden>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
                                     </div>
@@ -110,7 +102,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2019 © stacks</span>
+                                <span class="footer-text">2021 © Periksa.in</span>
                             </div>
                         </div>
                     </div>

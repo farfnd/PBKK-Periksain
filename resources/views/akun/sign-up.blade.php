@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Responsive Admin Dashboard Template">
         <meta name="keywords" content="admin,dashboard">
-        <meta name="author" content="stacks">
+        <meta name="author" content="Periksa.in">
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
@@ -48,21 +48,25 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="logo-box"><a href="#" class="logo-text">Periksa.in</a></div>
-                                    <form>
+                                    @isset ($error_msg)
+                                        <p style="color:red; text-align:center;">{{ $error_msg }}</p>
+                                    @endisset
+                                    <form method="POST" action="{{route('post_user')}}">
+                                        @csrf
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="first_name" placeholder="Nama Depan">
+                                            <input type="text" @isset($first_name) value="{{ $first_name }}" @endisset class="form-control" name="first_name" id="first_name" placeholder="Nama Depan">
                                         </div>
                                         <div class="form-group">
-                                            <input type="text" class="form-control" id="last_name" placeholder="Nama Belakang">
+                                            <input type="text" @isset($last_name) value="{{ $last_name }}" @endisset class="form-control" name="last_name" id="last_name" placeholder="Nama Belakang">
                                         </div>
                                         <div class="form-group">
-                                            <input type="email" class="form-control" id="email1" placeholder="Masukkan email">
+                                            <input type="email" @isset($email) value="{{ $email }}" @endisset class="form-control" name="email" id="email" placeholder="Masukkan email">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Ketik Ulang Password">
+                                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Ketik Ulang Password">
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-block btn-submit">Daftar</button>
                                         <div class="auth-options">

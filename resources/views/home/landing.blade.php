@@ -1,3 +1,8 @@
+<?php
+    use App\Http\Controllers\UserController;
+    $account = json_decode(UserController::get_user());
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -13,6 +18,7 @@
         <link href="{{ URL::asset('softkey_assets/css/font-awesome.min.css') }}" rel="stylesheet" type="text/css">
         <link href="{{ URL::asset('softkey_assets/css/style.css') }}" rel="stylesheet">
         <link href="{{ URL::asset('softkey_assets/css/responsive.css') }}" rel="stylesheet">
+
         <!-- DEMO COLORS  -->
         <link href="#" class="css-color" rel="stylesheet">
 
@@ -34,7 +40,7 @@
                     <span class="icon-bar"></span>
                     </button>
                     <!-- MAIN NAV LOGO -->
-                    <a class="logo page-scroll" href="#header"><img src="softkey_assets/img/logo.png" class="img-responsive" alt=""></a>
+                    <a href="/" class="logo-text"><h3 style="margin-top: 10px; color: white; font-weight: 700;">Periksa.in</h3></a>
                 </div>
                 <div class="collapse navbar-collapse" id="main-menu">
                     <!-- MAIN NAV LINKS -->
@@ -49,10 +55,10 @@
                             <a class="page-scroll" href="/akun/laporkan/">Laporkan Penipuan</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="/akun/sanggahan">Sanggahan</a>
+                            <a class="page-scroll" href="/akun/sanggahan/">Sanggahan</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="/akun/masuk">Login</a>
+                            <a class="page-scroll" href="/akun/masuk"><?php if($account != NULL && isset($account->first_name)) echo "Halo, ".$account->first_name; else echo "Login"; ?></a>
                         </li>
                     </ul>
                     <!-- END MAIN NAV LINKS -->
@@ -66,12 +72,16 @@
                 <div class="intro-text">
                     <h1 class="intro-lead-in">Periksain, cek sebelum bertindak</h1>
                     <span class="intro-heading">Mengidentifikasi apakah nomor rekening/telepon seseorang pernah terindikasi penipuan</span>
+                    
                     <div id="subscribe" class="header-buttons">
-                        <form class="subscribe-form">
-                            <input type="text"  placeholder="Nomor telepon/rekening"/>
-                            <button type="submit">Periksa</button>
+                        <button class="switch" id="switch_rekening" style="background:#273140;" onclick="updateForm('rekening')">REKENING</button>
+                        <button class="switch" id="switch_telepon" onclick="updateForm('telepon')">TELEPON</button>
+
+                        <div class="subscribe-form" style="margin-top: 20px;" action="#">
+                            <input type="text" id="nomor" name="nomor" placeholder="Nomor telepon/rekening"/>
+                            <button type="submit" onclick="periksa()">Periksa</button>
                             <div id="subscribe-success"></div>
-                        </form>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -93,22 +103,26 @@
                 <div class="row">
                     <div class="col-md-3">
                         <i class="nc-icon-outline wallet"></i>
-                        <h4 class="service-heading">189484+</h4>
+                        <br><br>
+                        <h4 class="service-heading">{{ $total_kasus }}</h4>
                         <p class="">Kasus Penipuan Dilaporkan</p>
                     </div>
                     <div class="col-md-3">
                         <i class="nc-icon-outline wallet"></i>
-                        <h4 class="service-heading">189484+</h4>
+                        <br><br>
+                        <h4 class="service-heading">{{ $total_rek }}</h4>
                         <p class="">Rekening Dilaporkan</p>
                     </div>
                     <div class="col-md-3">
                         <i class="nc-icon-outline wallet"></i>
-                        <h4 class="service-heading">189484+</h4>
+                        <br><br>
+                        <h4 class="service-heading">{{ $total_tel }}</h4>
                         <p class="">Nomor Telepon Dilaporkan</p>
                     </div>
                     <div class="col-md-3 last">
                         <i class="nc-icon-outline pc"></i>
-                        <h4 class="service-heading">2 Juta</h4>
+                        <br><br>
+                        <h4 class="service-heading">{{ $total_rugi }}</h4>
                         <p class="">Total Kerugian</p>
                     </div>
                 </div>
@@ -137,26 +151,26 @@
                     <div class="slider">
                         <!-- TESTIMONIALS 1 -->
                         <div class="tt-content">
-                            <h3><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain is really helping all of us to make collaboration a differentiating factor to win is really helping all of us.</h3>
+                            <h3><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain sangat membantu kita dalam memeriksa apakah sebuah rekening atau nomor telepon terindikasi kasus penipuan.</h3>
                             <div class="tt-container">
-                                <h4 >Antony Casalena</h4>
-                                <span class="content">Vice president, IQTeam</span>
+                                <h4 >Anisa Heart</h4>
+                                <span class="content">ITS - Surabaya</span>
                             </div>
                         </div>
                         <!-- TESTIMONIALS 2 -->
                         <div class="tt-content">
-                            <h3 ><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain is really helping all of us to make collaboration a differentiating factor to win is really helping all of us.</h3>
+                            <h3><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain sangat membantu kita dalam memeriksa apakah sebuah rekening atau nomor telepon terindikasi kasus penipuan.</h3>
                             <div class="tt-container">
-                                <h4 >Antony Casalena</h4>
-                                <span class="content">Vice president, IQTeam</span>
+                                <h4 >Anisa Heart</h4>
+                                <span class="content">ITS - Surabaya</span>
                             </div>
                         </div>
                         <!-- TESTIMONIALS 3 -->
                         <div class="tt-content">
-                            <h3 ><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain is really helping all of us to make collaboration a differentiating factor to win is really helping all of us.</h3>
+                            <h3><span class="tt-quote">“</span><span class="tt-quote tt-quote-right">”</span>Periksain sangat membantu kita dalam memeriksa apakah sebuah rekening atau nomor telepon terindikasi kasus penipuan.</h3>
                             <div class="tt-container">
-                                <h4 >Antony Casalena</h4>
-                                <span class="content">Vice president, IQTeam</span>
+                                <h4 >Anisa Heart</h4>
+                                <span class="content">ITS - Surabaya</span>
                             </div>
                         </div>
                     </div>
@@ -194,9 +208,9 @@
                                 <a href="#"><span class="fa fa-linkedin"></span></a>
                             </div>
                             <div class="team-content">
-                                <h5>Jerry Mack</h5>
-                                <span class="team-subtitle">Web Developer</span>
-                                <p>He enjoys the finer details of a project, considering every stage of his.</p>
+                                <h5>Farhan Arifandi</h5>
+                                <span class="team-subtitle">Backend Developer</span>
+                                <p>05111940000061</p>
                                 <span class="triangle"></span>
                             </div>
                         </div>
@@ -205,9 +219,9 @@
                     <div class="col-md-4 team-wrapper">
                         <div class="row team-member team-member-down">
                             <div class="team-content">
-                                <h5>Anna Shaw</h5>
-                                <span class="team-subtitle">Project Manager</span>
-                                <p>He enjoys the finer details of a project, considering every stage of her.</p>
+                                <h5>Abdulatif Fajar Sidiq</h5>
+                                <span class="team-subtitle">Database Manager</span>
+                                <p>05111840007002</p>
                                 <span class="triangle"></span>
                             </div>
                             <div class="team-socials">
@@ -228,9 +242,9 @@
                                 <a href="#"><span class="fa fa-linkedin"></span></a>
                             </div>
                             <div class="team-content">
-                                <h5>Leon Thompson</h5>
-                                <span class="team-subtitle">UX Designer</span>
-                                <p>She enjoys the finer details of a project, considering every stage of her.</p>
+                                <h5>I Kadek Agus Ariesta Putra</h5>
+                                <span class="team-subtitle">Frontend Developer</span>
+                                <p>05111940000105</p>
                                 <span class="triangle"></span>
                             </div>
                         </div>
@@ -242,7 +256,7 @@
         <!-- CLIENTS -->
 
         <!-- END CLIENTS -->
-        <!-- SUBSCRIBE -->
+        {{-- <!-- SUBSCRIBE -->
         <section id="subscribe" class="parallax">
             <div class="container">
                 <div class="row">
@@ -255,7 +269,7 @@
                 </div>
             </div>
         </section>
-        <!-- END SUBSCRIBE -->
+        <!-- END SUBSCRIBE --> --}}
         <!-- CONTACT -->
         <!-- END CONTACT -->
         <!-- FOOTER -->
@@ -265,31 +279,33 @@
                     <!-- UPPER FOOTER -->
                     <div class="upper-footer">
                         <div class="pull-left">
-                            <a class="logo page-scroll" href="#page-top"><img src="softkey_assets/img/logo.png" class="img-responsive" alt=""></a>
-                            <p>Ut enim ad minim veniam, quis nostrud exercitation ullamco. Qui officia deserunt mollit anim id est laborum. </p>
+                            <a href="/" class="logo page-scroll">
+                                <h3 style="color: white; font-weight: 700; text-align: left;">Periksa.in</h3>
+                            </a>
+                            <p>Cek sebelum bertindak. Periksa nomor rekening dan nomor telepon untuk menghindari kejahatan.</p>
                         </div>
-                        <div class="pull-right">
+                        <div class="pull-right" style="width: auto">
                             <ul class="footer-nav">
                                 <li class="">
-                                    <a class="page-scroll" href="#services">About</a>
+                                    <a class="page-scroll" href="#header">Periksa</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="#features">Features</a>
+                                    <a class="page-scroll" href="{{ route('get_bank_form') }}">Laporkan Nomor Rekening</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="#video">Video</a>
+                                    <a class="page-scroll" href="#statistik">Statistik</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="#pricing">Pricing</a>
+                                    <a class="page-scroll" href="{{ route('get_phone_form') }}">Laporkan Nomor Telepon</a>
                                 </li>
                                 <li class="active">
-                                    <a class="page-scroll" href="#team">Team</a>
+                                    <a class="page-scroll" href="/akun/sanggahan/">Sanggah Laporan</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="#clients">Clients</a>
+                                    <a class="page-scroll" href="{{ route('get_report_history') }}">Riwayat Laporan</a>
                                 </li>
                             </ul>
-                            <ul class="footer-secondary-nav">
+                            {{-- <ul class="footer-secondary-nav">
                                 <li class="">
                                     <a class="page-scroll" href="#"><span class="fa fa-phone"></span>+44-12-3456-7890</a>
                                 </li>
@@ -299,25 +315,25 @@
                                 <li class="">
                                     <a class="page-scroll" href="#"><span class="fa fa-map-marker"></span>Glen Road, E13 8 New York</a>
                                 </li>
-                            </ul>
+                            </ul> --}}
                         </div>
                     </div>
                     <!-- END UPPER FOOTER -->
                     <!-- LOWER FOOTER -->
                     <div class="lower-footer">
                         <div class="pull-left">
-                            <span>© 2015 LoremIpsum Themes. All rights reserved </span>
+                            <span>2021 © Periksa.in </span>
                             <a href="#"> Terms of Service </a>
                             <a href="#"> Privacy Policy </a>
                         </div>
-                        <div class="pull-right">
+                        {{-- <div class="pull-right">
                             <a href="#"><span class="fa fa-facebook"></span></a>
                             <a href="#"><span class="fa fa-twitter"></span></a>
                             <a href="#"><span class="fa fa-linkedin"></span></a>
                             <a href="#"><span class="fa fa-youtube"></span></a>
                             <a href="#"><span class="fa fa-pinterest"></span></a>
                             <a href="#"><span class="fa fa-skype"></span></a>
-                        </div>
+                        </div> --}}
                     </div>
                     <!-- END LOWER FOOTER -->
                 </div>
@@ -346,5 +362,24 @@
         <script type="text/javascript" src="https://maps.googleapis.com/maps/api/js?sensor=false"></script>
         <!-- custom script -->
         <script src="softkey_assets/js/scripts.js"></script>
+        <script type="text/javascript">
+            var curr_type = 'rekening';
+            function updateForm(type) {
+                curr_type = type;
+                
+                if(curr_type == 'rekening'){
+                    document.getElementById("switch_rekening").style.background = "#273140";
+                    document.getElementById("switch_telepon").style.background = "#fff";
+                }else{
+                    document.getElementById("switch_telepon").style.background = "#273140";
+                    document.getElementById("switch_rekening").style.background = "#fff";
+                }
+            }
+
+            function periksa(){
+                var nomor = document.getElementById("nomor").value;
+                location.replace("/cek/" + curr_type + "/" + nomor);
+            }
+        </script>
     </body>
 </html>

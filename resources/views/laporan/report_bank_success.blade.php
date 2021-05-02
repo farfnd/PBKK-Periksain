@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Responsive Admin Dashboard Template">
         <meta name="keywords" content="admin,dashboard">
-        <meta name="author" content="stacks">
+        <meta name="author" content="Periksa.in">
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
@@ -43,17 +43,18 @@
         <div class="connect-container align-content-stretch d-flex flex-wrap">
             <div class="page-container">
                 <div class="page-header">
-                    @include('page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
+                    @include('includes.page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
                 </div>
                 <div class="horizontal-bar">
-                    @include('horizontal-bar')
+                    @include('includes.horizontal-bar')
                 </div>
                 <div class="page-content">
                     <div class="page-info container">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Buat Sanggahan</li>
+                                <li class="breadcrumb-item"><a href="{{ route('get_bank_form') }}">Laporkan Penipuan</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Laporan Terkirim</li>
                             </ol>
                         </nav>
                     </div>
@@ -61,8 +62,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>Sanggahan Laporan</b></h5>
-                                    <p class="page-desc" style="text-align:center;">Sanggah laporan seseorang yang berusaha merusak nama baik Anda.</p>
+                                    <h5 class="card-title" style="text-align:center; "><b>PELAPORAN BERHASIL</b></h5>
+                                    <p class="page-desc" style="text-align:center;">Laporan berhasil terkirim dengan data sebagai berikut.</p>
                                 </div>
                             </div>
                         </div>
@@ -70,25 +71,51 @@
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Sanggahan</h5>
-                                        <form>
-                                            <p></p>
-                                            <p><b>ID Laporan</b></p>
+                                        <h5 class="card-title">Laporan Nomor Rekening</h5>
+                                        <form method="POST" action="{{route('post_bank')}}" >
+                                            @csrf
+                                            <p><b>Informasi Rekening</b></p>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="report_id" placeholder="#ID" multiple>
+                                                <label for="nama_terlapor">Nama Pemilik Rekening</label>
+                                                <input type="text" class="form-control" id="nama_terlapor" name="nama_terlapor" value="{{$report->nama_terlapor}}" readonly>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="bank">Bank</label>
+                                                    <input type="text" class="form-control" id="bank" name="bank" value="{{$report->bank}}" readonly>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="nomor_rekening">Nomor Rekening</label>
+                                                    <input type="text" class="form-control" id="nomor_rekening" name="nomor_rekening" value="{{$report->nomor_rekening}}" readonly>
+                                                </div>
                                             </div>
                                             <p></p>
-                                            <p><b>Keterangan</b></p>
+                                            <p><b>Kontak Pelaku</b></p>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="platform">Platform Penipuan</label>
+                                                    <input type="text" class="form-control" id="platform" name="platform" value="{{$report->platform}}" readonly>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="kontak_pelaku">Kontak Pelaku</label>
+                                                    <input type="text" class="form-control" id="kontak_pelaku" name="kontak_pelaku" value="{{$report->kontak_pelaku}}" readonly>
+                                                </div>
+                                            </div>
+                                            <p></p>
+                                            <p><b>Kronologi</b></p>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="disclaimer_ket" rows="5" placeholder="Tuliskan sanggahan anda"></textarea>
+                                                <textarea class="form-control" id="kronologi" rows="5" name="kronologi"  readonly>{{$report->kronologi}}</textarea>
+                                            </div>
+                                            <p></p>
+                                            <p><b>Total Kerugian</b></p>
+                                            <div class="form-group">
+                                                <input type="text" class="form-control" id="total_kerugian" name="total_kerugian" value="<?php echo "Rp".number_format($report->total_kerugian,2,',','.'); ?>" readonly>
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
-                                            <div class="form-group">
-                                                <label for="report_files">Wajib menyertakan foto/tangkap layar bukti kuat sanggahan</label>
-                                                <input type="file" class="form-control" id="disclaimer_files" placeholder="File Pendukung" multiple>
-                                            </div>
-                                            <button type="submit" class="btn btn-primary">Submit</button>
+                                            <img src="{{$report->file}}" alt="Data tidak ditemukan">
+                                            <p></p>
+                                            <a type="submit" class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
                                         </form>
                                     </div>
                                 </div>
@@ -100,7 +127,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2019 © stacks</span>
+                                <span class="footer-text">2021 © Periksa.in</span>
                             </div>
                         </div>
                     </div>

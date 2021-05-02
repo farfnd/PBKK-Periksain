@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Responsive Admin Dashboard Template">
         <meta name="keywords" content="admin,dashboard">
-        <meta name="author" content="stacks">
+        <meta name="author" content="Periksa.in">
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
@@ -43,10 +43,10 @@
         <div class="connect-container align-content-stretch d-flex flex-wrap">
             <div class="page-container">
                 <div class="page-header">
-                    @include('page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
+                    @include('includes.page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
                 </div>
                 <div class="horizontal-bar">
-                    @include('horizontal-bar')
+                    @include('includes.horizontal-bar')
                 </div>
                 <div class="page-content">
                     <div class="page-info container">
@@ -71,17 +71,17 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Laporkan Rekening</h5>
-                                        <p><b>Informasi Rekening</b></p>
-                                        <form>
+                                        <form method="POST" action="{{route('post_bank')}}">
+                                            @csrf
+                                            <p><b>Informasi Rekening</b></p>
                                             <div class="form-group">
-                                                <!-- <label for="settings_firstname">Nama Pemiliki Rekening</label> -->
-                                                <input type="text" class="form-control" id="report_bank_name" placeholder="Nama Pemiliki Rekening">
+                                                <!-- <label for="settings_firstname">Nama Pemilik Rekening</label> -->
+                                                <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pemilik Rekening" name="nama_terlapor">
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <select class="form-control custom-select" id="report_banktype">
+                                                    <select class="form-control custom-select" id="bank" name="bank">
                                                         <option>Pilih Bank...</option>
-                                                        <option>Bank Tidak Diketahui</option>
                                                         <option>Bank BCA</option>
                                                         <option>Bank MANDIRI</option>
                                                         <option>Bank BNI</option>
@@ -233,44 +233,48 @@
                                                         <option>BANK CTBC (CHINA TRUST) INDONESIA</option>
                                                         <option>BANK BJB SYARIAH</option>
                                                         <option>BPR KS (KARYAJATNIKA SEDAYA)</option>
+                                                        <option>Lainnya/Bank Tidak Diketahui</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="report_banknumber" placeholder="Nomor Rekening">
+                                                    <input type="text" class="form-control" id="nomor_rekening" placeholder="Nomor Rekening" name="nomor_rekening">
                                                 </div>
                                             </div>
                                             <p></p>
                                             <p><b>Kontak Pelaku</b></p>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <select class="form-control custom-select" id="report_platform">
+                                                    <select class="form-control custom-select" id="platform" name="platform">
                                                         <option selected="">Pilih Platform</option>
-                                                        <option>Whatsapp</option>
+                                                        <option>WhatsApp</option>
                                                         <option>Line</option>
                                                         <option>Facebook</option>
                                                         <option>Instagram</option>
+                                                        <option>Lainnya</option>
                                                     </select>
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="report_platform_details" placeholder="Kontak">
+                                                    <input type="text" class="form-control" id="kontak_pelaku" placeholder="Kontak" name="kontak_pelaku">
                                                 </div>
                                             </div>
                                             <p></p>
                                             <p><b>Kronologi</b></p>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="report_cronology" rows="5" placeholder="Ceritakan konologi selengkap mungkin"></textarea>
+                                                <textarea class="form-control" id="kronologi" rows="5" placeholder="Ceritakan konologi selengkap mungkin" name="kronologi"></textarea>
                                             </div>
                                             <p></p>
                                             <p><b>Total Kerugian</b></p>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" id="report_loss" placeholder="Rp." multiple>
+                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple name="total_kerugian">
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
                                             <div class="form-group">
-                                                <label for="report_files">Wajib menyertakan foto/tangkap layar terkait kronologi</label>
-                                                <input type="file" class="form-control" id="report_files" placeholder="File Pendukung" multiple>
+                                                <label for="file">Wajib menyertakan foto/tangkapan layar yang terkait dengan kronologi kejadian</label>
+                                                <input type="file" class="form-control" id="file" placeholder="File Pendukung" multiple name="file">
                                             </div>
+                                            <input type="timestamp" class="form-control" id="created_at" name="created_at" value="<?php date_default_timezone_set("Asia/Jakarta"); echo date("Y-m-d H:i:s"); ?>" hidden>
+                                            <input type="text" class="form-control" name="tipe_laporan" value="rekening" hidden>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
                                     </div>
@@ -283,7 +287,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2019 © stacks</span>
+                                <span class="footer-text">2021 © Periksa.in</span>
                             </div>
                         </div>
                     </div>

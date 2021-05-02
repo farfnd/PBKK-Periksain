@@ -1,4 +1,4 @@
-                    <div class="logo-box"><a href="#" class="logo-text">Periksa.in</a></div>
+                    <div class="logo-box"><a href="/" class="logo-text">Periksa.in</a></div>
                     <a href="#" class="hide-horizontal-bar"><i class="material-icons">close</i></a>
                     <div class="container">
                         <div class="row">
@@ -9,17 +9,17 @@
                                         <li><a href="#">Laporkan Penipuan<i class="material-icons">keyboard_arrow_down</i></a>
                                             <ul>
                                                 <li>
-                                                    <a href="/akun/laporkan/bank">Rekening</a>
+                                                    <a href="{{ route('get_bank_form') }}">Rekening</a>
                                                 </li>
                                                 <li>
-                                                    <a href="/akun/laporkan/telepon">Nomor Telepon</a>
+                                                    <a href="{{ route('get_phone_form') }}">Nomor Telepon</a>
                                                 </li>
                                             </ul>
                                         </li>
                                         <li><a href="#">Sanggahan<i class="material-icons">keyboard_arrow_down</i></a>
                                             <ul>
                                                 <li>
-                                                    <a href="/akun/sanggahan/buat">Buat Sanggahan</a>
+                                                    <a href="{{ route('get_disclaimer_form') }}">Buat Sanggahan</a>
                                                 </li>
                                                 <li>
                                                     <a href="/akun/sanggahan/riwayat">Riwayat Sanggahan</a>
@@ -27,7 +27,7 @@
                                             </ul>
                                         </li>
                                         <li><a>|</a></li>
-                                        <li><a href="/akun/laporan/riwayat">Laporan Saya</a></li>
+                                        <li><a href="{{ route('get_report_history') }}">Laporan Saya</a></li>
                                     </ul>
                                 </div>
                             </div>

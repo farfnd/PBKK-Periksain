@@ -6,7 +6,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Responsive Admin Dashboard Template">
         <meta name="keywords" content="admin,dashboard">
-        <meta name="author" content="stacks">
+        <meta name="author" content="Periksa.in">
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
@@ -47,12 +47,27 @@
                         <div class="auth-form">
                             <div class="row">
                                 <div class="col">
-                                    <div class="logo-box"><a href="#" class="logo-text">Periksa.in - Lupa Password</a></div>
-                                    <form>
+                                    <div class="logo-box"><a href="#" class="logo-text">Periksa.in</a></div>
+                                    @isset ($error_msg)
+                                        <p style="color:red; text-align:center;">{{ $error_msg }}</p>
+                                    @endisset
+                                    <form method="POST" action="{{route('post_auth')}}">
+                                        @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control" id="email1" placeholder="Masukkan email">
+                                            <input type="email" class="form-control" @isset($email) value="{{$email}}" @endisset name="email" id="email" placeholder="Email">
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-block btn-submit">Kirim email bantuan</button>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                        </div>
+                                        <button type="submit" class="btn btn-primary btn-block btn-submit">Masuk</button>
+                                        <div class="auth-options">
+                                            <div class="custom-control custom-checkbox form-group">
+                                                <input type="checkbox" class="custom-control-input" name="remember" id="remember">
+                                                <label class="custom-control-label" for="remember">Ingat saya</label>
+                                            </div>
+                                            <a href="/akun/reset" class="forgot-link">Lupa password?</a>
+                                            <a href="{{route('get_signup_form')}}" class="forgot-link">Belum mempunyai akun?</a>
+                                        </div>
                                     </form>
                                 </div>
                             </div>

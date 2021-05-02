@@ -1,3 +1,9 @@
+<?php
+    use App\Http\Controllers\UserController;
+
+    $account = json_decode(UserController::get_user());
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -6,7 +12,7 @@
         <meta name="viewport" content="width=device-width, initial-scale=1">
         <meta name="description" content="Responsive Admin Dashboard Template">
         <meta name="keywords" content="admin,dashboard">
-        <meta name="author" content="stacks">
+        <meta name="author" content="Periksa.in">
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
@@ -43,10 +49,10 @@
         <div class="connect-container align-content-stretch d-flex flex-wrap">
             <div class="page-container">
                 <div class="page-header">
-                    @include('page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
+                    @include('includes.page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
                 </div>
                 <div class="horizontal-bar">
-                    @include('horizontal-bar')
+                    @include('includes.horizontal-bar')
                 </div>
                 <div class="page-content">
                     <div class="page-info container">
@@ -70,24 +76,31 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Pengaturan Akun</h5>
-                                        <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
-                                        <form>
+                                        @isset($profile_msg_success_info)
+                                            <p style="color:green; text-align:center;">{{ $profile_msg_success_info }}</p>
+                                        @endisset
+                                        @isset($profile_msg_error_info)
+                                            <p style="color:red; text-align:center;">{{ $profile_msg_error_info }}</p>
+                                        @endisset
+                                        <form method="POST" action="{{ route('post_account_setting') }}">
+                                            @csrf
+                                            <input type="hidden" name="form_type" value="update_profile"/>
                                             <div class="form-group">
                                                 <label for="settings_firstname">Nama Depan</label>
-                                                <input type="text" class="form-control" id="settings_firstname" placeholder="Nama Depan">
+                                                <input type="text" class="form-control" name="first_name" value="<?php echo $account->first_name ?>" id="settings_firstname" placeholder="Nama Depan">
                                             </div>
                                             <div class="form-group">
                                                 <label for="settings_lastname">Nama Belakang</label>
-                                                <input type="text" class="form-control" id="settings_lastname" placeholder="Nama Belakang">
+                                                <input type="text" class="form-control" name="last_name" value="<?php echo $account->last_name ?>" id="settings_lastname" placeholder="Nama Belakang">
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Alamat Email</label>
-                                                <input type="email" class="form-control" id="settings_email" aria-describedby="emailHelp" placeholder="Enter email">
+                                                <input type="email" class="form-control" name="email" value="<?php echo $account->email ?>" id="settings_email" aria-describedby="emailHelp" placeholder="Enter email">
                                                 <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
                                             </div>
                                             <div class="form-group">
-                                                <label for="exampleInputPassword1">Password</label>
-                                                <input type="password" class="form-control" id="exampleInputPassword1" placeholder="Password">
+                                                <label for="password_validation">Password</label>
+                                                <input type="password" class="form-control" name="password_validation" id="password_validation" placeholder="Password">
                                             </div>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
@@ -100,19 +113,26 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Ganti Password</h5>
-                                        <!-- <p>Here’s a quick example to demonstrate Bootstrap’s form styles. </p> -->
-                                        <form>
+                                        @isset($password_msg_success_info)
+                                            <p style="color:green; text-align:center;">{{ $password_msg_success_info }}</p>
+                                        @endisset
+                                        @isset($password_msg_error_info)
+                                            <p style="color:red; text-align:center;">{{ $password_msg_error_info }}</p>
+                                        @endisset
+                                        <form method="POST" action="{{ route('post_account_setting') }}">
+                                        @csrf
+                                        <input type="hidden" name="form_type" value="update_password"/>
                                         <div class="form-group">
                                                 <label for="old_password">Password lama</label>
-                                                <input type="password" class="form-control" id="old_password" placeholder="Password lama">
+                                                <input type="password" class="form-control" name="password_validation" id="old_password" placeholder="Password lama">
                                             </div>
                                             <div class="form-group">
                                                 <label for="old_password">Password baru</label>
-                                                <input type="password" class="form-control" id="new_password" placeholder="Password baru">
+                                                <input type="password" class="form-control" name="new_password" id="new_password" placeholder="Password baru">
                                             </div>
                                             <div class="form-group">
                                                 <label for="old_password">Konfirmasi password baru</label>
-                                                <input type="password" class="form-control" id="new_password_confirm" placeholder="Konfirmasi password baru">
+                                                <input type="password" class="form-control" name="new_password_confirm" id="new_password_confirm" placeholder="Konfirmasi password baru">
                                             </div>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
@@ -127,7 +147,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2019 © stacks</span>
+                                <span class="footer-text">2021 © Periksa.in</span>
                             </div>
                         </div>
                     </div>
