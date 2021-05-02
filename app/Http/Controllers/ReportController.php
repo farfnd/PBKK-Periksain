@@ -3,10 +3,17 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
 {
+    public function isAuth(){
+        $account = json_decode(UserController::get_user());
+
+        if($account->error_msg != 0) return false;
+        else return true;
+    }
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +21,12 @@ class ReportController extends Controller
      */
     public function index()
     {
-        $reports = Report::all();
+        if(!$this->isAuth()){
+            return redirect(route('get_signin_form'));
+        }
+
+        $reports = Report::where('user_id', session('userid'))->get();
+        // return json_encode($reports);
         return view('laporan.report_history', ['reports' => $reports]);
     }
 
@@ -25,6 +37,10 @@ class ReportController extends Controller
      */
     public function create_bank()
     {
+        if(!$this->isAuth()){
+            return redirect(route('get_signin_form'));
+        }
+
         return view('laporan.report_bank');
     }
 
@@ -35,6 +51,10 @@ class ReportController extends Controller
      */
     public function create_phone()
     {
+        if(!$this->isAuth()){
+            return redirect(route('get_signin_form'));
+        }
+
         return view('laporan.report_phone');
     }
 
@@ -46,8 +66,13 @@ class ReportController extends Controller
      */
     public function store_bank(Request $request)
     {
+        if(!$this->isAuth()){
+            return redirect(route('get_signin_form'));
+        }
+
         // return $request;
         Report::create([
+            'user_id' => session('userid'),
             'tipe_laporan' => $request->tipe_laporan,
             'nama_terlapor' => $request->nama_terlapor,
             'bank' => $request->bank,
@@ -71,8 +96,13 @@ class ReportController extends Controller
      */
     public function store_phone(Request $request)
     {
+        if(!$this->isAuth()){
+            return redirect(route('get_signin_form'));
+        }
+
         // return $request;
         Report::create([
+            'user_id' => session('userid'),
             'tipe_laporan' => $request->tipe_laporan,
             'nama_terlapor' => $request->nama_terlapor,
             'kontak_pelaku' => $request->kontak_pelaku,

@@ -2,11 +2,19 @@
 
 namespace App\Http\Controllers;
 
+use App\Http\Controllers\UserController;
 use App\Models\Disclaimer;
 use Illuminate\Http\Request;
 
 class DisclaimerController extends Controller
 {
+    public function isAuth(){
+        $account = json_decode(UserController::get_user());
+
+        if($account->error_msg != 0) return false;
+        else return true;
+    }
+
     /**
      * Display a listing of the resource.
      *
@@ -14,7 +22,10 @@ class DisclaimerController extends Controller
      */
     public function index()
     {
-        $disclaimers = Disclaimer::all();
+        if(!$this->isAuth()){
+            return redirect(route('get_signin_form'));
+        }
+        $disclaimers = Disclaimer::where('user_id', session('userid'))->get();
         return view('sanggahan.disclaimer_history', ['disclaimers' => $disclaimers]);
     }
 
@@ -25,6 +36,9 @@ class DisclaimerController extends Controller
      */
     public function create()
     {
+        if(!$this->isAuth()){
+            return redirect(route('get_signin_form'));
+        }
         return view('sanggahan.disclaimer_create');
     }
 
@@ -36,8 +50,12 @@ class DisclaimerController extends Controller
      */
     public function store(Request $request)
     {
+        if(!$this->isAuth()){
+            return redirect(route('get_signin_form'));
+        }
         // return $request;
         Disclaimer::create([
+            'user_id' => session('userid'),
             'id_laporan' => $request->id_laporan,
             'sanggahan' => $request->sanggahan,
             'file' => $request->file,

@@ -5,6 +5,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DisclaimerController;
+use App\Http\Controllers\UserController;
 
 /*
 |--------------------------------------------------------------------------
@@ -18,16 +19,10 @@ use App\Http\Controllers\DisclaimerController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-
 Route::post('/', [HomeController::class, 'show'])->name('post_periksa');
 
-Route::get('/akun/pengaturan', function () {
-    return view('settings_profile');
-})->name('get_account_setting')->name('get_account_setting');
-
-Route::post('/akun/pengaturan', function () {
-    return view('settings_profile');
-})->name('get_account_setting')->name('post_account_setting');
+Route::get('/akun/pengaturan', [UserController::class, 'show_settings'])->name('get_account_setting');
+Route::post('/akun/pengaturan', [UserController::class, 'update_user'])->name('post_account_setting');
 
 Route::get('/akun/laporan/riwayat', [ReportController::class, 'index'])->name('get_report_history');
 
@@ -42,17 +37,16 @@ Route::get('/akun/sanggahan/riwayat', [DisclaimerController::class, 'index'])->n
 Route::get('/akun/sanggahan/buat', [DisclaimerController::class, 'create'])->name('get_disclaimer_form');
 Route::post('/akun/sanggahan/buat', [DisclaimerController::class, 'store'])->name('post_disclaimer');
 
-Route::get('/akun/verifikasi', function () {
-    return view('user_verify');
-});
+Route::get('/akun/verifikasi', [UserController::class, 'show_verify'])->name('get_verify_form');
+Route::post('/akun/verifikasi', [UserController::class, 'post_verify'])->name('post_verify_form');
 
-Route::get('/akun/masuk', function () {
-    return view('sign-in');
-});
+Route::get('/akun/masuk', [UserController::class, 'show_signin'])->name('get_signin_form');
+Route::post('/akun/masuk', [UserController::class, 'auth_user'])->name('post_auth');
 
-Route::get('/akun/daftar', function () {
-    return view('sign-up');
-});
+Route::get('/akun/daftar', [UserController::class, 'show_signup'])->name('get_signup_form');
+Route::post('/akun/daftar', [UserController::class, 'store_user'])->name('post_user');
+
+Route::get('/akun/logout', [UserController::class, 'logout_user'])->name('logout_user');
 
 Route::get('/akun/reset', function () {
     return view('forgot-password');

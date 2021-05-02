@@ -48,21 +48,25 @@
                             <div class="row">
                                 <div class="col">
                                     <div class="logo-box"><a href="#" class="logo-text">Periksa.in</a></div>
-                                    <form>
+                                    @isset ($error_msg)
+                                        <p style="color:red; text-align:center;">{{ $error_msg }}</p>
+                                    @endisset
+                                    <form method="POST" action="{{route('post_auth')}}">
+                                        @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control" id="email" placeholder="Email">
+                                            <input type="email" class="form-control" @isset($email) value="{{$email}}" @endisset name="email" id="email" placeholder="Email">
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control" id="password" placeholder="Password">
+                                            <input type="password" class="form-control" name="password" id="password" placeholder="Password">
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-block btn-submit">Masuk</button>
                                         <div class="auth-options">
                                             <div class="custom-control custom-checkbox form-group">
-                                                <input type="checkbox" class="custom-control-input" id="exampleCheck1">
-                                                <label class="custom-control-label" for="exampleCheck1">Ingat saya</label>
+                                                <input type="checkbox" class="custom-control-input" name="remember" id="remember">
+                                                <label class="custom-control-label" for="remember">Ingat saya</label>
                                             </div>
                                             <a href="/akun/reset" class="forgot-link">Lupa password?</a>
-                                            <a href="/akun/daftar" class="forgot-link">Belum mempunyai akun?</a>
+                                            <a href="{{route('get_signup_form')}}" class="forgot-link">Belum mempunyai akun?</a>
                                         </div>
                                     </form>
                                 </div>
