@@ -144,11 +144,26 @@ class ReportController extends Controller
      * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, Report $report)
-    {
-        //
-    }
+    public function update_phone(Request $request, Report $report){
+        if(!$this->isAuth()){
+            return redirect(route('get_report_history'));
+        }
 
+        // return $request->input();
+
+        $query_result = Reports::where('id', session('userid'))->first();
+        
+            
+                User::where('id', session('userid'))->update([
+                    'nama_terlapor' => $request->nama_terlapor,
+                    'kontak_pelaku' => $request->kontak_pelaku,
+                    'kronologi' => $request->kronologi,
+                    'total_kerugian' => $request->total_kerugian                
+                ]);
+                return view('laporan.edit_report', ['profile_msg_success_info'=>'Data berhasil di update!']);    
+            
+        
+    }
     /**
      * Remove the specified resource from storage.
      *

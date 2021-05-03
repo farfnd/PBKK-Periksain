@@ -1,3 +1,9 @@
+<?php
+    use App\Http\Controllers\UserController;
+
+    $account = json_decode(UserController::get_user());
+?>
+
 <!DOCTYPE html>
 <html lang="en">
     <head>
@@ -10,7 +16,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in - Laporkan Penipuan</title>
+        <title>Periksa.in - Akun Settings</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -49,50 +55,64 @@
                     @include('includes.horizontal-bar')
                 </div>
                 <div class="page-content">
-                    <div class="page-info container">
-                        <nav aria-label="breadcrumb">
-                            <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('get_disclaimer_form') }}">Buat Sanggahan</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Sanggahan Terkirim</li>
-                            </ol>
-                        </nav>
-                    </div>
+                    
                     <div class="main-wrapper container">
-                        <div class="row">
+                        <!-- <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>Sanggahan Laporan</b></h5>
-                                    <p class="page-desc" style="text-align:center;">Sanggah laporan seseorang yang berusaha untuk merusak nama baik Anda.</p>
+                                    <p class="page-desc">Examples and usage guidelines for form control styles, layout options, and custom components for creating a wide variety of forms.</p>
                                 </div>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="row">
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Sanggahan</h5>
-                                        <form method="POST" action="{{route('post_disclaimer')}}">
+                                        <h5 class="card-title">Edit laporan telepon</h5>
+                                        @isset($profile_msg_success_info)
+                                            <p style="color:green; text-align:center;">{{ $profile_msg_success_info }}</p>
+                                        @endisset
+                                        @isset($profile_msg_error_info)
+                                            <p style="color:red; text-align:center;">{{ $profile_msg_error_info }}</p>
+                                        @endisset
+                                        <form method="POST" action="{{ route('post_phone') }}">
+                                            @csrf
+                                            <input type="hidden" name="form_type" value="update_profile"/>
+                                            <p><b>Kontak Pelaku</b></p>
+                                            
+                                                <div class="form-group col-md-6">
+                                                    <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pelaku"  name="nama_terlapor">
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <input type="text" class="form-control" id="kontak_pelaku" placeholder="Nomor Telepon Pelaku" name="kontak_pelaku">
+                                                </div>
+                                            
                                             <p></p>
-                                            <p><b>ID Laporan</b></p>
+                                            <p><b>Kronologi</b></p>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" id="id_laporan" name="id_laporan" value="{{$disclaimer->id_laporan}}" readonly>
+                                                <textarea class="form-control" id="kronologi" rows="5"  placeholder="Ceritakan konologi selengkap mungkin"  name="kronologi"></textarea>
                                             </div>
                                             <p></p>
-                                            <p><b>Keterangan Sanggahan</b></p>
+                                            <p><b>Total Kerugian</b></p>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="sanggahan" rows="5" name="sanggahan" readonly>{{$disclaimer->sanggahan}}</textarea>
+                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple  name="total_kerugian">
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
-                                            <img src="{{$disclaimer->file}}" alt="Data tidak ditemukan">
-                                            <p></p>
-                                            <a type="submit" class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
+                                            <div class="form-group">
+                                                <label for="file">Wajib menyertakan foto/tangkapan layar yang terkait dengan kronologi kejadian</label>
+                                                <input type="file" class="form-control" id="file" placeholder="File Pendukung" multiple  name="file">
+                                            </div>
+                                            <input type="timestamp" class="form-control" id="created_at" name="created_at" value="<?php date_default_timezone_set("Asia/Jakarta"); echo date("Y-m-d H:i:s"); ?>" hidden>
+                                            <input type="text" class="form-control" name="tipe_laporan" value="telepon" hidden>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
                                     </div>
                                 </div>
                             </div>
                         </div>
+                        
+
                     </div>
                 </div>
                 <div class="page-footer">

@@ -59,6 +59,12 @@ Route::get('/akun/laporkan', function () {
 Route::get('/akun/sanggahan', function () {
     return redirect()->route('get_disclaimer_form');
 });
+Route::get('/admin',function() {
+    return view('admin');
+});
+Route::get('/edit/report',function() {
+    return view('edit_report');
+});
 
 Route::get('/cek/rekening/{no_rek}', [HomeController::class, 'index_rek'])->name('cek_rekening');
 
