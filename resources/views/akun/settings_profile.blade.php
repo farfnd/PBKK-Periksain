@@ -1,7 +1,5 @@
 <?php
     use App\Http\Controllers\UserController;
-
-    $account = json_decode(UserController::get_user());
 ?>
 
 <!DOCTYPE html>
@@ -76,27 +74,46 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Pengaturan Akun</h5>
-                                        @isset($profile_msg_success_info)
-                                            <p style="color:green; text-align:center;">{{ $profile_msg_success_info }}</p>
-                                        @endisset
-                                        @isset($profile_msg_error_info)
-                                            <p style="color:red; text-align:center;">{{ $profile_msg_error_info }}</p>
-                                        @endisset
-                                        <form method="POST" action="{{ route('post_account_setting') }}">
+                                        @if(Session::has('account_update_success'))
+                                        <p style="color:green; text-align:center;">
+                                            {{ Session::get('account_update_success') }}
+                                            @php
+                                                Session::forget('account_update_success');
+                                            @endphp
+                                        </p>
+                                        @endif
+
+                                        @if(Session::has('account_update_failed'))
+                                        <p style="color:red; text-align:center;">
+                                            {{ Session::get('account_update_failed') }}
+                                            @php
+                                                Session::forget('account_update_failed');
+                                            @endphp
+                                        </p>
+                                        @endif
+                                        <form method="POST" action="{{ route('post_update_account_detail') }}">
                                             @csrf
-                                            <input type="hidden" name="form_type" value="update_profile"/>
                                             <div class="form-group">
                                                 <label for="settings_firstname">Nama Depan</label>
-                                                <input type="text" class="form-control" name="first_name" value="<?php echo $account->first_name ?>" id="settings_firstname" placeholder="Nama Depan">
+                                                <input type="text" class="form-control" name="first_name" value="<?php echo Auth::user()->first_name ?>" id="settings_firstname" placeholder="Nama Depan">
+                                                @error('first_name')
+                                                <p style="color:red;">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
                                                 <label for="settings_lastname">Nama Belakang</label>
-                                                <input type="text" class="form-control" name="last_name" value="<?php echo $account->last_name ?>" id="settings_lastname" placeholder="Nama Belakang">
+                                                <input type="text" class="form-control" name="last_name" value="<?php echo Auth::user()->last_name ?>" id="settings_lastname" placeholder="Nama Belakang">
+                                                @error('last_name')
+                                                <p style="color:red;">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
                                                 <label for="exampleInputEmail1">Alamat Email</label>
-                                                <input type="email" class="form-control" name="email" value="<?php echo $account->email ?>" id="settings_email" aria-describedby="emailHelp" placeholder="Enter email">
+                                                <input type="email" class="form-control" name="email" value="<?php echo Auth::user()->email ?>" id="settings_email" aria-describedby="emailHelp" placeholder="Enter email">
                                                 <!-- <small id="emailHelp" class="form-text text-muted">We'll never share your email with anyone else.</small> -->
+                                                @error('email')
+                                                <p style="color:red;">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
                                                 <label for="password_validation">Password</label>
@@ -113,26 +130,45 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Ganti Password</h5>
-                                        @isset($password_msg_success_info)
-                                            <p style="color:green; text-align:center;">{{ $password_msg_success_info }}</p>
-                                        @endisset
-                                        @isset($password_msg_error_info)
-                                            <p style="color:red; text-align:center;">{{ $password_msg_error_info }}</p>
-                                        @endisset
-                                        <form method="POST" action="{{ route('post_account_setting') }}">
+                                        @if(Session::has('password_update_success'))
+                                        <p style="color:green; text-align:center;">
+                                            {{ Session::get('password_update_success') }}
+                                            @php
+                                                Session::forget('password_update_success');
+                                            @endphp
+                                        </p>
+                                        @endif
+
+                                        @if(Session::has('password_update_failed'))
+                                        <p style="color:red; text-align:center;">
+                                            {{ Session::get('password_update_failed') }}
+                                            @php
+                                                Session::forget('password_update_failed');
+                                            @endphp
+                                        </p>
+                                        @endif
+                                        <form method="POST" action="{{ route('post_update_user_password') }}">
                                         @csrf
-                                        <input type="hidden" name="form_type" value="update_password"/>
-                                        <div class="form-group">
-                                                <label for="old_password">Password lama</label>
-                                                <input type="password" class="form-control" name="password_validation" id="old_password" placeholder="Password lama">
+                                            <div class="form-group">
+                                                <label for="password_validation">Password lama</label>
+                                                <input type="password" class="form-control" name="password_validation" id="password_validation" placeholder="Password lama">
+                                                @error('password_validation')
+                                                <p style="color:red;">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <label for="old_password">Password baru</label>
+                                                <label for="new_password">Password baru</label>
                                                 <input type="password" class="form-control" name="new_password" id="new_password" placeholder="Password baru">
+                                                @error('new_password')
+                                                <p style="color:red;">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <div class="form-group">
-                                                <label for="old_password">Konfirmasi password baru</label>
-                                                <input type="password" class="form-control" name="new_password_confirm" id="new_password_confirm" placeholder="Konfirmasi password baru">
+                                                <label for="confirm_new_password">Konfirmasi password baru</label>
+                                                <input type="password" class="form-control" name="confirm_new_password" id="confirm_new_password" placeholder="Konfirmasi password baru">
+                                                @error('confirm_new_password')
+                                                <p style="color:red;">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>

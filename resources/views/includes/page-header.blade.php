@@ -1,10 +1,9 @@
                     <?php
                         use App\Http\Controllers\UserController;
+                        use Illuminate\Support\Facades\Auth;
     
-                        $account = json_decode(UserController::get_user());
-                        
-                        $name = $account->first_name . " " . $account->last_name;
-                        $status_verified = $account->is_verified ? "Verified" : "Not Verified";
+                        $name = Auth::user()->first_name . " " . Auth::user()->last_name;
+                        $status_verified = Auth::user()->is_verified ? "Verified" : "Not Verified";
                     ?>
                     <nav class="navbar navbar-expand container">
                         <div class="logo-box"><a href="/" class="logo-text">Periksa.in</a></div>
