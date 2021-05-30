@@ -50,10 +50,6 @@ class UserController extends Controller
     }
 
     public function show_settings(){
-        if(!Auth::check()){
-            return redirect(route('get_signin_form'));
-        }
-
         if(Auth::user()->role != 'user'){
             return "Anda tidak berhak mengakses halaman ini";
         }
@@ -61,10 +57,6 @@ class UserController extends Controller
     }
 
     public function update_user_detail(UpdateUserDetail $request){
-        if(!Auth::check()){
-            return redirect(route('get_signin_form'));
-        }
-
         if(Auth::user()->role != 'user'){
             return "Anda tidak berhak mengakses halaman ini";
         }
