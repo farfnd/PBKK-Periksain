@@ -5,13 +5,13 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\UserController;
 use App\Models\Disclaimer;
 use Illuminate\Http\Request;
+use App\Http\Requests\StoreDisclaimer;
+use Illuminate\Support\Facades\Auth;
 
 class DisclaimerController extends Controller
 {
     public function isAuth(){
-        $account = json_decode(UserController::get_user());
-
-        if($account->error_msg != 0) return false;
+        if(!Auth::check()) return false;
         else return true;
     }
 
@@ -48,19 +48,16 @@ class DisclaimerController extends Controller
      * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function store(Request $request)
+    public function store(StoreDisclaimer $request)
     {
         if(!$this->isAuth()){
             return redirect(route('get_signin_form'));
         }
         // return $request;
-        Disclaimer::create([
-            'user_id' => session('userid'),
-            'id_laporan' => $request->id_laporan,
-            'sanggahan' => $request->sanggahan,
-            'file' => $request->file,
-            'created_at' => $request->created_at,
-        ]);
+
+        $input = $request->all();
+
+        Disclaimer::create($input);
 
         return view('sanggahan.disclaimer_post_success', ['disclaimer' => $request]);
     }

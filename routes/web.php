@@ -1,6 +1,5 @@
 <?php
 
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportController;
@@ -19,7 +18,14 @@ use App\Http\Controllers\UserController;
 */
 
 Route::get('/', [HomeController::class, 'index'])->name('home');
-// Route::post('/', [HomeController::class, 'show'])->name('post_periksa');
+Route::post('/', [HomeController::class, 'show'])->name('post_periksa');
+
+Route::get('/dashboard', function () {
+    return view('dashboard');
+})->middleware(['auth'])->name('dashboard');
+
+require __DIR__.'/auth.php';
+
 
 Route::get('/akun/pengaturan', [UserController::class, 'show_settings'])->name('get_account_setting');
 Route::post('/akun/pengaturan', [UserController::class, 'update_user'])->name('post_account_setting');
