@@ -1,6 +1,5 @@
 <?php
-    use App\Http\Controllers\UserController;
-    $account = json_decode(UserController::get_user());
+    use Illuminate\Support\Facades\Auth;
 ?>
 
 <!DOCTYPE html>
@@ -58,7 +57,7 @@
                             <a class="page-scroll" href="/akun/sanggahan/">Sanggahan</a>
                         </li>
                         <li>
-                            <a class="page-scroll" href="/akun/masuk"><?php if($account != NULL && isset($account->first_name)) echo "Halo, ".$account->first_name; else echo "Login"; ?></a>
+                            <a class="page-scroll" href="/akun/masuk"><?php if(Auth::check()) echo "Halo, ".Auth::user()->first_name; else echo "Login"; ?></a>
                         </li>
                     </ul>
                     <!-- END MAIN NAV LINKS -->

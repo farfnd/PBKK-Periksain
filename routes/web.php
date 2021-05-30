@@ -27,24 +27,25 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 
-Route::get('/akun/pengaturan', [UserController::class, 'show_settings'])->name('get_account_setting');
-Route::post('/akun/pengaturan', [UserController::class, 'update_user'])->name('post_account_setting');
+Route::get('/akun/pengaturan', [UserController::class, 'show_settings'])->middleware('auth')->name('get_account_setting');
+Route::post('/akun/pengaturan/update_user_detail', [UserController::class, 'update_user_detail'])->middleware('auth')->name('post_update_account_detail');
+Route::post('/akun/pengaturan/update_user_password', [UserController::class, 'update_user_password'])->middleware('auth')->name('post_update_user_password');
 
-Route::get('/akun/laporan/riwayat', [ReportController::class, 'index'])->name('get_report_history');
+Route::get('/akun/laporan/riwayat', [ReportController::class, 'index'])->middleware('auth')->name('get_report_history');
 
-Route::get('/akun/laporkan/rekening', [ReportController::class, 'create_bank'])->name('get_bank_form');
-Route::post('/akun/laporkan/rekening', [ReportController::class, 'store_bank'])->name('post_bank');
+Route::get('/akun/laporkan/rekening', [ReportController::class, 'create_bank'])->middleware('auth')->name('get_bank_form');
+Route::post('/akun/laporkan/rekening', [ReportController::class, 'store_bank'])->middleware('auth')->name('post_bank');
 
-Route::get('/akun/laporkan/telepon', [ReportController::class, 'create_phone'])->name('get_phone_form');
-Route::post('/akun/laporkan/telepon', [ReportController::class, 'store_phone'])->name('post_phone');
+Route::get('/akun/laporkan/telepon', [ReportController::class, 'create_phone'])->middleware('auth')->name('get_phone_form');
+Route::post('/akun/laporkan/telepon', [ReportController::class, 'store_phone'])->middleware('auth')->name('post_phone');
 
-Route::get('/akun/sanggahan/riwayat', [DisclaimerController::class, 'index'])->name('get_disclaimer_history');
+Route::get('/akun/sanggahan/riwayat', [DisclaimerController::class, 'index'])->middleware('auth')->name('get_disclaimer_history');
 
-Route::get('/akun/sanggahan/buat', [DisclaimerController::class, 'create'])->name('get_disclaimer_form');
-Route::post('/akun/sanggahan/buat', [DisclaimerController::class, 'store'])->name('post_disclaimer');
+Route::get('/akun/sanggahan/buat', [DisclaimerController::class, 'create'])->middleware('auth')->name('get_disclaimer_form');
+Route::post('/akun/sanggahan/buat', [DisclaimerController::class, 'store'])->middleware('auth')->name('post_disclaimer');
 
-Route::get('/akun/verifikasi', [UserController::class, 'show_verify'])->name('get_verify_form');
-Route::post('/akun/verifikasi', [UserController::class, 'post_verify'])->name('post_verify_form');
+Route::get('/akun/verifikasi', [UserController::class, 'show_verify'])->middleware('auth')->name('get_verify_form');
+Route::post('/akun/verifikasi', [UserController::class, 'post_verify'])->middleware('auth')->name('post_verify_form');
 
 Route::get('/akun/masuk', [UserController::class, 'show_signin'])->name('get_signin_form');
 Route::post('/akun/masuk', [UserController::class, 'auth_user'])->name('post_auth');

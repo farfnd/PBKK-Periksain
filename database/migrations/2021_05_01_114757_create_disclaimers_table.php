@@ -13,13 +13,13 @@ class CreateDisclaimersTable extends Migration
      */
     public function up()
     {
-        Schema::create('disclaimers', function (Blueprint $table) {
-            $table->increments('id_sanggahan', 4);
-            $table->integer('id_laporan', 4);
-            $table->string('sanggahan', 1000);
-            $table->string('file', 1000);
-            $table->timestamps();
-        });
+        // Schema::create('disclaimers', function (Blueprint $table) {
+        //     $table->increments('id_sanggahan', 4);
+        //     $table->integer('id_laporan', 4);
+        //     $table->string('sanggahan', 1000);
+        //     $table->string('file', 1000);
+        //     $table->timestamps();
+        // });
     }
 
     /**

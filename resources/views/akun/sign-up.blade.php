@@ -55,18 +55,33 @@
                                         @csrf
                                         <div class="form-group">
                                             <input type="text" @isset($first_name) value="{{ $first_name }}" @endisset class="form-control" name="first_name" id="first_name" placeholder="Nama Depan">
+                                            @error('first_name')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <input type="text" @isset($last_name) value="{{ $last_name }}" @endisset class="form-control" name="last_name" id="last_name" placeholder="Nama Belakang">
+                                            @error('last_name')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <input type="email" @isset($email) value="{{ $email }}" @endisset class="form-control" name="email" id="email" placeholder="Masukkan email">
+                                            @error('email')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                            @error('password')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Ketik Ulang Password">
+                                            @error('confirm_password')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <button type="submit" class="btn btn-primary btn-block btn-submit">Daftar</button>
                                         <div class="auth-options">
