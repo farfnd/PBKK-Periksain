@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Auth;
 
 class StoreUser extends FormRequest
 {
@@ -27,7 +28,7 @@ class StoreUser extends FormRequest
             'last_name' => 'required',
             'email' => 'required|email|unique:users',
             'password' => 'required|min:8|',
-            'confirm_password' => 'required|min:8|same:password'
+            'password_confirmation' => 'required|min:8|same:password',
         ];
     }
 
@@ -38,11 +39,11 @@ class StoreUser extends FormRequest
             'last_name.required' => 'Nama belakang wajib diisi.',
             'password.required' => 'Password wajib diisi.',
             'password.min' => 'Password minimal diisi dengan 8 karakter.',
-            'confirm_password.same' => 'Password konfirmasi tidak sama.',
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
-            'confirm_password.required' => 'Password konfirmasi wajib diisi'
+            'password_confirmation.same' => 'Password konfirmasi tidak sama.',
+            'password_confirmation.required' => 'Password konfirmasi wajib diisi'
         ];
     }
 }

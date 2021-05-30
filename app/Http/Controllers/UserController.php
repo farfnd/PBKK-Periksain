@@ -8,6 +8,8 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUserDetail;
 use App\Http\Requests\UpdateUserPassword;
+use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
@@ -27,17 +29,39 @@ class UserController extends Controller
 
         return view('akun.sign-in');
     }
+    
+    function show_admin(){
+        if(Auth::user()->role != 'admin') {
+            return "Anda tidak berhak mengakses halaman ini";
+        }
+        return view('admin');
+    }
 
-    function store_user(StoreUser $request){
+    function create_user_admin(){
+        if(Auth::check() && Auth::user()->role == 'admin') {
+            return view('auth.register-admin');
+        }
+    }
+
+    function store_user_admin(StoreUser $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+            'role' => 'required|string|max:255',
+        ]);
+
         User::create([
             'first_name' => $request->first_name,
             'last_name' => $request->last_name,
             'email' => $request->email,
-            'password' => bcrypt($request->password),
-            'role' => 'user'
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
         ]);
 
-        return view('akun.sign-in', ['email' => $request->email]);
+        return redirect(route('show_admin'));
     }
 
     function auth_user(Request $request){

@@ -76,12 +76,19 @@
                                             <p></p>
                                             <p><b>ID Laporan</b></p>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="id_laporan" placeholder="ID Laporan" multiple name="id_laporan">
+                                                <input type="text" class="form-control" id="id_laporan" placeholder="ID Laporan" multiple name="id_laporan" value="{{old('id_laporan')}}">
+                                                @if ($errors->has('id_laporan'))
+                                                    <span class="text-danger">{{ $errors->first('id_laporan') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
                                             <p><b>Keterangan</b></p>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="sanggahan" rows="5" placeholder="Tuliskan sanggahan anda" name="sanggahan"></textarea>
+                                                <textarea class="form-control" id="sanggahan" rows="5" placeholder="Tuliskan sanggahan anda" name="sanggahan">{{old('sanggahan')}}</textarea>
+                                                
+                                                @if ($errors->has('sanggahan'))
+                                                    <span class="text-danger">{{ $errors->first('sanggahan') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>

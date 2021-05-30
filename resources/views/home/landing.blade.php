@@ -58,7 +58,7 @@
                         </li>
                         @auth
                         <li>
-                            <a class="page-scroll" href="{{ route('get_account_setting') }}">"Halo, ".{{Auth::user()->first_name}}</a>
+                            <a class="page-scroll" href="{{ route('get_account_setting') }}">Halo, {{Auth::user()->first_name}}</a>
                         </li>
                         <li>
                             <a class="page-scroll" href="{{ route('logout') }}">Logout</a>
@@ -66,6 +66,9 @@
                         @else
                         <li>
                             <a class="page-scroll" href="{{ route('login') }}">Login</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="{{ route('register') }}">Daftar</a>
                         </li>
                         @endauth
                     </ul>

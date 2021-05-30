@@ -63,7 +63,7 @@
                             <div class="col-md-12">
                                 <div class="page-title">
                                     <h5 class="card-title" style="text-align:center; "><b>PELAPORAN BERHASIL</b></h5>
-                                    <p class="page-desc" style="text-align:center;">Laporan berhasil terkirim dengan data sebagai berikut.</p>
+                                    <p class="page-desc" style="text-align:center;">Laporan berhasil terkirim dengan detail sebagai berikut.</p>
                                 </div>
                             </div>
                         </div>

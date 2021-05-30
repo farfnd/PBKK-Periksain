@@ -62,8 +62,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>Sanggahan Laporan</b></h5>
-                                    <p class="page-desc" style="text-align:center;">Sanggah laporan seseorang yang berusaha untuk merusak nama baik Anda.</p>
+                                    <h5 class="card-title" style="text-align:center; "><b>Sanggahan Terkirim</b></h5>
+                                    <p class="page-desc" style="text-align:center;">Sanggahan Anda berhasil terkirim dengan detail sebagai berikut.</p>
                                 </div>
                             </div>
                         </div>

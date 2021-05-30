@@ -66,9 +66,13 @@ Route::get('/akun/laporkan', function () {
 Route::get('/akun/sanggahan', function () {
     return redirect()->route('get_disclaimer_form');
 });
-Route::get('/admin',function() {
-    return view('admin');
-});
+
+Route::get('/admin', [UserController::class, 'show_admin'])->name('show_admin');
+
+Route::get('/admin/buat_akun', [UserController::class, 'create_user_admin'])->name('create_user_admin');
+
+Route::post('/admin/buat_akun', [UserController::class, 'store_user_admin'])->name('store_user_admin');
+
 Route::get('/edit/report',function() {
     return view('edit_report');
 });

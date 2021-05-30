@@ -1,6 +1,6 @@
 <?php
     use App\Http\Controllers\UserController;
-    $account = json_decode(UserController::get_user());
+    $account = Auth::user();
 ?>
 
 <!DOCTYPE html>
@@ -31,6 +31,43 @@
             <div class="spinner"></div>
         </div>
         <!-- MAIN NAV -->
+        <nav class="navbar navbar-default navbar-fixed-top">
+            <div class="container">
+                <div class="navbar-header page-scroll">
+                    <button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#main-menu">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    </button>
+                    <!-- MAIN NAV LOGO -->
+                    <a href="/" class="logo-text"><h3 style="margin-top: 10px; color: white; font-weight: 700;">Periksa.in</h3></a>
+                </div>
+                <div class="collapse navbar-collapse" id="main-menu">
+                    <!-- MAIN NAV LINKS -->
+                    <ul class="nav navbar-nav navbar-right">
+                        <li>
+                            <a class="page-scroll" href="/admin/buat_akun/">Buat Akun Baru</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="/akun/sanggahan/">Sanggahan</a>
+                        </li>
+                        @auth
+                        <li>
+                            <a class="page-scroll" href="{{ route('get_account_setting') }}">Halo, {{Auth::user()->first_name}}</a>
+                        </li>
+                        <li>
+                            <a class="page-scroll" href="{{ route('logout') }}">Logout</a>
+                        </li>
+                        @else
+                        <li>
+                            <a class="page-scroll" href="{{ route('login') }}">Login</a>
+                        </li>
+                        @endauth
+                    </ul>
+                    <!-- END MAIN NAV LINKS -->
+                </div>
+            </div>
+        </nav>
         <!-- END MAIN NAV -->
         <!-- HEADER -->
         <header id="header">

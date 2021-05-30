@@ -40,9 +40,9 @@ class HomeController extends Controller
 
     public function index_rek($no_rek)
     {
-        if(!UserController::isAuth()){
-            return redirect(route('get_signin_form'));
-        }
+        // if(!UserController::isAuth()){
+        //     return redirect(route('get_signin_form'));
+        // }
 
         $data = Report::where('nomor_rekening', $no_rek)->paginate(10);
         return view('cek.cek_rekening', ['data' => $data, 'no_rek'=> $no_rek]);
@@ -50,9 +50,9 @@ class HomeController extends Controller
 
     public function index_telp($no_telepon)
     {
-        if(!UserController::isAuth()){
-            return redirect(route('get_signin_form'));
-        }
+        // if(!UserController::isAuth()){
+        //     return redirect(route('get_signin_form'));
+        // }
 
         $data = Report::where('kontak_pelaku', $no_telepon)->paginate(10);
         return view('cek.cek_telepon', ['data' => $data, 'no_telepon'=> $no_telepon]);
