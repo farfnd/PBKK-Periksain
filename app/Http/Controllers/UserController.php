@@ -11,6 +11,11 @@ use App\Http\Requests\UpdateUserPassword;
 
 class UserController extends Controller
 {
+    public function isAuth(){
+        if(!Auth::check()) return false;
+        else return true;
+    }
+    
     function show_signup(){
         return view('akun.sign-up');
     }

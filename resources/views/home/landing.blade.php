@@ -56,9 +56,18 @@
                         <li>
                             <a class="page-scroll" href="/akun/sanggahan/">Sanggahan</a>
                         </li>
+                        @auth
                         <li>
-                            <a class="page-scroll" href="/akun/masuk"><?php if(Auth::check()) echo "Halo, ".Auth::user()->first_name; else echo "Login"; ?></a>
+                            <a class="page-scroll" href="{{ route('get_account_setting') }}">"Halo, ".{{Auth::user()->first_name}}</a>
                         </li>
+                        <li>
+                            <a class="page-scroll" href="{{ route('logout') }}">Logout</a>
+                        </li>
+                        @else
+                        <li>
+                            <a class="page-scroll" href="{{ route('login') }}">Login</a>
+                        </li>
+                        @endauth
                     </ul>
                     <!-- END MAIN NAV LINKS -->
                 </div>

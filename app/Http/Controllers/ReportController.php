@@ -2,13 +2,18 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Support\Facades\Auth;
 use App\Models\Report;
 use App\Http\Controllers\UserController;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Auth;
 
 class ReportController extends Controller
 {
+    public function isAuth(){
+        if(!Auth::check()) return false;
+        else return true;
+    }
+
     /**
      * Display a listing of the resource.
      *
