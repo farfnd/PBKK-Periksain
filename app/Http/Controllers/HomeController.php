@@ -41,7 +41,7 @@ class HomeController extends Controller
     public function index_rek($no_rek)
     {
         // if(!UserController::isAuth()){
-        //     return redirect(route('get_signin_form'));
+        //     return redirect(route('login'));
         // }
 
         $data = Report::where('nomor_rekening', $no_rek)->paginate(10);
@@ -51,7 +51,7 @@ class HomeController extends Controller
     public function index_telp($no_telepon)
     {
         // if(!UserController::isAuth()){
-        //     return redirect(route('get_signin_form'));
+        //     return redirect(route('login'));
         // }
 
         $data = Report::where('kontak_pelaku', $no_telepon)->paginate(10);

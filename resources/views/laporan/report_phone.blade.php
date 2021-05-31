@@ -77,21 +77,33 @@
                                             <p><b>Kontak Pelaku</b></p>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pelaku"  name="nama_terlapor">
+                                                    <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pelaku"  name="nama_terlapor" value="{{old('nama_terlapor')}}">
+                                                    @if ($errors->has('nama_terlapor'))
+                                                        <span class="text-danger">{{ $errors->first('nama_terlapor') }}</span>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="kontak_pelaku" placeholder="Nomor Telepon Pelaku" name="kontak_pelaku">
+                                                    <input type="text" class="form-control" id="kontak_pelaku" placeholder="Nomor Telepon Pelaku" name="kontak_pelaku" value="{{old('kontak_pelaku')}}">
+                                                    @if ($errors->has('kontak_pelaku'))
+                                                        <span class="text-danger">{{ $errors->first('kontak_pelaku') }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <p></p>
                                             <p><b>Kronologi</b></p>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="kronologi" rows="5" placeholder="Ceritakan konologi selengkap mungkin"  name="kronologi"></textarea>
+                                                <textarea class="form-control" id="kronologi" rows="5" placeholder="Ceritakan konologi selengkap mungkin"  name="kronologi">{{old('kronologi')}}</textarea>
+                                                @if ($errors->has('kronologi'))
+                                                    <span class="text-danger">{{ $errors->first('kronologi') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
                                             <p><b>Total Kerugian</b></p>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple  name="total_kerugian">
+                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple value="{{old('total_kerugian')}}">
+                                                @if ($errors->has('total_kerugian'))
+                                                    <span class="text-danger">{{ $errors->first('total_kerugian') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>

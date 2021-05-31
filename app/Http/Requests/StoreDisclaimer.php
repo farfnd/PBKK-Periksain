@@ -33,6 +33,7 @@ class StoreDisclaimer extends FormRequest
     {
         return [
             'id_laporan.exists' => 'ID laporan tidak ditemukan.',
+            'id_laporan.required' => 'ID laporan wajib diisi.',
             'sanggahan.required' => 'Deskripsi sanggahan wajib diisi.',
         ];
     }

@@ -34,10 +34,10 @@ class StoreReportPhone extends FormRequest
     public function message()
     {
         return[
-            'nama_terlapor.required' => 'nama terlapor masih kosong',
-            'kontak_pelaku.required' => 'kontak pelaku masih kosong',
-            'kronologi.required' => 'mohon isi kronologi kejadian',
-            'total_kerugian.required' => 'isi total kergian yang dialami'
-        ]
+            'nama_terlapor.required' => 'Nama terlapor wajib diisi.',
+            'kontak_pelaku.required' => 'Kontak pelaku wajib diisi.',
+            'kronologi.required' => 'Kronologi kejadian wajib diisi.',
+            'total_kerugian.required' => 'Total kerugian wajib diisi.',
+        ];
     }
 }

@@ -25,7 +25,9 @@ class StoreReportBank extends FormRequest
     {
         return [
             'nama_terlapor' => 'required',
+            'bank' => 'required',
             'nomor_rekening' => 'required',
+            'platform' => 'required',
             'kontak_pelaku' => 'required',
             'kronologi' => 'required',
             'total_kerugian' => 'required'
@@ -35,11 +37,13 @@ class StoreReportBank extends FormRequest
     public function messages()
     {
         return[
-            'nama_terlapor.required' => 'nama pemilik harus di isi.',
-            'nomor_rekening.required' => 'mohon isi nomor rekening',
-            'kontak_pelaku.required' => 'mohon isi kontak pelaku',
-            'kronologi.required' => 'tliskan kronologi kejadian',
-            'total_kerugian.required' => 'isi total kerugian'
-        ]
+            'nama_terlapor.required' => 'Nama terlapor wajib diisi.',
+            'bank.required' => 'Bank wajib diisi.',
+            'nomor_rekening.required' => 'Nomor rekening wajib diisi.',
+            'platform.required' => 'Platform penipuan wajib diisi.',
+            'kontak_pelaku.required' => 'Kontak pelaku wajib diisi.',
+            'kronologi.required' => 'Kronologi kejadian wajib diisi.',
+            'total_kerugian.required' => 'Total kerugian wajib diisi.',
+        ];
     }
 }

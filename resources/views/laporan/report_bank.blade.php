@@ -76,12 +76,15 @@
                                             <p><b>Informasi Rekening</b></p>
                                             <div class="form-group">
                                                 <!-- <label for="settings_firstname">Nama Pemilik Rekening</label> -->
-                                                <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pemilik Rekening" name="nama_terlapor">
+                                                <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pemilik Rekening" name="nama_terlapor" value="{{old('nama_terlapor')}}">
+                                                @if ($errors->has('nama_terlapor'))
+                                                    <span class="text-danger">{{ $errors->first('nama_terlapor') }}</span>
+                                                @endif
                                             </div>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <select class="form-control custom-select" id="bank" name="bank">
-                                                        <option>Pilih Bank...</option>
+                                                    <select class="form-control custom-select" id="bank" name="bank" value="{{old('bank')}}">
+                                                        <option selected disabled hidden>Pilih Bank...</option>
                                                         <option>Bank BCA</option>
                                                         <option>Bank MANDIRI</option>
                                                         <option>Bank BNI</option>
@@ -235,37 +238,55 @@
                                                         <option>BPR KS (KARYAJATNIKA SEDAYA)</option>
                                                         <option>Lainnya/Bank Tidak Diketahui</option>
                                                     </select>
+                                                    @if ($errors->has('bank'))
+                                                        <span class="text-danger">{{ $errors->first('bank') }}</span>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="nomor_rekening" placeholder="Nomor Rekening" name="nomor_rekening">
+                                                    <input type="text" class="form-control" id="nomor_rekening" placeholder="Nomor Rekening" name="nomor_rekening" value="{{old('nomor_rekening')}}">
+                                                    @if ($errors->has('nomor_rekening'))
+                                                        <span class="text-danger">{{ $errors->first('nomor_rekening') }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <p></p>
                                             <p><b>Kontak Pelaku</b></p>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <select class="form-control custom-select" id="platform" name="platform">
-                                                        <option selected="">Pilih Platform</option>
+                                                    <select class="form-control custom-select" id="platform" name="platform" value="{{old('platform')}}">>
+                                                        <option selected disabled hidden>Pilih Platform</option>
                                                         <option>WhatsApp</option>
                                                         <option>Line</option>
                                                         <option>Facebook</option>
                                                         <option>Instagram</option>
                                                         <option>Lainnya</option>
                                                     </select>
+                                                    @if ($errors->has('platform'))
+                                                        <span class="text-danger">{{ $errors->first('platform') }}</span>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="kontak_pelaku" placeholder="Kontak" name="kontak_pelaku">
+                                                    <input type="text" class="form-control" id="kontak_pelaku" placeholder="Kontak" name="kontak_pelaku" value="{{old('kontak_pelaku')}}">
+                                                    @if ($errors->has('kontak_pelaku'))
+                                                        <span class="text-danger">{{ $errors->first('kontak_pelaku') }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <p></p>
                                             <p><b>Kronologi</b></p>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="kronologi" rows="5" placeholder="Ceritakan konologi selengkap mungkin" name="kronologi"></textarea>
+                                                <textarea class="form-control" id="kronologi" rows="5" placeholder="Ceritakan konologi selengkap mungkin" name="kronologi">{{old('kronologi')}}</textarea>
+                                                @if ($errors->has('kronologi'))
+                                                    <span class="text-danger">{{ $errors->first('kronologi') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
                                             <p><b>Total Kerugian</b></p>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple name="total_kerugian">
+                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple name="total_kerugian" value="{{old('total_kerugian')}}">
+                                                @if ($errors->has('total_kerugian'))
+                                                    <span class="text-danger">{{ $errors->first('total_kerugian') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>

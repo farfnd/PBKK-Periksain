@@ -5,6 +5,8 @@ namespace App\Http\Controllers;
 use Illuminate\Support\Facades\Auth;
 use App\Models\Report;
 use App\Http\Controllers\UserController;
+use App\Http\Requests\StoreReportBank;
+use App\Http\Requests\StoreReportPhone;
 use Illuminate\Http\Request;
 
 class ReportController extends Controller
@@ -33,6 +35,12 @@ class ReportController extends Controller
      */
     public function create_bank()
     {
+        if(!$this->isAuth()){
+            return redirect(route('login'));
+        }
+        if(Auth::user()->role != 'user'){
+            return "Anda tidak berhak mengakses halaman ini";
+        }
         return view('laporan.report_bank');
     }
 
@@ -43,31 +51,26 @@ class ReportController extends Controller
      */
     public function create_phone()
     {
+        if(!$this->isAuth()){
+            return redirect(route('login'));
+        }
+        if(Auth::user()->role != 'user'){
+            return "Anda tidak berhak mengakses halaman ini";
+        }
         return view('laporan.report_phone');
     }
 
     /**
      * Store a newly created bank account report in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreReportBank  $request
      * @return \Illuminate\Http\Response
      */
-    public function store_bank(Request $request)
+    public function store_bank(StoreReportBank $request)
     {
-        // return $request;
-        Report::create([
-            'user_id' => Auth::user()->id,
-            'tipe_laporan' => $request->tipe_laporan,
-            'nama_terlapor' => $request->nama_terlapor,
-            'bank' => $request->bank,
-            'nomor_rekening' => $request->nomor_rekening,
-            'platform' => $request->platform,
-            'kontak_pelaku' => $request->kontak_pelaku,
-            'kronologi' => $request->kronologi,
-            'total_kerugian' => $request->total_kerugian,
-            'file' => $request->file,
-            'created_at' => $request->created_at,
-        ]);
+        $input = $request->all();
+
+        Report::create($input);
 
         return view('laporan.report_bank_success', ['report' => $request]);
     }
@@ -75,22 +78,14 @@ class ReportController extends Controller
     /**
      * Store a newly created phone number report in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
+     * @param  \Illuminate\Http\StoreReportPhone  $request
      * @return \Illuminate\Http\Response
      */
-    public function store_phone(Request $request)
+    public function store_phone(StoreReportPhone $request)
     {
-        // return $request;
-        Report::create([
-            'user_id' => Auth::user()->id,
-            'tipe_laporan' => $request->tipe_laporan,
-            'nama_terlapor' => $request->nama_terlapor,
-            'kontak_pelaku' => $request->kontak_pelaku,
-            'kronologi' => $request->kronologi,
-            'total_kerugian' => $request->total_kerugian,
-            'file' => $request->file,
-            'created_at' => $request->created_at,
-        ]);
+        $input = $request->all();
+
+        Report::create($input);
 
         return view('laporan.report_phone_success', ['report' => $request]);
     }

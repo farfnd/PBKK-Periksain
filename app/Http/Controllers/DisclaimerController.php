@@ -23,7 +23,7 @@ class DisclaimerController extends Controller
     public function index()
     {
         if(!$this->isAuth()){
-            return redirect(route('get_signin_form'));
+            return redirect(route('login'));
         }
         $disclaimers = Disclaimer::where('user_id', session('userid'))->get();
         return view('sanggahan.disclaimer_history', ['disclaimers' => $disclaimers]);
@@ -37,7 +37,7 @@ class DisclaimerController extends Controller
     public function create()
     {
         if(!$this->isAuth()){
-            return redirect(route('get_signin_form'));
+            return redirect(route('login'));
         }
         if(Auth::user()->role != 'user'){
             return "Anda tidak berhak mengakses halaman ini";
@@ -54,7 +54,7 @@ class DisclaimerController extends Controller
     public function store(StoreDisclaimer $request)
     {
         if(!$this->isAuth()){
-            return redirect(route('get_signin_form'));
+            return redirect(route('login'));
         }
         // return $request;
 
