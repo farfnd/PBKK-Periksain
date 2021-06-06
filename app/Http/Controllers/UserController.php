@@ -67,6 +67,17 @@ class UserController extends Controller
     function auth_user(Request $request){
         if (Auth::attempt(['email' => $request->email, 'password' => $request->password])) {
             $request->session()->regenerate();
+
+            $client_ip = $request->ip();
+            $client_browser = $request->header('User-Agent');
+
+            $details = [
+                'title' => 'Seseorang berhasil login menggunakan akun anda : '.$request->email,
+                'body' => 'Login berhasil dari IP : '.$client_ip."\n"."User-Agent : ".$client_browser
+            ];
+           
+            \Mail::to(Auth::user()->email)->send(new \App\Mail\Mandrill($details));
+
             return redirect(route('get_account_setting'));
         }else{
             return view('akun.sign-in', ['error_msg'=>'Email atau password salah', 'email'=>$request->email]);
