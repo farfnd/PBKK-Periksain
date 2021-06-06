@@ -115,6 +115,13 @@
                                             <p><b>File-file Pendukung</b></p>
                                             <img src="{{$report->file}}" alt="Data tidak ditemukan">
                                             <p></p>
+                                            <p><b>Kode QR</b></p>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    {{$qr}}
+                                                </div>
+                                            </div>
+                                            <p></p>
                                             <a type="submit" class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
                                         </form>
                                     </div>

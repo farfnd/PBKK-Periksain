@@ -100,7 +100,7 @@
                                             <p></p>
                                             <p><b>Total Kerugian</b></p>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple value="{{old('total_kerugian')}}">
+                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple  name="total_kerugian" value="{{old('total_kerugian')}}">
                                                 @if ($errors->has('total_kerugian'))
                                                     <span class="text-danger">{{ $errors->first('total_kerugian') }}</span>
                                                 @endif
