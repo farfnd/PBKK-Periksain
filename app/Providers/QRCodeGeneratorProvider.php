@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Services\SimpleQRService;
+use App\Services\EndroidQRService;
 use Illuminate\Support\ServiceProvider;
 
 class QRCodeGeneratorProvider extends ServiceProvider
@@ -25,5 +26,6 @@ class QRCodeGeneratorProvider extends ServiceProvider
     public function boot()
     {
         $this->app->bind('SimpleQRService', SimpleQRService::class);
+        $this->app->bind('EndroidQRService', EndroidQRService::class);
     }
 }

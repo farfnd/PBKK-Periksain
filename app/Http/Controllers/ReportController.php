@@ -72,8 +72,9 @@ class ReportController extends Controller
 
         $id = Report::insertGetId($input);
 
-        $qrService = app()->make('SimpleQRService');
+        $qrService = app()->make('EndroidQRService');
         $data = "Nama Pelapor: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Laporan: ".$id."; Nama Terlapor: ".$input['nama_terlapor']."; Bank: ".$input['bank']."; Nomor Rekening: ".$input['nomor_rekening']."; Waktu Pelaporan: ".$input['created_at']." WIB";
+        
         $qr = $qrService->generateQR($data);
 
         return view('laporan.report_bank_success', ['report' => $request, 'qr' => $qr]);
@@ -91,8 +92,9 @@ class ReportController extends Controller
 
         $id = Report::insertGetId($input);
 
-        $qrService = app()->make('SimpleQRService');
+        $qrService = app()->make('EndroidQRService');
         $data = "Nama Pelapor: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Laporan: ".$id."; Nama Terlapor: ".$input['nama_terlapor']."; Kontak Pelaku: ".$input['kontak_pelaku']."; Waktu Pelaporan: ".$input['created_at']." WIB";
+        
         $qr = $qrService->generateQR($data);
 
         return view('laporan.report_phone_success', ['report' => $request, 'qr' => $qr]);
