@@ -2,6 +2,7 @@
 
 namespace Database\Seeders;
 
+use App\Models\Disclaimer;
 use App\Models\ReportRekening;
 use App\Models\ReportTelepon;
 use Illuminate\Database\Seeder;
@@ -18,5 +19,6 @@ class DatabaseSeeder extends Seeder
         // \App\Models\User::factory(10)->create();
         // ReportRekening::factory(10)->create();
         ReportTelepon::factory(10)->create();
+        Disclaimer::factory(10)->create();
     }
 }
