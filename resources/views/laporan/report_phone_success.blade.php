@@ -102,7 +102,7 @@
                                             <p><b>Kode QR</b></p>
                                             <div class="row">
                                                 <div class="col-md-12">
-                                                    <img src="{{$qr}}">
+                                                    {{$qr}}
                                                 </div>
                                             </div>
                                             <p></p>

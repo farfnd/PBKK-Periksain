@@ -54,7 +54,7 @@ class ReportRekeningController extends Controller
         }
 
         $id = $result['data']['user_id'];
-        $qrService = app()->make('EndroidQRService');
+        $qrService = app()->make('SimpleQRService');
         $data = "Nama Pelapor: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Laporan: ".$id."; Nama Terlapor: ".$input['nama_terlapor']."; Bank: ".$input['bank']."; Nomor Rekening: ".$input['nomor_rekening']."; Waktu Pelaporan: ".$input['created_at']." WIB";
         
         $qr = $qrService->generateQR($data);
