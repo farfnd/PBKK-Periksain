@@ -118,5 +118,30 @@
         <script src="/connect_assets/plugins/DataTables/datatables.min.js"></script>
         <script src="/connect_assets/js/connect.min.js"></script>
         <script src="/connect_assets/js/pages/datatables.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                $.ajax({
+                    url: "/api/user/getDisclaimerReport",
+                    headers: { 'Authorization': '{{ session("Authorization") }}' }
+                }).done(function(msg) {
+                    msg.forEach(item => {
+                        var content = `
+                        <tr>
+                            <td>`+ item["id"] +`</td>
+                            <td>Sanggahan</td>
+                            <td>
+                            `+ item["tanggal_sanggahan"] +`
+                            </td>
+                            <td>`+ item["created_at"] +`</td>
+                            
+                        </tr>
+                        `;
+                        $("#report_content").append(content);
+                    });
+                });
+            });
+            
+        </script>
     </body>
 </html>
