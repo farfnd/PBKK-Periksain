@@ -4,6 +4,7 @@ use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\HomeController;
 use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DisclaimerController;
+use App\Http\Controllers\ReportRekeningController;
 use App\Http\Controllers\UserController;
 
 /*
@@ -26,6 +27,7 @@ Route::get('/dashboard', function () {
 
 require __DIR__.'/auth.php';
 
+Route::get('/getAuthInfo', [ReportRekeningController::class, 'getAuthorization']);
 
 Route::get('/akun/pengaturan', [UserController::class, 'show_settings'])->middleware('auth')->name('get_account_setting');
 Route::post('/akun/pengaturan/update_user_detail', [UserController::class, 'update_user_detail'])->middleware('auth')->name('post_update_account_detail');
@@ -33,8 +35,8 @@ Route::post('/akun/pengaturan/update_user_password', [UserController::class, 'up
 
 Route::get('/akun/laporan/riwayat', [ReportController::class, 'index'])->middleware('auth')->name('get_report_history');
 
-Route::get('/akun/laporkan/rekening', [ReportController::class, 'create_bank'])->middleware('auth')->name('get_bank_form');
-Route::post('/akun/laporkan/rekening', [ReportController::class, 'store_bank'])->middleware('auth')->name('post_bank');
+Route::get('/akun/laporkan/rekening', [ReportRekeningController::class, 'display'])->middleware('auth')->name('get_bank_form');
+Route::post('/akun/laporkan/rekening', [ReportRekeningController::class, 'store'])->middleware('auth')->name('post_bank');
 
 Route::get('/akun/laporkan/telepon', [ReportController::class, 'create_phone'])->middleware('auth')->name('get_phone_form');
 Route::post('/akun/laporkan/telepon', [ReportController::class, 'store_phone'])->middleware('auth')->name('post_phone');

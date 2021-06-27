@@ -75,8 +75,11 @@ class UserController extends Controller
                 'title' => 'Seseorang berhasil login menggunakan akun anda : '.$request->email,
                 'body' => 'Login berhasil dari IP : '.$client_ip."\n"."User-Agent : ".$client_browser
             ];
-           
-            \Mail::to(Auth::user()->email)->send(new \App\Mail\Mandrill($details));
+
+            $user = User::where('email', $request->email)->firstOrFail();
+            $token = $user->createToken('auth_token')->plainTextToken;
+
+            session(['Authorization' => 'Bearer '.$token]);
 
             return redirect(route('get_account_setting'));
         }else{

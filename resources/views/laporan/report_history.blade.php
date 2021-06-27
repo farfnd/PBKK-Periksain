@@ -84,7 +84,7 @@
                                                     <th>Status</th>
                                                 </tr>
                                             </thead>
-                                            <tbody>
+                                            <tbody id="report_rekening_content">
                                                 @foreach ($reports as $report)
                                                 <tr>
                                                     <td>{{ $report->id }}</td>
@@ -134,5 +134,29 @@
         <script src="/connect_assets/plugins/DataTables/datatables.min.js"></script>
         <script src="/connect_assets/js/connect.min.js"></script>
         <script src="/connect_assets/js/pages/datatables.js"></script>
+
+        <script type="text/javascript">
+            $(function() {
+                $.ajax({
+                    url: "/api/user/getBankReport",
+                    headers: { 'Authorization': '{{ session("Authorization") }}' }
+                }).done(function(msg) {
+                    msg.forEach(item => {
+                        var content = `
+                        <tr>
+                            <td>`+ item["id"] +`</td>
+                            <td>Rekening</td>
+                            <td>
+                            `+ item["nomor_rekening"] +`
+                            </td>
+                            <td>`+ item["created_at"] +`</td>
+                            <td>`+ item["tipe_laporan"] +`</td>
+                        </tr>
+                        `;
+                        $("#report_rekening_content").append(content);
+                    });
+                });
+            });
+        </script>
     </body>
 </html>

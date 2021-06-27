@@ -178,6 +178,8 @@ return [
         // Custom provider
         App\Providers\QRCodeGeneratorProvider::class,
 
+        // Sanctum
+
     ],
 
     /*
