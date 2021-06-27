@@ -3,6 +3,7 @@
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use App\Http\Controllers\ReportRekeningController;
+use App\Http\Controllers\ReportTeleponController;
 
 /*
 |--------------------------------------------------------------------------
@@ -25,4 +26,5 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 
 Route::middleware('auth:sanctum')->group( function () {
     Route::get('/user/getBankReport/', [ReportRekeningController::class, 'getBankReportByUser']);
+    Route::get('/user/getPhoneReport/', [ReportTeleponController::class, 'getPhoneReportByUser']);
 });

@@ -84,7 +84,7 @@
                                                     <th>Status</th>
                                                 </tr>
                                             </thead>
-                                            <tbody id="report_rekening_content">
+                                            <tbody id="report_content">
                                                 @foreach ($reports as $report)
                                                 <tr>
                                                     <td>{{ $report->id }}</td>
@@ -153,7 +153,28 @@
                             <td>`+ item["tipe_laporan"] +`</td>
                         </tr>
                         `;
-                        $("#report_rekening_content").append(content);
+                        $("#report_content").append(content);
+                    });
+                });
+            });
+            $(function() {
+                $.ajax({
+                    url: "/api/user/getPhoneReport",
+                    headers: { 'Authorization': '{{ session("Authorization") }}' }
+                }).done(function(msg) {
+                    msg.forEach(item => {
+                        var content = `
+                        <tr>
+                            <td>`+ item["id"] +`</td>
+                            <td>Nomor Telepon</td>
+                            <td>
+                            `+ item["nomor_telepon"] +`
+                            </td>
+                            <td>`+ item["created_at"] +`</td>
+                            <td>`+ item["tipe_laporan"] +`</td>
+                        </tr>
+                        `;
+                        $("#report_content").append(content);
                     });
                 });
             });

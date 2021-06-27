@@ -81,7 +81,7 @@ class UserController extends Controller
 
             session(['Authorization' => 'Bearer '.$token]);
 
-            return redirect(route('get_account_setting'));
+            return redirect(route('home'));
         }else{
             return view('akun.sign-in', ['error_msg'=>'Email atau password salah', 'email'=>$request->email]);
         }
