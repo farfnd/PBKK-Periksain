@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableReportTelepon extends Migration
+class CreateDisclaimersTable extends Migration
 {
     /**
      * Run the migrations.
@@ -13,21 +13,16 @@ class CreateTableReportTelepon extends Migration
      */
     public function up()
     {
-        Schema::dropIfExists('laporan_telepon');
-        
-        Schema::create('laporan_telepon', function (Blueprint $table) {
+        Schema::dropIfExists('disclaimers');
+        Schema::create('disclaimers', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('user_id')->unsigned()->index()->nullable();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            $table->string('tipe_laporan');
-            $table->string('nama_terlapor');
-            $table->string('nomor_telepon', 20);
-            $table->string('kronologi', 1000);
-            $table->string('total_kerugian', 30);
-            $table->string('file', 1000)->nullable();
+            //$table->integer('id_laporan', 4);
+            $table->string('sanggahan', 1000);
+            $table->string('file', 1000);
             $table->timestamps();
         });
-
     }
 
     /**
@@ -37,7 +32,6 @@ class CreateTableReportTelepon extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('laporan_telepon');
+        Schema::dropIfExists('disclaimers');
     }
 }
-
