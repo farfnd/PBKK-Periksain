@@ -38,9 +38,6 @@ class ReportController extends Controller
         if(!$this->isAuth()){
             return redirect(route('login'));
         }
-        if(Auth::user()->role != 'user'){
-            return "Anda tidak berhak mengakses halaman ini";
-        }
         return view('laporan.report_bank');
     }
 
@@ -53,9 +50,6 @@ class ReportController extends Controller
     {
         if(!$this->isAuth()){
             return redirect(route('login'));
-        }
-        if(Auth::user()->role != 'user'){
-            return "Anda tidak berhak mengakses halaman ini";
         }
         return view('laporan.report_phone');
     }

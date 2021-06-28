@@ -39,9 +39,6 @@ class DisclaimerController extends Controller
         if(!$this->isAuth()){
             return redirect(route('login'));
         }
-        if(Auth::user()->role != 'user'){
-            return "Anda tidak berhak mengakses halaman ini";
-        }
         return view('sanggahan.disclaimer_create');
     }
 
