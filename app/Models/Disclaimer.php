@@ -14,5 +14,5 @@ class Disclaimer extends Model
      *
      * @var array
      */
-     protected $table = "table_disclaimers";
+    protected $fillable = ['user_id', 'id_laporan', 'sanggahan', 'file', 'created_at', 'updated_at'];
 }

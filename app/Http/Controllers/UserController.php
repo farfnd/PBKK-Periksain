@@ -42,7 +42,7 @@ class UserController extends Controller
             return view('auth.register-admin');
         }
     }
-
+    
     function store_user_admin(StoreUser $request)
     {
         $request->validate([

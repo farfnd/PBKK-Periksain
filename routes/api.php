@@ -2,9 +2,8 @@
 
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
-use App\Http\Controllers\ReportRekeningController;
-use App\Http\Controllers\ReportTeleponController;
-use App\Http\Controller\ReportDisclaimerController;
+use App\Http\Controllers\ReportController;
+use App\Http\Controllers\DisclaimerController;
 
 /*
 |--------------------------------------------------------------------------
@@ -26,7 +25,8 @@ Route::middleware('auth:api')->get('/user', function (Request $request) {
 // Route::resource('/api/user/getBankReport', ReportRekeningController::class);
 
 Route::middleware('auth:sanctum')->group( function () {
-    Route::get('/user/getBankReport/', [ReportRekeningController::class, 'getBankReportByUser']);
-    Route::get('/user/getPhoneReport/', [ReportTeleponController::class, 'getPhoneReportByUser']); 
-    Route::get('/user/getDisclaimerReport/', [ReportDisclaimerController::class, 'getDisclaimerReportByUser']);
+    Route::get('/user/getReport/', [ReportController::class, 'getReportByUser']);
+    Route::get('/user/getBankReport/', [ReportController::class, 'getBankReportByUser']);
+    Route::get('/user/getPhoneReport/', [ReportController::class, 'getPhoneReportByUser']); 
+    Route::get('/user/getDisclaimer/', [DisclaimerController::class, 'getDisclaimerByUser']);
 });

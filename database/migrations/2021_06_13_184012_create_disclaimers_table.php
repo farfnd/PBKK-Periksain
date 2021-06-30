@@ -17,10 +17,12 @@ class CreateDisclaimersTable extends Migration
         Schema::create('disclaimers', function (Blueprint $table) {
             $table->increments('id');
             $table->bigInteger('user_id')->unsigned()->index()->nullable();
+            $table->integer('id_laporan')->unsigned();
             $table->foreign('user_id')->references('id')->on('users')->onDelete('cascade');
-            //$table->integer('id_laporan', 4);
+            $table->foreign('id_laporan')->references('id')->on('reports')->onDelete('cascade');
             $table->string('sanggahan', 1000);
-            $table->string('file', 1000);
+            $table->string('file_bukti', 1000);
+            $table->smallInteger('terverifikasi')->default(0);
             $table->timestamps();
         });
     }

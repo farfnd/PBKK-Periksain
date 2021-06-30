@@ -6,26 +6,38 @@ use App\Http\Controllers\UserController;
 use App\Models\Disclaimer;
 use Illuminate\Http\Request;
 use App\Http\Requests\StoreDisclaimer;
+use App\Services\DisclaimerService;
 use Illuminate\Support\Facades\Auth;
 
 class DisclaimerController extends Controller
 {
+    protected $disclaimerService;
+
+    public function __construct(DisclaimerService $disclaimerService)
+    {
+        $this->disclaimerService = $disclaimerService;
+    }
+
     public function isAuth(){
         if(!Auth::check()) return false;
         else return true;
     }
-
-    /**
-     * Display a listing of the resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
+    
+    public function getDisclaimerByUser()
+    {
+        // return session('Bearer');
+        return $this->disclaimerService->readUserDisclaimer();
+    }
+    
+    
+    public function getAuthorization(){
+        return session('Authorization');
+    }
+    
     public function index()
     {
-        if(!$this->isAuth()){
-            return redirect(route('login'));
-        }
-        $disclaimers = Disclaimer::where('user_id', session('userid'))->get();
+        // return session('Bearer');
+        $disclaimers = $this->getDisclaimerByUser();
         return view('sanggahan.disclaimer_history', ['disclaimers' => $disclaimers]);
     }
 
@@ -36,9 +48,9 @@ class DisclaimerController extends Controller
      */
     public function create()
     {
-        if(!$this->isAuth()){
-            return redirect(route('login'));
-        }
+        // if(!$this->isAuth()){
+        //     return redirect(route('login'));
+        // }
         return view('sanggahan.disclaimer_create');
     }
 
@@ -50,16 +62,33 @@ class DisclaimerController extends Controller
      */
     public function store(StoreDisclaimer $request)
     {
-        if(!$this->isAuth()){
-            return redirect(route('login'));
-        }
+        // if(!$this->isAuth()){
+        //     return redirect(route('login'));
+        // }
         // return $request;
 
-        $input = $request->all();
+        $input = $request->except(['_token']);
+        $result = ['status' => 200];
+        
+        // save using services
+        try{
+            // dd($input); die();
+            $result['data'] = $this->disclaimerService->saveRequest($input);
+        }catch(Exception $e){
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+            die($result);
+        }
 
-        Disclaimer::create($input);
+        $id = $result['data']['id'];
+        $qrService = app()->make('SimpleQRService');
+        $data = "Nama Penyanggah: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Sanggahan: ".$id."; ID Laporan: ".$input['id_laporan']."; Waktu Penyanggahan: ".$result['data']['created_at']." WIB";
+        
+        $qr = $qrService->generateQR($data);
 
-        return view('sanggahan.disclaimer_post_success', ['disclaimer' => $request]);
+        return view('sanggahan.disclaimer_post_success', ['disclaimer' => $result['data'], 'qr' => $qr]);
     }
 
     /**

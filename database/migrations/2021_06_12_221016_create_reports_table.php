@@ -17,6 +17,7 @@ class CreateReportsTable extends Migration
             $table->increments('id');
             $table->string('user_id', 1024)->nullable();
             $table->string('tipe_laporan');
+            $table->smallInteger('terverifikasi')->default(0);
             $table->string('nama_terlapor');
             $table->string('bank')->nullable();
             $table->string('nomor_rekening', 50)->nullable();
@@ -24,7 +25,7 @@ class CreateReportsTable extends Migration
             $table->string('kontak_pelaku', 20);
             $table->string('kronologi', 1000);
             $table->string('total_kerugian', 30);
-            $table->string('file', 1000)->nullable();
+            $table->string('file_bukti', 1000)->nullable();
             $table->timestamps();
         });
     }
