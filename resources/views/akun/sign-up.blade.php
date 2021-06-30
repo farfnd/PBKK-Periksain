@@ -10,7 +10,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Connect - Responsive Admin Dashboard Template</title>
+        <title>Periksa.in - Daftar</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -78,11 +78,12 @@
                                             @enderror
                                         </div>
                                         <div class="form-group">
-                                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Ketik Ulang Password">
-                                            @error('confirm_password')
+                                            <input type="password" class="form-control" name="password_confirmation" id="password_confirmation" placeholder="Ketik Ulang Password">
+                                            @error('password_confirmation')
                                             <p style="color:red;">{{ $message }}</p>
                                             @enderror
                                         </div>
+                                        <input type="text" class="form-control" name="role" value="user" hidden>
                                         <button type="submit" class="btn btn-primary btn-block btn-submit">Daftar</button>
                                         <div class="auth-options">
                                             <a href="/akun/masuk" class="forgot-link">Sudah mempunyai akun?</a>

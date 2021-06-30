@@ -36,7 +36,8 @@ class ReportRepository{
         
         foreach($data['file_bukti'] as $userImage)
         {
-            $imageName = $userImage->getClientOriginalName();
+            $hash_name = pathinfo($userImage->hashName());
+            $imageName = md5(time().$hash_name['filename']).'.'.$userImage->extension();
             Storage::putFileAs('report_images/'.Auth::user()->id, $userImage, $imageName);
             array_push($names, $imageName);
         }
@@ -63,6 +64,12 @@ class ReportRepository{
         return Report::where('user_id', Auth::user()->id)
                         ->where('tipe_laporan', 'telepon')
                         ->get();
+    }
+    
+    public function getReport($id){
+        return Report::where('user_id', Auth::user()->id)
+                        ->where('id', $id)
+                        ->firstOrFail();
     }
 }
 

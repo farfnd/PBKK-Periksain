@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\Auth;
 use App\Http\Requests\StoreUser;
 use App\Http\Requests\UpdateUserDetail;
 use App\Http\Requests\UpdateUserPassword;
+use Illuminate\Auth\Events\Registered;
 use Illuminate\Validation\Rules;
 use Illuminate\Support\Facades\Hash;
 
@@ -43,6 +44,30 @@ class UserController extends Controller
         }
     }
     
+    function store_user(StoreUser $request)
+    {
+        $request->validate([
+            'first_name' => 'required|string|max:255',
+            'last_name' => 'required|string|max:255',
+            'email' => 'required|string|email|max:255|unique:users',
+            'password' => ['required', 'confirmed', Rules\Password::defaults()],
+        ]);
+
+        $user = User::create([
+            'first_name' => $request->first_name,
+            'last_name' => $request->last_name,
+            'email' => $request->email,
+            'password' => Hash::make($request->password),
+            'role' => $request->role,
+        ]);
+
+        event(new Registered($user));
+
+        Auth::login($user);
+
+        return redirect(route('home'));
+    }
+
     function store_user_admin(StoreUser $request)
     {
         $request->validate([
@@ -93,16 +118,16 @@ class UserController extends Controller
     }
 
     public function show_settings(){
-        if(Auth::user()->role != 'user'){
-            return "Anda tidak berhak mengakses halaman ini";
-        }
+        // if(Auth::user()->role != 'user'){
+        //     return "Anda tidak berhak mengakses halaman ini";
+        // }
         return view('akun.settings_profile');
     }
 
     public function update_user_detail(UpdateUserDetail $request){
-        if(Auth::user()->role != 'user'){
-            return "Anda tidak berhak mengakses halaman ini";
-        }
+        // if(Auth::user()->role != 'user'){
+        //     return "Anda tidak berhak mengakses halaman ini";
+        // }
 
         if(!Auth::attempt(['email' => Auth::user()->email, 'password' => $request->password_validation])){
             return redirect()->route('get_account_setting')->with('account_update_failed', 'Password salah!');
@@ -121,7 +146,7 @@ class UserController extends Controller
             'last_name'=>$request->last_name,
             'email'=>$request->email                
         ]);
-        return redirect()->route('get_account_setting')->with('account_update_success', 'Data berhasil di update!');
+        return redirect()->route('get_account_setting')->with('account_update_read', 'Data berhasil di update!');
     }
 
     public function update_user_password(UpdateUserPassword $request){
@@ -132,7 +157,7 @@ class UserController extends Controller
         User::where('id', Auth::user()->id)->update([
             'password'=>bcrypt($request->new_password)
         ]);
-        return redirect()->route('get_account_setting')->with('password_update_success', 'Data berhasil di update!');
+        return redirect()->route('get_account_setting')->with('password_update_read', 'Data berhasil di update!');
     }
 
     public function show_verify(){

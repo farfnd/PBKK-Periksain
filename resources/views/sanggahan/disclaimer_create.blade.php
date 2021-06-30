@@ -71,7 +71,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Sanggahan</h5>
-                                        <form method="POST" action="{{route('post_disclaimer')}}" enctype="multipart/form-data">
+                                        <form method="POST" action="{{route('disclaimer.store')}}" enctype="multipart/form-data">
                                             @csrf
                                             <p></p>
                                             <p><b>ID Laporan</b></p>

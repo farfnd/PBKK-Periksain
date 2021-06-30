@@ -29,7 +29,7 @@ class ReportService
         return $this->reportRepository->getReportByUserID();
     }
     
-    // read bank
+    // read all bank reports
     public function readUserBankReport(){
         return $this->reportRepository->getBankReportByUserID();
     }
@@ -39,6 +39,11 @@ class ReportService
         return $this->reportRepository->getPhoneReportByUserID();
     }
 
+    // read one bank report
+    public function readReport($id){
+        return $this->reportRepository->getReport($id);
+    }
+    
     // update
 
     // delete

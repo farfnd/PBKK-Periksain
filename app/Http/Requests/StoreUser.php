@@ -27,6 +27,7 @@ class StoreUser extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email|unique:users',
+            'role' => 'required',
             'password' => 'required|min:8|',
             'password_confirmation' => 'required|min:8|same:password',
         ];
@@ -42,6 +43,7 @@ class StoreUser extends FormRequest
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.',
+            'role.required' => 'Peran pengguna wajib diisi.',
             'password_confirmation.same' => 'Password konfirmasi tidak sama.',
             'password_confirmation.required' => 'Password konfirmasi wajib diisi'
         ];

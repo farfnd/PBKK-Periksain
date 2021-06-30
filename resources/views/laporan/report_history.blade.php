@@ -82,12 +82,15 @@
                                                     <th>Nomor</th>
                                                     <th>Waktu Pelaporan</th>
                                                     <th>Status</th>
+                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="report_content">
                                                 @foreach ($reports as $report)
                                                 <tr>
-                                                    <td>{{ $report->id }}</td>
+                                                    <td>
+                                                        <a href="{{route('report.show', $report->id)}}">{{ $report->id }}</a>
+                                                    </td>
                                                     <td>
                                                         @if($report->tipe_laporan == 'rekening')
                                                         Rekening
@@ -103,7 +106,23 @@
                                                         @endif
                                                     </td>
                                                     <td>{{$report->created_at}}</td>
-                                                    <td>Disetujui</td>
+                                                    <td>
+                                                        @if($report->terverifikasi == 1)
+                                                        Terverifikasi
+                                                        @else
+                                                        Belum Terverifikasi
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <ul class="list-inline m-0">
+                                                            <li class="list-inline-item">
+                                                                <a class="btn btn-primary btn-sm rounded-0 text-white"  role="button" data-toggle="tooltip" data-placement="top" title="Edit" href="{{ route('report.edit', ['id' => $report->id]) }}"><i class="fa fa-edit"></i></a>
+                                                            </li>
+                                                            <li class="list-inline-item">
+                                                                <a class="btn btn-danger btn-sm rounded-0" role="button" data-toggle="tooltip" data-placement="top" title="Hapus" href="#"><i class="fa fa-trash"></i></a>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>

@@ -69,13 +69,13 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Edit laporan telepon</h5>
-                                        @isset($profile_msg_success_info)
-                                            <p style="color:green; text-align:center;">{{ $profile_msg_success_info }}</p>
+                                        @isset($profile_msg_read_info)
+                                            <p style="color:green; text-align:center;">{{ $profile_msg_read_info }}</p>
                                         @endisset
                                         @isset($profile_msg_error_info)
                                             <p style="color:red; text-align:center;">{{ $profile_msg_error_info }}</p>
                                         @endisset
-                                        <form method="POST" action="{{ route('post_phone') }}">
+                                        <form method="POST" action="{{ route('report.create', ['tipe' => 'telepon']) }}">
                                             @csrf
                                             <input type="hidden" name="form_type" value="update_profile"/>
                                             <p><b>Kontak Pelaku</b></p>

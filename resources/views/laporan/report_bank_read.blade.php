@@ -10,7 +10,14 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in - Laporkan Penipuan</title>
+        <title>
+            Periksa.in - 
+            @if (Request::segment(2) == 'laporkan')
+                Laporan Terkirim
+            @elseif (Request::segment(2) == 'laporan')
+                Lihat Laporan  
+            @endif
+        </title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -43,7 +50,7 @@
         <div class="connect-container align-content-stretch d-flex flex-wrap">
             <div class="page-container">
                 <div class="page-header">
-                    @include('includes.page-header', ['name' => 'Anisa Rahmawati', 'status' => 'Verified'])
+                    @include('includes.page-header')
                 </div>
                 <div class="horizontal-bar">
                     @include('includes.horizontal-bar')
@@ -53,8 +60,20 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('get_phone_form') }}">Laporkan Penipuan</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Laporan Terkirim</li>
+                                <li class="breadcrumb-item">
+                                    @if (Request::segment(2) == 'laporkan')
+                                        <a href="{{ route('report.create', ['tipe' => 'rekening']) }}">Laporkan Penipuan</a>
+                                    @elseif (Request::segment(2) == 'laporan')
+                                        <a href="{{ route('get_report_history') }}">Riwayat Pelaporan</a>  
+                                    @endif
+                                </li>
+                                <li class="breadcrumb-item active" aria-current="page">
+                                    @if (Request::segment(2) == 'laporkan')
+                                        Laporan Terkirim
+                                    @elseif (Request::segment(2) == 'laporan')
+                                        Lihat Laporan  
+                                    @endif
+                                </li>
                             </ol>
                         </nav>
                     </div>
@@ -62,8 +81,16 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>PELAPORAN BERHASIL</b></h5>
-                                    <p class="page-desc" style="text-align:center;">Laporan berhasil terkirim dengan detail sebagai berikut.</p>
+                                    <h5 class="card-title" style="text-align:center; ">
+                                        <b>
+                                            @if (Request::segment(2) == 'laporkan')
+                                                PELAPORAN BERHASIL
+                                            @elseif (Request::segment(2) == 'laporan')
+                                                LIHAT LAPORAN  
+                                            @endif
+                                        </b>
+                                    </h5>
+                                    <p class="page-desc" style="text-align:center;">Laporan Anda berhasil terkirim dengan detail sebagai berikut.</p>
                                 </div>
                             </div>
                         </div>
@@ -71,14 +98,38 @@
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Laporan Nomor Telepon</h5>
-                                        <form method="POST" action="{{route('post_phone')}}" >
-                                            @csrf
+                                        <h5 class="card-title">Laporan Nomor Rekening</h5>
+                                        <form>
+                                            @if (Request::segment(2) == 'laporan')
+                                                <p><b>Status Laporan</b></p>
+                                                @if($report->terverifikasi)
+                                                    <h6 class="badge bg-success text-white">Terverifikasi</h6>
+                                                @else
+                                                    <h6 class="badge bg-danger text-white">Belum Terverifikasi</h6>
+                                                @endif
+                                                <p></p>
+                                            @endif
+                                            <p><b>Informasi Rekening</b></p>
+                                            <div class="form-group">
+                                                <label for="nama_terlapor">Nama Pemilik Rekening</label>
+                                                <input type="text" class="form-control" id="nama_terlapor" name="nama_terlapor" value="{{$report->nama_terlapor}}" readonly>
+                                            </div>
+                                            <div class="form-row">
+                                                <div class="form-group col-md-6">
+                                                    <label for="bank">Bank</label>
+                                                    <input type="text" class="form-control" id="bank" name="bank" value="{{$report->bank}}" readonly>
+                                                </div>
+                                                <div class="form-group col-md-6">
+                                                    <label for="nomor_rekening">Nomor Rekening</label>
+                                                    <input type="text" class="form-control" id="nomor_rekening" name="nomor_rekening" value="{{$report->nomor_rekening}}" readonly>
+                                                </div>
+                                            </div>
+                                            <p></p>
                                             <p><b>Kontak Pelaku</b></p>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="nama_terlapor">Nama Pelaku</label>
-                                                    <input type="text" class="form-control" id="nama_terlapor" name="nama_terlapor" value="{{$report->nama_terlapor}}" readonly>
+                                                    <label for="platform">Platform Penipuan</label>
+                                                    <input type="text" class="form-control" id="platform" name="platform" value="{{$report->platform}}" readonly>
                                                 </div>
                                                 <div class="form-group col-md-6">
                                                     <label for="kontak_pelaku">Kontak Pelaku</label>
@@ -97,9 +148,13 @@
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
-                                            @foreach (json_decode($report->file_bukti) as $bukti)
-                                                <img src="{{route('show_report_image', ['id' => Auth::user()->id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
-                                            @endforeach
+                                            @if($report->file_bukti)
+                                                @foreach (json_decode($report->file_bukti) as $bukti)
+                                                    <img src="{{route('show_report_image', ['id' => Auth::user()->id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
+                                                @endforeach
+                                            @else
+                                                <p>Data tidak ditemukan</p>
+                                            @endif
                                             <p></p>
                                             <p><b>Kode QR</b></p>
                                             <div class="row">
@@ -108,7 +163,14 @@
                                                 </div>
                                             </div>
                                             <p></p>
-                                            <a type="submit" class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
+                                            <div class="row">
+                                                <div class="col-md-6">
+                                                    <a class="btn btn-primary col-md-12 <?php if($report->terverifikasi) echo "disabled"?>" href="{{ route('report.edit', ['id' => $report->id]) }}" >Edit laporan</a>
+                                                </div>
+                                                <div class="col-md-6">
+                                                    <a class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
+                                                </div>
+                                            </div>
                                         </form>
                                     </div>
                                 </div>
