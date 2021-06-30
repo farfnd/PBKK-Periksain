@@ -102,8 +102,9 @@ class ReportController extends Controller
             die($result);
         }
 
+        $id = $result['data']['id'];
         $qrService = app()->make('SimpleQRService');
-        $data = "Nama Pelapor: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Laporan: ".$result['data']['id']."; Nama Terlapor: ".$input['nama_terlapor']."; Bank: ".$input['bank']."; Nomor Rekening: ".$input['nomor_rekening']."; Waktu Pelaporan: ".$result['data']['created_at']." WIB";
+        $data = "Nama Pelapor: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Laporan: ".$id."; Nama Terlapor: ".$input['nama_terlapor']."; Bank: ".$input['bank']."; Nomor Rekening: ".$input['nomor_rekening']."; Waktu Pelaporan: ".$result['data']['created_at']." WIB";
         
         $qr = $qrService->generateQR($data);
 
@@ -134,8 +135,9 @@ class ReportController extends Controller
             die($result);
         }
 
+        $id = $result['data']['id'];
         $qrService = app()->make('SimpleQRService');
-        $data = "Nama Pelapor: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Laporan: ".$result['data']['id']."; Nama Terlapor: ".$input['nama_terlapor']."; Kontak Pelaku: ".$input['kontak_pelaku']."; Waktu Pelaporan: ".$result['data']['created_at']." WIB";
+        $data = "Nama Pelapor: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Laporan: ".$id."; Nama Terlapor: ".$input['nama_terlapor']."; Kontak Pelaku: ".$input['kontak_pelaku']."; Waktu Pelaporan: ".$result['data']['created_at']." WIB";
         
         $qr = $qrService->generateQR($data);
 
