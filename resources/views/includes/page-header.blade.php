@@ -3,7 +3,7 @@
                         use Illuminate\Support\Facades\Auth;
     
                         $name = Auth::user()->first_name . " " . Auth::user()->last_name;
-                        $status_verified = Auth::user()->is_verified ? "Verified" : "Not Verified";
+                        $status_verified = Auth::user()->terverifikasi ? "Verified" : "Not Verified";
                     ?>
                     <nav class="navbar navbar-expand container">
                         <div class="logo-box"><a href="/" class="logo-text">Periksa.in</a></div>

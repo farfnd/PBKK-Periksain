@@ -7,6 +7,6 @@ class SimpleQRService
 {
     public function generateQR($data)
     {
-        return QrCode::size(150)->generate($data);
+        return QrCode::size(100)->generate($data);
     }
 }

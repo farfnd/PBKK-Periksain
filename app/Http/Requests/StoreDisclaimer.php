@@ -26,6 +26,8 @@ class StoreDisclaimer extends FormRequest
         return [
                 'id_laporan' => 'required|exists:reports,id',
                 'sanggahan' => 'required',
+                'file_bukti' => 'required',
+                'file_bukti.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
             ];
     }
 
@@ -35,6 +37,10 @@ class StoreDisclaimer extends FormRequest
             'id_laporan.exists' => 'ID laporan tidak ditemukan.',
             'id_laporan.required' => 'ID laporan wajib diisi.',
             'sanggahan.required' => 'Deskripsi sanggahan wajib diisi.',
+            'file_bukti.required' => 'File bukti sanggahan wajib diisi.',
+            'file_bukti.*.image' => 'File bukti sanggahan wajib berupa gambar.',
+            'file_bukti.*.mimes' => 'File bukti sanggahan wajib berupa gambar.',
+            'file_bukti.*.max' => 'File bukti sanggahan harus berukuran maksimal 2 MB.',
         ];
     }
 }

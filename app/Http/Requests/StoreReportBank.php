@@ -26,11 +26,13 @@ class StoreReportBank extends FormRequest
         return [
             'nama_terlapor' => 'required',
             'bank' => 'required',
-            'nomor_rekening' => 'required',
+            'nomor_rekening' => 'required|numeric',
             'platform' => 'required',
             'kontak_pelaku' => 'required',
             'kronologi' => 'required',
-            'total_kerugian' => 'required'
+            'total_kerugian' => 'required|numeric',
+            'file_bukti' => 'required',
+            'file_bukti.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
         ];
     }
 
@@ -40,10 +42,16 @@ class StoreReportBank extends FormRequest
             'nama_terlapor.required' => 'Nama terlapor wajib diisi.',
             'bank.required' => 'Bank wajib diisi.',
             'nomor_rekening.required' => 'Nomor rekening wajib diisi.',
+            'nomor_rekening.numeric' => 'Nomor rekening wajib berupa angka.',
             'platform.required' => 'Platform penipuan wajib diisi.',
             'kontak_pelaku.required' => 'Kontak pelaku wajib diisi.',
             'kronologi.required' => 'Kronologi kejadian wajib diisi.',
             'total_kerugian.required' => 'Total kerugian wajib diisi.',
+            'total_kerugian.numeric' => 'Total kerugian wajib berupa angka.',
+            'file_bukti.required' => 'File bukti penipuan wajib diisi.',
+            'file_bukti.*.image' => 'File bukti penipuan wajib berupa gambar.',
+            'file_bukti.*.mimes' => 'File bukti penipuan wajib berupa gambar.',
+            'file_bukti.*.max' => 'File bukti penipuan harus berukuran maksimal 2 MB.',
         ];
     }
 }

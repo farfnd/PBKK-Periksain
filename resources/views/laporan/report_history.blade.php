@@ -135,7 +135,7 @@
         <script src="/connect_assets/js/connect.min.js"></script>
         <script src="/connect_assets/js/pages/datatables.js"></script>
 
-        <script type="text/javascript">
+        {{-- <script type="text/javascript">
             $(function() {
                 $.ajax({
                     url: "/api/user/getBankReport",
@@ -178,6 +178,6 @@
                     });
                 });
             });
-        </script>
+        </script> --}}
     </body>
 </html>
