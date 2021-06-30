@@ -2,9 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use Illuminate\Http\Request;
 use App\Models\Report;
 use App\Http\Controllers\UserController;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\File;
+use Illuminate\Support\Facades\Response;
+use Illuminate\Support\Facades\Storage;
 
 class HomeController extends Controller
 {
@@ -56,5 +59,25 @@ class HomeController extends Controller
 
         $data = Report::where('kontak_pelaku', $no_telepon)->paginate(10);
         return view('cek.cek_telepon', ['data' => $data, 'no_telepon'=> $no_telepon]);
+    }
+
+    public function get_report_image($id, $filename)
+    {
+        if(Auth::user()->id != $id){
+            return route('show_404');
+        }
+
+        $storagePath = storage_path('app/report_images/' . $id . '/' . $filename);
+        return response()->file($storagePath);
+    }
+
+    public function get_disclaimer_image($id, $filename)
+    {
+        if(Auth::user()->id != $id){
+            return route('show_404');
+        }
+
+        $storagePath = storage_path('app/disclaimer_images/' . $id . '/' . $filename);
+        return response()->file($storagePath);
     }
 }

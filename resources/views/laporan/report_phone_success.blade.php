@@ -97,7 +97,9 @@
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
-                                                <img src="{{$report->file}}" alt="Data tidak ditemukan" />
+                                            @foreach (json_decode($report->file_bukti) as $bukti)
+                                                <img src="{{route('show_report_image', ['id' => Auth::user()->id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
+                                            @endforeach
                                             <p></p>
                                             <p><b>Kode QR</b></p>
                                             <div class="row">

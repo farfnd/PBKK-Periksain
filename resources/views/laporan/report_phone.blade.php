@@ -71,13 +71,13 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Laporkan Nomor Telepon</h5>
-                                        <form method="POST" action="{{route('post_phone')}}" >
+                                        <form method="POST" action="{{route('post_phone')}}" enctype="multipart/form-data">
                                             @csrf
                                             <p></p>
                                             <p><b>Kontak Pelaku</b></p>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pelaku"  name="nama_terlapor" value="{{old('nama_terlapor')}}">
+                                                    <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pelaku" name="nama_terlapor" value="{{old('nama_terlapor')}}">
                                                     @if ($errors->has('nama_terlapor'))
                                                         <span class="text-danger">{{ $errors->first('nama_terlapor') }}</span>
                                                     @endif
@@ -108,10 +108,21 @@
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
                                             <div class="form-group">
-                                                <label for="file">Wajib menyertakan foto/tangkapan layar yang terkait dengan kronologi kejadian</label>
-                                                <input type="file" class="form-control" id="file" placeholder="File Pendukung" multiple  name="file">
+                                                <label for="file_bukti">Wajib menyertakan foto/tangkapan layar yang terkait dengan kronologi kejadian</label>
+                                                <p>Foto harus bertipe .jpeg, .png, .jpg, atau .svg, dengan ukuran kurang dari 2 MB.</p>
+                                                <input type="file" class="form-control" id="file_bukti" placeholder="File Pendukung" multiple name="file_bukti[]">
+                                                @if ($errors->has('file_bukti'))
+                                                    <span class="text-danger">{{ $errors->first('file_bukti') }}</span>
+                                                @endif
+                                                @foreach ($errors->get('file_bukti.*') as $messages)
+                                                    <span class="text-danger">File {{$loop->index + 1}}:</span>
+                                                    @foreach ($messages as $message)
+                                                        <br>
+                                                        <span class="text-danger">{{ $message }}</span>
+                                                    @endforeach
+                                                    <br>
+                                                @endforeach
                                             </div>
-                                            <input type="timestamp" class="form-control" id="created_at" name="created_at" value="<?php date_default_timezone_set("Asia/Jakarta"); echo date("Y-m-d H:i:s"); ?>" hidden>
                                             <input type="text" class="form-control" name="tipe_laporan" value="telepon" hidden>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>

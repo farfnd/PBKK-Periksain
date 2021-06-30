@@ -85,7 +85,16 @@
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
-                                            <img src="{{$disclaimer->file}}" alt="Data tidak ditemukan">
+                                            @foreach (json_decode($disclaimer->file_bukti) as $bukti)
+                                                <img src="{{route('show_report_image', ['id' => Auth::user()->id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
+                                            @endforeach
+                                            <p></p>
+                                            <p><b>Kode QR</b></p>
+                                            <div class="row">
+                                                <div class="col-md-12">
+                                                    {{$qr}}
+                                                </div>
+                                            </div>
                                             <p></p>
                                             <a type="submit" class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
                                         </form>
