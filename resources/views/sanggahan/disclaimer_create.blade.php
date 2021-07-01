@@ -120,7 +120,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2021 © Periksa.in</span>
+                                <span class="footer-text">{{date("Y")}} © Periksa.in</span>
                             </div>
                         </div>
                     </div>

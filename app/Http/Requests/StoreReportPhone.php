@@ -23,14 +23,26 @@ class StoreReportPhone extends FormRequest
      */
     public function rules()
     {
-        return [
-            'nama_terlapor' => 'required',
-            'kontak_pelaku' => 'required|numeric',
-            'kronologi' => 'required',
-            'total_kerugian' => 'required|numeric',
-            'file_bukti' => 'required',
-            'file_bukti.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
-        ];
+        if($this->method() == 'POST'){
+            return [
+                'nama_terlapor' => 'required',
+                'kontak_pelaku' => 'required|numeric',
+                'kronologi' => 'required',
+                'total_kerugian' => 'required|numeric',
+                'file_bukti' => 'required',
+                'file_bukti.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+            ];
+        }
+        if($this->method() == 'PUT'){
+            return [
+                'nama_terlapor' => 'required',
+                'kontak_pelaku' => 'required|numeric',
+                'kronologi' => 'required',
+                'total_kerugian' => 'required|numeric',
+                'file_bukti' => 'required|sometimes',
+                'file_bukti.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+            ];
+        }
     }
 
     public function messages()

@@ -333,7 +333,7 @@
                     <!-- LOWER FOOTER -->
                     <div class="lower-footer">
                         <div class="pull-left">
-                            <span>2021 © Periksa.in </span>
+                            <span>{{date("Y")}} © Periksa.in </span>
                             <a href="#"> Terms of Service </a>
                             <a href="#"> Privacy Policy </a>
                         </div>

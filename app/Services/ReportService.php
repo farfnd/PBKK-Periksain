@@ -45,6 +45,9 @@ class ReportService
     }
     
     // update
+    public function editReport($id, $input){
+        return $this->reportRepository->putReport($id, $input);
+    }
 
     // delete
 }

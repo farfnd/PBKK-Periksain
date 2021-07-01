@@ -53,7 +53,8 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Laporkan Penipuan</li>
+                                <li class="breadcrumb-item"><a href="{{ route('get_report_history') }}">Riwayat Pelaporan</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Edit Laporan</li>
                             </ol>
                         </nav>
                     </div>
@@ -61,7 +62,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>LAPORKAN PENIPUAN</b></h5>
+                                    <h5 class="card-title" style="text-align:center; "><b>EDIT LAPORAN</b></h5>
                                     <p class="page-desc" style="text-align:center;">Laporkan penipuan yang terjadi agar yang lainnya tidak terkena penipuan yang sama.</p>
                                 </div>
                             </div>
@@ -70,8 +71,9 @@
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Laporkan Rekening</h5>
-                                        <form method="PUT" action="{{route('report.update', ['id' => $report->id])}}" enctype="multipart/form-data">
+                                        <h5 class="card-title">Laporkan Nomor Rekening</h5>
+                                        <form method="POST" action="{{route('report.update', ['id' => $report->id])}}" enctype="multipart/form-data">
+                                            @method('PUT')
                                             @csrf
                                             <p><b>Informasi Rekening</b></p>
                                             <div class="form-group">
@@ -154,17 +156,19 @@
                                                 @endif
                                                 <p></p>
                                                 <input type="file" class="form-control" id="file_bukti" placeholder="File Pendukung" multiple name="file_bukti[]">
-                                                @if ($errors->has('file_bukti'))
-                                                    <span class="text-danger">{{ $errors->first('file_bukti') }}</span>
-                                                @endif
-                                                @foreach ($errors->get('file_bukti.*') as $messages)
-                                                    <span class="text-danger">File {{$loop->index + 1}}:</span>
-                                                    @foreach ($messages as $message)
+                                                @if(!$report->file_bukti)
+                                                    @if ($errors->has('file_bukti'))
+                                                        <span class="text-danger">{{ $errors->first('file_bukti') }}</span>
+                                                    @endif
+                                                    @foreach ($errors->get('file_bukti.*') as $messages)
+                                                        <span class="text-danger">File {{$loop->index + 1}}:</span>
+                                                        @foreach ($messages as $message)
+                                                            <br>
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @endforeach
                                                         <br>
-                                                        <span class="text-danger">{{ $message }}</span>
                                                     @endforeach
-                                                    <br>
-                                                @endforeach
+                                                @endif
                                             </div>
                                             <input type="text" class="form-control" name="tipe_laporan" value="rekening" hidden>
                                             <button type="submit" class="btn btn-primary">Submit</button>
@@ -179,7 +183,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2021 © Periksa.in</span>
+                                <span class="footer-text">{{date("Y")}} © Periksa.in</span>
                             </div>
                         </div>
                     </div>

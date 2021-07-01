@@ -98,6 +98,16 @@
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
+                                        @isset($profile_msg_read_info)
+                                            <div class="alert alert-success" role="alert">
+                                                {{ $profile_msg_read_info }}
+                                            </div>
+                                        @endisset
+                                        @isset($profile_msg_error_info)
+                                            <div class="alert alert-danger" role="alert">
+                                                {{ $profile_msg_read_info }}
+                                            </div>
+                                        @endisset
                                         <h5 class="card-title">Laporan Nomor Rekening</h5>
                                         <form>
                                             @if (Request::segment(2) == 'laporan')
@@ -182,7 +192,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2021 © Periksa.in</span>
+                                <span class="footer-text">{{date("Y")}} © Periksa.in</span>
                             </div>
                         </div>
                     </div>

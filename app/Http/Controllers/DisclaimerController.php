@@ -82,11 +82,8 @@ class DisclaimerController extends Controller
             die($result);
         }
 
-        $id = $result['data']['id'];
         $qrService = app()->make('SimpleQRService');
-        $data = "Nama Penyanggah: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Sanggahan: ".$id."; ID Laporan: ".$input['id_laporan']."; Waktu Penyanggahan: ".$result['data']['created_at']." WIB";
-        
-        $qr = $qrService->generateQR($data);
+        $qr = $qrService->generateQR_disclaimer($result['data']);
 
         return view('sanggahan.disclaimer_post_read', ['disclaimer' => $result['data'], 'qr' => $qr]);
     }
