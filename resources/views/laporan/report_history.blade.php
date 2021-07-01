@@ -78,6 +78,16 @@
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
+                                        @isset($profile_msg_read_info)
+                                            <div class="alert alert-success" role="alert">
+                                                {{ $profile_msg_read_info }}
+                                            </div>
+                                        @endisset
+                                        @isset($profile_msg_error_info)
+                                            <div class="alert alert-danger" role="alert">
+                                                {{ $profile_msg_read_info }}
+                                            </div>
+                                        @endisset
                                         <h5 class="card-title">RIWAYAT PELAPORAN ANDA</h5>
                                         <!-- <p>DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.</p> -->
                                         <table id="zero-conf" class="display" style="width:100%">
@@ -168,16 +178,17 @@
                     </div>
                     <div class="modal-footer">
                         <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
-                        <button type="button" class="btn btn-danger">Hapus</button>
+                        <button type="button" class="btn btn-danger" id="tombol_hapus">Hapus</button>
                     </div>
                 </div>
             </div>
         </div>
 
-        {{-- <form id="form-hapus" method="POST" action="{{route('report.destroy')}}" style="display: none;">
+        <form id="form_hapus" method="POST" action="{{route('report.destroy')}}" style="display: none;">
             @method('DELETE')
+            @csrf
             <input hidden type="text" name="id" id="id">
-        </form> --}}
+        </form>
 
         <!-- Javascripts -->
         <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
@@ -190,16 +201,20 @@
         <script src="/connect_assets/js/pages/datatables.js"></script>
 
         <script type="text/javascript">
+            $(function () {
+                $('[data-tooltip="tooltip"]').tooltip({
+                    trigger: 'hover'
+                });
+            });
             $('[data-toggle="tooltip"]').on('click', function () {
                 $(this).tooltip('hide');
-                let id = $(this).attr('data-html');
+                let id_laporan = $(this).attr('data-html');
 
-                $('#id').val(id);
+                document.getElementById("id").value = id_laporan;
             });  
-            // $('#tombol_hapus').on('click', function () {
-            //     var form = $('#form-batal-pendaftaran');
-            //     form.submit();
-            // });  
+            $('#tombol_hapus').on('click', function () {
+                document.getElementById("form_hapus").submit(); 
+            });  
             // $(function() {
             //     $.ajax({
             //         url: "/api/user/getBankReport",

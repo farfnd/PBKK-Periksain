@@ -41,7 +41,7 @@ Route::post('/akun/laporkan/telepon', [ReportController::class, 'store_phone'])-
 Route::get('/akun/laporan/{id}', [ReportController::class, 'show'])->middleware('auth')->name('report.show');
 Route::get('/akun/laporan/{id}/edit', [ReportController::class, 'edit'])->middleware('auth')->name('report.edit');
 Route::put('/akun/laporan/{id}', [ReportController::class, 'update'])->middleware('auth')->name('report.update');
-// Route::delete('/akun/laporan', [ReportController::class, 'destroy'])->middleware('auth')->name('report.destroy');
+Route::delete('/akun/laporan/riwayat', [ReportController::class, 'destroy'])->middleware('auth')->name('report.destroy');
 
 Route::get('/akun/sanggahan/riwayat', [DisclaimerController::class, 'index'])->middleware('auth')->name('get_disclaimer_history');
 Route::get('/akun/sanggahan/buat', [DisclaimerController::class, 'create'])->middleware('auth')->name('disclaimer.create');

@@ -50,4 +50,7 @@ class ReportService
     }
 
     // delete
+    public function deleteReport($id){
+        return $this->reportRepository->destroyReport($id);
+    }
 }

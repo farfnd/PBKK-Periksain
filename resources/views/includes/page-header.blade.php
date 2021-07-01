@@ -15,11 +15,11 @@
                                 <a href="#" class="nav-link"><i class="material-icons-outlined">menu</i></a>
                             </li>
                             <li class="nav-item nav-profile dropdown">
-                                <a class="nav-link dropdown-toggle" href="#" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                                <a class="nav-link dropdown-toggle" href="" id="navbarDropdown" role="button" data-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
                                     <img src="/connect_assets/images/avatars/profile-image-1.png" alt="profile image">
                                     <span><?php echo $name ?> (<?php echo $status_verified ?>)</span><i class="material-icons dropdown-icon">keyboard_arrow_down</i>
                                 </a>
-                                <div class="dropdown-menu" aria-labelledby="navbarDropdown">
+                                <div id="dropdown" class="dropdown-menu" aria-labelledby="navbarDropdown">
                                     <a class="dropdown-item" href="/akun/verifikasi">Verifikasi Akun</a>
                                     <a class="dropdown-item" href="/akun/pengaturan">Pengaturan Akun</a>
                                     <a class="dropdown-item" href="/akun/logout">Keluar</a>

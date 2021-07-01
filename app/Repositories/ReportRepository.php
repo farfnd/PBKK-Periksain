@@ -96,6 +96,10 @@ class ReportRepository{
 
         return $report->update($input);
     }
+
+    public function destroyReport($id){
+        return Report::destroy($id);
+    }
 }
 
 ?>

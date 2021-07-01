@@ -197,12 +197,12 @@ class ReportController extends Controller
         if($request['tipe_laporan'] == 'rekening'){
             $data = $this->update_bank(StoreReportBank::createFrom($request), $id);
             $qr = $qrService->generateQR_bank($data);
-            return view('laporan.report_bank_read', ['report' => $data, 'qr' => $qr, 'profile_msg_read_info'=>'Data berhasil diperbarui!']);
+            return view('laporan.report_bank_read', ['report' => $data, 'qr' => $qr, 'profile_msg_read_info'=>'Laporan berhasil diperbarui!']);
         }
         else if($request['tipe_laporan'] == 'telepon'){
             $data = $this->update_phone(StoreReportPhone::createFrom($request), $id);
             $qr = $qrService->generateQR_phone($data);
-            return view('laporan.report_phone_read', ['report' => $data, 'qr' => $qr, 'profile_msg_read_info'=>'Data berhasil diperbarui!']); 
+            return view('laporan.report_phone_read', ['report' => $data, 'qr' => $qr, 'profile_msg_read_info'=>'Laporan berhasil diperbarui!']); 
         }    
     }
 
@@ -254,6 +254,11 @@ class ReportController extends Controller
      */
     public function destroy(Request $request)
     {
-        dd($request); die();
+        if($this->reportService->deleteReport($request['id']));{
+            $reports = $this->getReportByUser();
+            return view('laporan.report_history', ['reports' => $reports, 'profile_msg_read_info'=>'Laporan berhasil dihapus!']);
+        }
+        $reports = $this->getReportByUser();
+        return view('laporan.report_history', ['reports' => $reports, 'profile_msg_error_info'=>'Laporan gagal dihapus!']);
     }
 }
