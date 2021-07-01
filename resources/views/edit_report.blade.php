@@ -128,7 +128,7 @@
         </div>
         
         <!-- Javascripts -->
-        <script src="/connect_assets/plugins/jquery/jquery-3.4.1.min.js"></script>
+        <script src="/connect_assets/plugins/jquery/jquery-3.6.0.min.js"></script>
         <script src="/connect_assets/plugins/bootstrap/popper.min.js"></script>
         <script src="/connect_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="/connect_assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>

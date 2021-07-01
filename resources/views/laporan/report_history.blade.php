@@ -121,9 +121,11 @@
                                                     </td>
                                                     <td>
                                                         <ul class="list-inline m-0">
+                                                            @if(!$report->terverifikasi)
                                                             <li class="list-inline-item">
                                                                 <a class="btn btn-primary btn-sm rounded-0 text-white"  role="button" data-toggle="tooltip" data-placement="top" title="Edit" href="{{ route('report.edit', ['id' => $report->id]) }}"><i class="fa fa-edit"></i></a>
                                                             </li>
+                                                            @endif
                                                             <li class="list-inline-item">
                                                                 <button type="button" class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModal" data-html="{{$report->id}}">
                                                                     <i class="fa fa-trash"></i>
@@ -178,8 +180,10 @@
         </form> --}}
 
         <!-- Javascripts -->
-        <script src="/connect_assets/plugins/jquery/jquery-3.4.1.min.js"></script>
-        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        
+        <script src="/connect_assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
+        <script src="/connect_assets/plugins/jquery/jquery-3.6.0.min.js"></script>
         <script src="/connect_assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <script src="/connect_assets/plugins/DataTables/datatables.min.js"></script>
         <script src="/connect_assets/js/connect.min.js"></script>
