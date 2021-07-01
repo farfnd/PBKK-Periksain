@@ -301,13 +301,13 @@
                                     <a class="page-scroll" href="#header">Periksa</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="{{ route('get_bank_form') }}">Laporkan Nomor Rekening</a>
+                                    <a class="page-scroll" href="{{ route('report.create', ['tipe' => 'rekening']) }}">Laporkan Nomor Rekening</a>
                                 </li>
                                 <li class="">
                                     <a class="page-scroll" href="#statistik">Statistik</a>
                                 </li>
                                 <li class="">
-                                    <a class="page-scroll" href="{{ route('get_phone_form') }}">Laporkan Nomor Telepon</a>
+                                    <a class="page-scroll" href="{{ route('report.create', ['tipe' => 'telepon']) }}">Laporkan Nomor Telepon</a>
                                 </li>
                                 <li class="active">
                                     <a class="page-scroll" href="/akun/sanggahan/">Sanggah Laporan</a>
@@ -333,7 +333,7 @@
                     <!-- LOWER FOOTER -->
                     <div class="lower-footer">
                         <div class="pull-left">
-                            <span>2021 © Periksa.in </span>
+                            <span>{{date("Y")}} © Periksa.in </span>
                             <a href="#"> Terms of Service </a>
                             <a href="#"> Privacy Policy </a>
                         </div>

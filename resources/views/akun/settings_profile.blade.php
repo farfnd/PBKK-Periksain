@@ -74,11 +74,11 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Pengaturan Akun</h5>
-                                        @if(Session::has('account_update_success'))
+                                        @if(Session::has('account_update_read'))
                                         <p style="color:green; text-align:center;">
-                                            {{ Session::get('account_update_success') }}
+                                            {{ Session::get('account_update_read') }}
                                             @php
-                                                Session::forget('account_update_success');
+                                                Session::forget('account_update_read');
                                             @endphp
                                         </p>
                                         @endif
@@ -130,11 +130,11 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Ganti Password</h5>
-                                        @if(Session::has('password_update_success'))
+                                        @if(Session::has('password_update_read'))
                                         <p style="color:green; text-align:center;">
-                                            {{ Session::get('password_update_success') }}
+                                            {{ Session::get('password_update_read') }}
                                             @php
-                                                Session::forget('password_update_success');
+                                                Session::forget('password_update_read');
                                             @endphp
                                         </p>
                                         @endif
@@ -183,7 +183,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2021 © Periksa.in</span>
+                                <span class="footer-text">{{date("Y")}} © Periksa.in</span>
                             </div>
                         </div>
                     </div>

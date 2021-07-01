@@ -53,8 +53,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('get_phone_form') }}">Laporkan Penipuan</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Laporan Terkirim</li>
+                                <li class="breadcrumb-item active" aria-current="page">Laporkan Penipuan</li>
                             </ol>
                         </nav>
                     </div>
@@ -62,8 +61,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>PELAPORAN BERHASIL</b></h5>
-                                    <p class="page-desc" style="text-align:center;">Laporan berhasil terkirim dengan detail sebagai berikut.</p>
+                                    <h5 class="card-title" style="text-align:center; "><b>LAPORKAN PENIPUAN</b></h5>
+                                    <p class="page-desc" style="text-align:center;">Laporkan penipuan yang terjadi agar yang lainnya tidak terkena penipuan yang sama.</p>
                                 </div>
                             </div>
                         </div>
@@ -71,44 +70,72 @@
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Laporan Nomor Telepon</h5>
-                                        <form method="POST" action="{{route('post_phone')}}" >
+                                        <h5 class="card-title">Laporkan Nomor Telepon</h5>
+                                        <form method="POST" action="{{route('report.update', ['id' => $report->id])}}" enctype="multipart/form-data">
+                                            @method('PUT')
                                             @csrf
+                                            <p></p>
                                             <p><b>Kontak Pelaku</b></p>
                                             <div class="form-row">
                                                 <div class="form-group col-md-6">
-                                                    <label for="nama_terlapor">Nama Pelaku</label>
-                                                    <input type="text" class="form-control" id="nama_terlapor" name="nama_terlapor" value="{{$report->nama_terlapor}}" readonly>
+                                                    <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pelaku" name="nama_terlapor" value="{{ $report->nama_terlapor }}">
+                                                    @if ($errors->has('nama_terlapor'))
+                                                        <span class="text-danger">{{ $errors->first('nama_terlapor') }}</span>
+                                                    @endif
                                                 </div>
                                                 <div class="form-group col-md-6">
-                                                    <label for="kontak_pelaku">Kontak Pelaku</label>
-                                                    <input type="text" class="form-control" id="kontak_pelaku" name="kontak_pelaku" value="{{$report->kontak_pelaku}}" readonly>
+                                                    <input type="text" class="form-control" id="kontak_pelaku" placeholder="Nomor Telepon Pelaku" name="kontak_pelaku" value="{{ $report->kontak_pelaku }}">
+                                                    @if ($errors->has('kontak_pelaku'))
+                                                        <span class="text-danger">{{ $errors->first('kontak_pelaku') }}</span>
+                                                    @endif
                                                 </div>
                                             </div>
                                             <p></p>
                                             <p><b>Kronologi</b></p>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="kronologi" rows="5" name="kronologi"  readonly>{{$report->kronologi}}</textarea>
+                                                <textarea class="form-control" id="kronologi" rows="5" placeholder="Ceritakan konologi selengkap mungkin" name="kronologi">{{ $report->kronologi }}</textarea>
+                                                @if ($errors->has('kronologi'))
+                                                    <span class="text-danger">{{ $errors->first('kronologi') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
                                             <p><b>Total Kerugian</b></p>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="total_kerugian" name="total_kerugian" value="<?php echo "Rp".number_format($report->total_kerugian,2,',','.'); ?>" readonly>
+                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple name="total_kerugian" value="{{ $report->total_kerugian }}">
+                                                @if ($errors->has('total_kerugian'))
+                                                    <span class="text-danger">{{ $errors->first('total_kerugian') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
-                                            @foreach (json_decode($report->file_bukti) as $bukti)
-                                                <img src="{{route('show_report_image', ['id' => Auth::user()->id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
-                                            @endforeach
-                                            <p></p>
-                                            <p><b>Kode QR</b></p>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    {{$qr}}
-                                                </div>
+                                            <div class="form-group">
+                                                <label for="file_bukti">Wajib menyertakan foto/tangkapan layar yang terkait dengan kronologi kejadian</label>
+                                                <p>Foto harus bertipe .jpeg, .png, .jpg, atau .svg, dengan ukuran kurang dari 2 MB.</p>
+                                                @if($report->file_bukti)
+                                                    @foreach (json_decode($report->file_bukti) as $bukti)
+                                                        <img src="{{route('show_report_image', ['id' => Auth::user()->id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
+                                                    @endforeach
+                                                @else
+                                                    <p>Data tidak ditemukan</p>
+                                                @endif
+                                                <p></p>
+                                                <input type="file" class="form-control" id="file_bukti" placeholder="File Pendukung" multiple name="file_bukti[]">
+                                                @if(!$report->file_bukti)
+                                                    @if ($errors->has('file_bukti'))
+                                                        <span class="text-danger">{{ $errors->first('file_bukti') }}</span>
+                                                    @endif
+                                                    @foreach ($errors->get('file_bukti.*') as $messages)
+                                                        <span class="text-danger">File {{$loop->index + 1}}:</span>
+                                                        @foreach ($messages as $message)
+                                                            <br>
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @endforeach
+                                                        <br>
+                                                    @endforeach
+                                                @endif
                                             </div>
-                                            <p></p>
-                                            <a type="submit" class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
+                                            <input type="text" class="form-control" name="tipe_laporan" value="telepon" hidden>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
                                     </div>
                                 </div>
@@ -120,7 +147,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2021 © Periksa.in</span>
+                                <span class="footer-text">{{date("Y")}} © Periksa.in</span>
                             </div>
                         </div>
                     </div>

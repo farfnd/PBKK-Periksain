@@ -16,17 +16,24 @@
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Montserrat:400,500,700&display=swap" rel="stylesheet">
         <link href="https://fonts.googleapis.com/css?family=Material+Icons|Material+Icons+Outlined|Material+Icons+Two+Tone|Material+Icons+Round|Material+Icons+Sharp" rel="stylesheet">
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet" integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
         <link href="/connect_assets/plugins/bootstrap/css/bootstrap.min.css" rel="stylesheet">
         <link href="/connect_assets/plugins/font-awesome/css/all.min.css" rel="stylesheet">
         <link href="/connect_assets/plugins/DataTables/datatables.min.css" rel="stylesheet">   
-
-
-      
+   
         <!-- Theme Styles -->
         <link href="/connect_assets/css/connect.min.css" rel="stylesheet">
         <link href="/connect_assets/css/admin2.css" rel="stylesheet">
         <link href="/connect_assets/css/dark_theme.css" rel="stylesheet">
         <link href="/connect_assets/css/custom.css" rel="stylesheet">
+        <style>
+            body.modal-open {
+                overflow: visible;
+                position: absolute;
+                width: 100%;
+                height:100%;
+            }
+        </style>
 
         <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
         <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
@@ -36,7 +43,6 @@
         <![endif]-->
     </head>
     <body>
-        
         <div class='loader'>
             <div class='spinner-grow text-primary' role='status'>
                 <span class='sr-only'>Loading...</span>
@@ -82,12 +88,15 @@
                                                     <th>Nomor</th>
                                                     <th>Waktu Pelaporan</th>
                                                     <th>Status</th>
+                                                    <th>Aksi</th>
                                                 </tr>
                                             </thead>
                                             <tbody id="report_content">
                                                 @foreach ($reports as $report)
                                                 <tr>
-                                                    <td>{{ $report->id }}</td>
+                                                    <td>
+                                                        <a href="{{route('report.show', $report->id)}}">{{ $report->id }}</a>
+                                                    </td>
                                                     <td>
                                                         @if($report->tipe_laporan == 'rekening')
                                                         Rekening
@@ -103,7 +112,25 @@
                                                         @endif
                                                     </td>
                                                     <td>{{$report->created_at}}</td>
-                                                    <td>Disetujui</td>
+                                                    <td>
+                                                        @if($report->terverifikasi)
+                                                            <h6 class="badge bg-success text-white">Terverifikasi</h6>
+                                                        @else
+                                                            <h6 class="badge bg-danger text-white">Belum Terverifikasi</h6>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <ul class="list-inline m-0">
+                                                            <li class="list-inline-item">
+                                                                <a class="btn btn-primary btn-sm rounded-0 text-white"  role="button" data-toggle="tooltip" data-placement="top" title="Edit" href="{{ route('report.edit', ['id' => $report->id]) }}"><i class="fa fa-edit"></i></a>
+                                                            </li>
+                                                            <li class="list-inline-item">
+                                                                <button type="button" class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModal" data-html="{{$report->id}}">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             </tbody>
@@ -118,7 +145,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2021 © Periksa.in</span>
+                                <span class="footer-text">{{date("Y")}} © Periksa.in</span>
                             </div>
                         </div>
                     </div>
@@ -126,58 +153,91 @@
             </div>
         </div>
         
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Apakah Anda yakin akan menghapus laporan ini?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Tindakan ini tidak bisa dibatalkan.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-danger">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {{-- <form id="form-hapus" method="POST" action="{{route('report.destroy')}}" style="display: none;">
+            @method('DELETE')
+            <input hidden type="text" name="id" id="id">
+        </form> --}}
+
         <!-- Javascripts -->
         <script src="/connect_assets/plugins/jquery/jquery-3.4.1.min.js"></script>
-        <script src="/connect_assets/plugins/bootstrap/popper.min.js"></script>
-        <script src="/connect_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
+        <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js" integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM" crossorigin="anonymous"></script>
         <script src="/connect_assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <script src="/connect_assets/plugins/DataTables/datatables.min.js"></script>
         <script src="/connect_assets/js/connect.min.js"></script>
         <script src="/connect_assets/js/pages/datatables.js"></script>
 
-        {{-- <script type="text/javascript">
-            $(function() {
-                $.ajax({
-                    url: "/api/user/getBankReport",
-                    headers: { 'Authorization': '{{ session("Authorization") }}' }
-                }).done(function(msg) {
-                    msg.forEach(item => {
-                        var content = `
-                        <tr>
-                            <td>`+ item["id"] +`</td>
-                            <td>Rekening</td>
-                            <td>
-                            `+ item["nomor_rekening"] +`
-                            </td>
-                            <td>`+ item["created_at"] +`</td>
-                            <td>`+ item["tipe_laporan"] +`</td>
-                        </tr>
-                        `;
-                        $("#report_content").append(content);
-                    });
-                });
-            });
-            $(function() {
-                $.ajax({
-                    url: "/api/user/getPhoneReport",
-                    headers: { 'Authorization': '{{ session("Authorization") }}' }
-                }).done(function(msg) {
-                    msg.forEach(item => {
-                        var content = `
-                        <tr>
-                            <td>`+ item["id"] +`</td>
-                            <td>Nomor Telepon</td>
-                            <td>
-                            `+ item["nomor_telepon"] +`
-                            </td>
-                            <td>`+ item["created_at"] +`</td>
-                            <td>`+ item["tipe_laporan"] +`</td>
-                        </tr>
-                        `;
-                        $("#report_content").append(content);
-                    });
-                });
-            });
-        </script> --}}
+        <script type="text/javascript">
+            $('[data-toggle="tooltip"]').on('click', function () {
+                $(this).tooltip('hide');
+                let id = $(this).attr('data-html');
+
+                $('#id').val(id);
+            });  
+            // $('#tombol_hapus').on('click', function () {
+            //     var form = $('#form-batal-pendaftaran');
+            //     form.submit();
+            // });  
+            // $(function() {
+            //     $.ajax({
+            //         url: "/api/user/getBankReport",
+            //         headers: { 'Authorization': '{{ session("Authorization") }}' }
+            //     }).done(function(msg) {
+            //         msg.forEach(item => {
+            //             var content = `
+            //             <tr>
+            //                 <td>`+ item["id"] +`</td>
+            //                 <td>Rekening</td>
+            //                 <td>
+            //                 `+ item["nomor_rekening"] +`
+            //                 </td>
+            //                 <td>`+ item["created_at"] +`</td>
+            //                 <td>`+ item["tipe_laporan"] +`</td>
+            //             </tr>
+            //             `;
+            //             $("#report_content").append(content);
+            //         });
+            //     });
+            // });
+            // $(function() {
+            //     $.ajax({
+            //         url: "/api/user/getPhoneReport",
+            //         headers: { 'Authorization': '{{ session("Authorization") }}' }
+            //     }).done(function(msg) {
+            //         msg.forEach(item => {
+            //             var content = `
+            //             <tr>
+            //                 <td>`+ item["id"] +`</td>
+            //                 <td>Nomor Telepon</td>
+            //                 <td>
+            //                 `+ item["nomor_telepon"] +`
+            //                 </td>
+            //                 <td>`+ item["created_at"] +`</td>
+            //                 <td>`+ item["tipe_laporan"] +`</td>
+            //             </tr>
+            //             `;
+            //             $("#report_content").append(content);
+            //         });
+            //     });
+            // });
+        </script>
     </body>
 </html>

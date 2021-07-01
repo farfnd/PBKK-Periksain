@@ -2,6 +2,7 @@
 
 namespace Database\Factories;
 
+use App\Models\Bank;
 use App\Models\Report;
 use Illuminate\Database\Eloquent\Factories\Factory;
 
@@ -23,7 +24,7 @@ class ReportFactory extends Factory
     {
         $tipe = $this->faker->randomElement(['rekening', 'telepon']);
         $users = \App\Models\User::pluck('id')->toArray();
-
+        
         $report = [
             'user_id' => $this->faker->randomElement($users),
             'tipe_laporan' => $tipe,
@@ -35,9 +36,9 @@ class ReportFactory extends Factory
         ];
 
         if($tipe == 'rekening'){
-            $report['bank'] = $this->faker->sentence(2);
+            $report['bank'] = Bank::all()->random()->nama_bank;
             $report['nomor_rekening'] = $this->faker->numberBetween(1000000000, 9000000000);
-            $report['platform'] = $this->faker->randomElement(['LINE','WA','IG','Twitter']);
+            $report['platform'] = $this->faker->randomElement(['LINE','WhatsApp','Instagram','Twitter', 'Facebook']);
         }
 
         return $report;

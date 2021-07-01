@@ -71,7 +71,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Laporkan Nomor Telepon</h5>
-                                        <form method="POST" action="{{route('post_phone')}}" enctype="multipart/form-data">
+                                        <form method="POST" action="{{route('report.store_phone')}}" enctype="multipart/form-data">
                                             @csrf
                                             <p></p>
                                             <p><b>Kontak Pelaku</b></p>
@@ -136,7 +136,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2021 © Periksa.in</span>
+                                <span class="footer-text">{{date("Y")}} © Periksa.in</span>
                             </div>
                         </div>
                     </div>

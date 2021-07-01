@@ -36,7 +36,8 @@ class ReportRepository{
         
         foreach($data['file_bukti'] as $userImage)
         {
-            $imageName = $userImage->getClientOriginalName();
+            $hash_name = pathinfo($userImage->hashName());
+            $imageName = md5(time().$hash_name['filename']).'.'.$userImage->extension();
             Storage::putFileAs('report_images/'.Auth::user()->id, $userImage, $imageName);
             array_push($names, $imageName);
         }
@@ -63,6 +64,37 @@ class ReportRepository{
         return Report::where('user_id', Auth::user()->id)
                         ->where('tipe_laporan', 'telepon')
                         ->get();
+    }
+    
+    public function getReport($id){
+        return Report::where('user_id', Auth::user()->id)
+                        ->where('id', $id)
+                        ->firstOrFail();
+    }
+
+    public function putReport($id, $input){
+        $report = $this->getReport($id);
+
+        if(!$report->file_bukti){
+            $names = [];
+        }
+
+        if($report->file_bukti){
+            $names = json_decode($report->file_bukti);
+        }
+
+        if(isset($input['file_bukti'])){
+            foreach($input['file_bukti'] as $userImage)
+            {
+                $hash_name = pathinfo($userImage->hashName());
+                $imageName = md5(time().$hash_name['filename']).'.'.$userImage->extension();
+                Storage::putFileAs('report_images/'.Auth::user()->id, $userImage, $imageName);
+                array_push($names, $imageName);
+            }
+            $input['file_bukti'] = json_encode($names);
+        }
+
+        return $report->update($input);
     }
 }
 

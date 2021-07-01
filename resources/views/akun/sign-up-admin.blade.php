@@ -10,7 +10,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in - Masuk</title>
+        <title>Periksa.in - Daftar Akun (Admin)</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -47,27 +47,53 @@
                         <div class="auth-form">
                             <div class="row">
                                 <div class="col">
-                                    <div class="logo-box"><a href="#" class="logo-text">Periksa.in</a></div>
+                                    <div class="logo-box"><a href="#" class="logo-text">Periksa.in Admin</a></div>
                                     @isset ($error_msg)
                                         <p style="color:red; text-align:center;">{{ $error_msg }}</p>
                                     @endisset
-                                    <form method="POST" action="{{route('post_auth')}}">
+                                    <form method="POST" action="{{route('post_user')}}">
                                         @csrf
                                         <div class="form-group">
-                                            <input type="email" class="form-control" @isset($email) value="{{$email}}" @endisset name="email" id="email" placeholder="Email">
+                                            <input type="text" @isset($first_name) value="{{ $first_name }}" @endisset class="form-control" name="first_name" id="first_name" placeholder="Nama Depan">
+                                            @error('first_name')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="text" @isset($last_name) value="{{ $last_name }}" @endisset class="form-control" name="last_name" id="last_name" placeholder="Nama Belakang">
+                                            @error('last_name')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <input type="email" @isset($email) value="{{ $email }}" @endisset class="form-control" name="email" id="email" placeholder="Masukkan email">
+                                            @error('email')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
+                                        </div>
+                                        <div class="form-group">
+                                            <select class="form-control custom-select" id="role" name="role" value="{{old('role')}}">>
+                                                <option value="" disabled selected hidden>Pilih Peran Pengguna</option>
+                                                <option value="admin">Admin</option>
+                                                <option value="user">User</option>
+                                            </select>
+                                            @error('role')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
                                         </div>
                                         <div class="form-group">
                                             <input type="password" class="form-control" name="password" id="password" placeholder="Password">
+                                            @error('password')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
                                         </div>
-                                        <button type="submit" class="btn btn-primary btn-block btn-submit">Masuk</button>
-                                        <div class="auth-options">
-                                            <div class="custom-control custom-checkbox form-group">
-                                                <input type="checkbox" class="custom-control-input" name="remember" id="remember">
-                                                <label class="custom-control-label" for="remember">Ingat saya</label>
-                                            </div>
-                                            <a href="/akun/reset" class="forgot-link">Lupa password?</a>
-                                            <a href="{{route('get_signup_form')}}" class="forgot-link">Belum mempunyai akun?</a>
+                                        <div class="form-group">
+                                            <input type="password" class="form-control" name="confirm_password" id="confirm_password" placeholder="Ketik Ulang Password">
+                                            @error('confirm_password')
+                                            <p style="color:red;">{{ $message }}</p>
+                                            @enderror
                                         </div>
+                                        <button type="submit" class="btn btn-primary btn-block btn-submit">Daftar</button>
                                     </form>
                                 </div>
                             </div>

@@ -53,7 +53,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('get_disclaimer_form') }}">Buat Sanggahan</a></li>
+                                <li class="breadcrumb-item"><a href="{{ route('disclaimer.create') }}">Buat Sanggahan</a></li>
                                 <li class="breadcrumb-item active" aria-current="page">Sanggahan Terkirim</li>
                             </ol>
                         </nav>
@@ -72,7 +72,7 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Sanggahan</h5>
-                                        <form method="POST" action="{{route('post_disclaimer')}}">
+                                        <form method="POST" action="{{route('disclaimer.store')}}">
                                             <p></p>
                                             <p><b>ID Laporan</b></p>
                                             <div class="form-group">
@@ -108,7 +108,7 @@
                     <div class="container">
                         <div class="row">
                             <div class="col-md-12">
-                                <span class="footer-text">2021 © Periksa.in</span>
+                                <span class="footer-text">{{date("Y")}} © Periksa.in</span>
                             </div>
                         </div>
                     </div>

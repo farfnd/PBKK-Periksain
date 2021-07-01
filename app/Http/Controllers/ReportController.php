@@ -7,8 +7,11 @@ use App\Models\Report;
 use App\Http\Controllers\UserController;
 use App\Http\Requests\StoreReportBank;
 use App\Http\Requests\StoreReportPhone;
+use App\Models\Bank;
 use Illuminate\Http\Request;
 use App\Services\ReportService;
+
+use function PHPUnit\Framework\isNull;
 
 class ReportController extends Controller
 {
@@ -54,28 +57,22 @@ class ReportController extends Controller
     public function index()
     {
         $reports = $this->getReportByUser();
-        // return json_encode($reports);
         return view('laporan.report_history', ['reports' => $reports]);
     }
 
     /**
-     * Show the form for creating a new bank account report.
+     * Show the form for creating a new report.
      *
      * @return \Illuminate\Http\Response
      */
-    public function create_bank()
+    public function create($tipe)
     {
-        return view('laporan.report_bank');
-    }
-
-    /**
-     * Show the form for creating a new phone number report.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create_phone()
-    {
-        return view('laporan.report_phone');
+        if($tipe == 'rekening'){
+            $data_bank = Bank::all();
+            return view('laporan.report_bank', ['data_bank' => $data_bank]);
+        }
+        if($tipe == 'telepon')
+            return view('laporan.report_phone');
     }
 
     /**
@@ -86,13 +83,11 @@ class ReportController extends Controller
      */
     public function store_bank(StoreReportBank $request)
     {
-        // echo json_encode($request->file); die();
         $input = $request->except(['_token']);
         $result = ['status' => 200];
         
         // save using services
         try{
-            // echo json_encode($input); die();
             $result['data'] = $this->reportService->saveRequest($input);
         }catch(Exception $e){
             $result = [
@@ -103,13 +98,10 @@ class ReportController extends Controller
         }
 
         $qrService = app()->make('SimpleQRService');
-        $data = "Nama Pelapor: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Laporan: ".$result['data']['id']."; Nama Terlapor: ".$input['nama_terlapor']."; Bank: ".$input['bank']."; Nomor Rekening: ".$input['nomor_rekening']."; Waktu Pelaporan: ".$result['data']['created_at']." WIB";
-        
-        $qr = $qrService->generateQR($data);
+        $qr = $qrService->generateQR_bank($result['data']);
 
         // echo json_encode($result['data']); die();
-
-        return view('laporan.report_bank_success', ['report' => $result['data'], 'qr' => $qr]);
+        return view('laporan.report_bank_read', ['report' => $result['data'], 'qr' => $qr]);
     }
 
     /**
@@ -135,23 +127,43 @@ class ReportController extends Controller
         }
 
         $qrService = app()->make('SimpleQRService');
-        $data = "Nama Pelapor: ".Auth::user()->first_name." ".Auth::user()->last_name."; ID Laporan: ".$result['data']['id']."; Nama Terlapor: ".$input['nama_terlapor']."; Kontak Pelaku: ".$input['kontak_pelaku']."; Waktu Pelaporan: ".$result['data']['created_at']." WIB";
-        
-        $qr = $qrService->generateQR($data);
+        $qr = $qrService->generateQR_phone($result['data']);
 
         // echo json_encode($result['data']); die();
-        return view('laporan.report_phone_success', ['report' => $result['data'], 'qr' => $qr]);
+        return view('laporan.report_phone_read', ['report' => $result['data'], 'qr' => $qr]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  \App\Models\Report  $report
+     * @param  $id
      * @return \Illuminate\Http\Response
      */
-    public function show(Report $report)
+    public function show($id)
     {
-        //
+        $result = ['status' => 200];
+
+        // read using services
+        try{
+            $result['data'] = $this->reportService->readReport($id);
+        }catch(Exception $e){
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+            die($result);
+        }
+
+        $qrService = app()->make('SimpleQRService');
+
+        if($result['data']['tipe_laporan'] == 'rekening'){
+            $qr = $qrService->generateQR_bank($result['data']);
+            return view('laporan.report_bank_read', ['report' => $result['data'], 'qr' => $qr]);
+        }
+        else if($result['data']['tipe_laporan'] == 'telepon'){
+            $qr = $qrService->generateQR_phone($result['data']);
+            return view('laporan.report_phone_read', ['report' => $result['data'], 'qr' => $qr]);
+        }
     }
 
     /**
@@ -160,31 +172,78 @@ class ReportController extends Controller
      * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function edit(Report $report)
+    public function edit($id)
     {
-        //
+        $data = $this->reportService->readReport($id);
+        if($data['tipe_laporan'] == 'rekening'){
+            $data_bank = Bank::all();
+            return view('laporan.report_bank_edit', ['report' => $data, 'data_bank' => $data_bank]);
+        }
+        else if($data['tipe_laporan'] == 'telepon'){
+            return view('laporan.report_phone_edit', ['report' => $data]);
+        }
     }
 
     /**
      * Update the specified resource in storage.
      *
      * @param  \Illuminate\Http\Request  $request
-     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function update_phone(Request $request, Report $report){
-
-        // return $request->input();
-
-        $query_result = Reports::where('id', Auth::user()->id)->first();
+    public function update(Request $request, $id)
+    {
+        $qrService = app()->make('SimpleQRService');
         
-        Reports::where('id', Auth::user()->id)->update([
-            'nama_terlapor' => $request->nama_terlapor,
-            'kontak_pelaku' => $request->kontak_pelaku,
-            'kronologi' => $request->kronologi,
-            'total_kerugian' => $request->total_kerugian                
-        ]);
-        return view('laporan.edit_report', ['profile_msg_success_info'=>'Data berhasil diperbarui!']);    
+        if($request['tipe_laporan'] == 'rekening'){
+            $data = $this->update_bank(StoreReportBank::createFrom($request), $id);
+            $qr = $qrService->generateQR_bank($data);
+            return view('laporan.report_bank_read', ['report' => $data, 'qr' => $qr, 'profile_msg_read_info'=>'Data berhasil diperbarui!']);
+        }
+        else if($request['tipe_laporan'] == 'telepon'){
+            $data = $this->update_phone(StoreReportPhone::createFrom($request), $id);
+            $qr = $qrService->generateQR_phone($data);
+            return view('laporan.report_phone_read', ['report' => $data, 'qr' => $qr, 'profile_msg_read_info'=>'Data berhasil diperbarui!']); 
+        }    
+    }
+
+    private function update_bank(StoreReportBank $request, $id)
+    {
+        $request->validate($request->rules(), $request->messages());
+
+        $input = $request->except(['_token']);
+        $result = ['status' => 200];
+        // dd($input); die();
+        try{
+            if($this->reportService->editReport($id, $input)){
+                return $this->reportService->readReport($id);
+            }
+        }catch(Exception $e){
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+            die($result);
+        }
+    }
+
+    public function update_phone(StoreReportPhone $request, $id)
+    {
+        $request->validate($request->rules(), $request->messages());
+        
+        $input = $request->except(['_token']);
+        $result = ['status' => 200];
+        // dd($input); die();
+        try{
+            if($this->reportService->editReport($id, $input)){
+                return $this->reportService->readReport($id);
+            }
+        }catch(Exception $e){
+            $result = [
+                'status' => 500,
+                'error' => $e->getMessage()
+            ];
+            die($result);
+        }
     }
 
     /**
@@ -193,8 +252,8 @@ class ReportController extends Controller
      * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Report $report)
+    public function destroy(Request $request)
     {
-        //
+        dd($request); die();
     }
 }
