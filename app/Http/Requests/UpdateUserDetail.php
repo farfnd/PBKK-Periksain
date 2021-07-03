@@ -27,7 +27,7 @@ class UpdateUserDetail extends FormRequest
             'first_name' => 'required',
             'last_name' => 'required',
             'email' => 'required|email',
-            'password_validation' => 'required|min:8'
+            'user_password_validation' => 'required|min:8'
         ];
     }
 
@@ -36,8 +36,8 @@ class UpdateUserDetail extends FormRequest
         return [
             'first_name.required' => 'Nama depan wajib diisi.',
             'last_name.required' => 'Nama belakang wajib diisi.',
-            'password_validation.required' => 'Password wajib diisi.',
-            'password_validation.min' => 'Password minimal diisi dengan 8 karakter.',
+            'user_password_validation.required' => 'Password wajib diisi.',
+            'user_password_validation.min' => 'Password minimal diisi dengan 8 karakter.',
             'email.required' => 'Email wajib diisi.',
             'email.email' => 'Email tidak valid.',
             'email.unique' => 'Email sudah terdaftar.'

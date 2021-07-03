@@ -6,6 +6,7 @@ use App\Http\Controllers\ReportController;
 use App\Http\Controllers\DisclaimerController;
 use App\Http\Controllers\FileController;
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\AdminController;
 
 /*
 |--------------------------------------------------------------------------
@@ -28,6 +29,21 @@ Route::get('/dashboard', function () {
 require __DIR__.'/auth.php';
 
 Route::get('/getAuthInfo', [ReportController::class, 'getAuthorization']);
+
+// Admin route
+Route::get('/admin/dashboard', [AdminController::class, 'show_dashboard'])->name('admin.show_dashboard')->middleware('is_admin');
+Route::get('/admin/login', [AdminController::class, 'show_admin_login'])->name('admin.show_login');
+Route::post('/admin/login', [AdminController::class, 'auth'])->name('admin.post_login');
+Route::get('/admin/logout', [AdminController::class, 'logout'])->name('admin.logout');
+
+Route::get('/admin/laporan/all', [AdminController::class, 'show_laporan'])->middleware('is_admin')->name('admin.show_report');
+Route::get('/admin/laporan/lihat/{id}', [AdminController::class, 'view_laporan'])->middleware('is_admin')->name('admin.view_report');
+Route::post('/admin/laporan/respon', [AdminController::class, 'respon_laporan'])->middleware('is_admin')->name('admin.respon_report');
+
+Route::get('/admin/sanggahan/{tipe}', [AdminController::class, 'show_sanggahan'])->name('admin.show_disclaimers');
+
+// Route::get('/admin', [AdminController::class, 'show'])->middleware('auth')->name('get_account_setting');
+// Route::get('/admin/logout', [AdminController::class, 'logout'])->name('destroy_admin_login');
 
 Route::get('/akun/pengaturan', [UserController::class, 'show_settings'])->middleware('auth')->name('get_account_setting');
 Route::post('/akun/pengaturan/update_user_detail', [UserController::class, 'update_user_detail'])->middleware('auth')->name('post_update_account_detail');

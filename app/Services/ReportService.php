@@ -44,6 +44,11 @@ class ReportService
         return $this->reportRepository->getReport($id);
     }
     
+    // read one report by id (from admin)
+    public function readReportbyID($id){
+        return $this->reportRepository->getReportByID($id);
+    }
+
     // update
     public function editReport($id, $input){
         return $this->reportRepository->putReport($id, $input);

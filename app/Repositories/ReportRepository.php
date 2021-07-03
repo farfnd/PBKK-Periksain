@@ -72,6 +72,11 @@ class ReportRepository{
                         ->firstOrFail();
     }
 
+    public function getReportByID($id){
+        return Report::where('id', $id)
+                        ->firstOrFail();
+    }
+
     public function putReport($id, $input){
         $report = $this->getReport($id);
 

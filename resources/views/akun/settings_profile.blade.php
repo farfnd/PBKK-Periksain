@@ -1,5 +1,6 @@
 <?php
     use App\Http\Controllers\UserController;
+    use Illuminate\Support\Facades\Auth;
 ?>
 
 <!DOCTYPE html>
@@ -116,8 +117,11 @@
                                                 @enderror
                                             </div>
                                             <div class="form-group">
-                                                <label for="password_validation">Password</label>
-                                                <input type="password" class="form-control" name="password_validation" id="password_validation" placeholder="Password">
+                                                <label for="user_password_validation">Password</label>
+                                                <input type="password" class="form-control" name="user_password_validation" id="user_password_validation" placeholder="Password">
+                                                @error('user_password_validation')
+                                                <p style="color:red;">{{ $message }}</p>
+                                                @enderror
                                             </div>
                                             <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>

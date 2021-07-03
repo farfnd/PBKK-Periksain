@@ -106,7 +106,11 @@ class UserController extends Controller
 
             session(['Authorization' => 'Bearer '.$token]);
 
-            return redirect(route('home'));
+            if(Auth::user()->role == 'admin'){
+                return redirect(route('admin.show_dashboard'));
+            }else{
+                return redirect(route('home'));
+            }
         }else{
             return view('akun.sign-in', ['error_msg'=>'Email atau password salah', 'email'=>$request->email]);
         }
@@ -129,7 +133,7 @@ class UserController extends Controller
         //     return "Anda tidak berhak mengakses halaman ini";
         // }
 
-        if(!Auth::attempt(['email' => Auth::user()->email, 'password' => $request->password_validation])){
+        if(!Auth::attempt(['email' => Auth::user()->email, 'password' => $request->user_password_validation])){
             return redirect()->route('get_account_setting')->with('account_update_failed', 'Password salah!');
         }
 

@@ -63,7 +63,7 @@ class HomeController extends Controller
 
     public function get_report_image($id, $filename)
     {
-        if(Auth::user()->id != $id){
+        if(Auth::user()->id != $id && Auth::user()->role != 'admin'){
             return route('show_404');
         }
 
