@@ -238,7 +238,7 @@
                         temp_set.push(item["id"]);
                         temp_set.push("Rekening");
                         temp_set.push(item["nomor_rekening"]);
-                        temp_set.push(item["created_at"]);
+                        temp_set.push(item["created_at"].replace("T", " ").replace(".000000Z", ""));
                         var aksi = "";
                         var status = "";
                         if(item["terverifikasi"] == false){
@@ -283,7 +283,7 @@
                         temp_set.push(item["id"]);
                         temp_set.push("Telepon");
                         temp_set.push(item["kontak_pelaku"]);
-                        temp_set.push(item["created_at"]);
+                        temp_set.push(item["created_at"].replace("T", " ").replace(".000000Z", ""));
 
                         // var content = `
                         // <tr>

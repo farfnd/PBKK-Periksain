@@ -10,7 +10,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in Admin - Daftar Laporan</title>
+        <title>Periksa.in Admin - Daftar Sanggahan</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -61,7 +61,7 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Daftar Laporan</li>
+                                <li class="breadcrumb-item active" aria-current="page">Daftar Sanggahan</li>
                             </ol>
                         </nav>
                     </div>
@@ -69,7 +69,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>DAFTAR PELAPORAN</b></h5>
+                                    <h5 class="card-title" style="text-align:center; "><b>DAFTAR SANGGAHAN</b></h5>
                                     <!-- <p class="page-desc" style="text-align:center;">Laporkan penipuan yang terjadi agar yang lainnya tidak terkena penipuan yang sama.</p> -->
                                 </div>
                             </div>
@@ -88,9 +88,50 @@
                                                 {{ $profile_msg_read_info }}
                                             </div>
                                         @endisset
-                                        <h5 class="card-title">DAFTAR LAPORAN MASUK</h5>
+                                        <h5 class="card-title">DAFTAR SANGGAHAN MASUK</h5>
                                         <!-- <p>DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.</p> -->
-                                        <table id="tabel_riwayat" class="display" style="width:100%">
+                                        <table id="zero-conf" class="display" style="width:100%">
+                                            <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Tipe</th>
+                                                    <th>Nama Terlapor</th>
+                                                    <th>Waktu Disanggah</th>
+                                                    <th>Status</th>
+                                                    <th>Aksi</th>                                                    
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                @foreach ($disclaimers as $disclaimer)
+                                                <tr>
+                                                    <td>{{ $disclaimer->id }}</td>
+                                                    <td>{{ $disclaimer->tipe_laporan }}</td>
+                                                    <td>{{ $disclaimer->nama_terlapor }}</td>
+                                                    <td>{{ $disclaimer->created_at }}</td>
+                                                    <td>
+                                                    <?php
+                                                        if($disclaimer->terverifikasi){
+                                                            echo '<h6 class="badge bg-success text-white">Terverifikasi</h6>';
+                                                        }else{
+                                                            echo '<h6 class="badge bg-danger text-white">Belum Terverifikasi</h6>';
+                                                        }
+                                                    ?>
+                                                    </td>
+                                                    <td>
+                                                    <ul class="list-inline m-0">
+                                                        <li class="list-inline-item">
+                                                            <a class="btn btn-primary btn-sm rounded-0 text-white"  role="button" data-toggle="tooltip" data-placement="top" title="Edit" href="/admin/sanggahan/lihat/{{ $disclaimer->id }}"><i class="fa fa-eye"></i></a>
+                                                        </li>
+                                                        <li class="list-inline-item">
+                                                            <button type="button" class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModal" data-html="{{ $disclaimer->id }}" onclick="changeModalID(<?php echo $disclaimer->id ?>)">
+                                                                <i class="fa fa-trash"></i>
+                                                            </button>
+                                                        </li>
+                                                    </ul>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody>
                                         </table>
                                     </div>
                                 </div>
@@ -156,65 +197,6 @@
                 $('#tombol_hapus').on('click', function () {
                     document.getElementById("form_hapus").submit(); 
                 });
-            });
-            
-            // Waiting document ready
-            $(function() {
-                const dataset = new Array();
-
-                $.ajax({
-                    url: "/api/admin/getReport",
-                    async: false,
-                    headers: { 'Authorization': '{{ session("Authorization") }}' }
-                }).done(function(msg) {
-                    msg.forEach(item => {        
-                        const temp_set = new Array();
-                        temp_set.push(item["id"]);
-                        temp_set.push(item["tipe_laporan"]);
-
-                        if(item["tipe_laporan"] == 'rekening'){
-                            temp_set.push(item["nomor_rekening"]);
-                        }else{
-                            temp_set.push(item["kontak_pelaku"]);
-                        }
-
-                        temp_set.push(item["created_at"].replace("T", " ").replace(".000000Z", ""));
-                        var aksi = "";
-                        var status = "";
-                        if(item["terverifikasi"] == false){
-                            status = `<h6 class="badge bg-danger text-white">Belum Terverifikasi</h6>`;
-                        }else{
-                            status =`<h6 class="badge bg-success text-white">Terverifikasi</h6>`;                      
-                        }
-                        aksi = `
-                        <ul class="list-inline m-0">
-                            <li class="list-inline-item">
-                                <a class="btn btn-primary btn-sm rounded-0 text-white"  role="button" data-toggle="tooltip" data-placement="top" title="Edit" href="/admin/laporan/lihat/`+item["id"]+`"><i class="fa fa-eye"></i></a>
-                            </li>
-                            <li class="list-inline-item">
-                                <button type="button" class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModal" data-html="` + item["id"] + `" onclick="changeModalID(` + item["id"] + `)">
-                                    <i class="fa fa-trash"></i>
-                                </button>
-                            </li>
-                        </ul>
-                        `;
-                        temp_set.push(status);
-                        temp_set.push(aksi);
-                        dataset.push(temp_set);
-                    });
-                });
-
-                $('#tabel_riwayat').DataTable( {
-                    data: dataset,
-                    columns: [
-                        { title: "ID" },
-                        { title: "Tipe" },
-                        { title: "Nomor" },
-                        { title: "Waktu Pelaporan" },
-                        { title: "Status" },
-                        { title: "Aksi" }
-                    ]
-                } );
             });
         </script>
     </body>

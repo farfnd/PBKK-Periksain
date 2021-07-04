@@ -6,7 +6,13 @@
                                 <div class="horizontal-bar-menu">
                                     <ul>
                                         <li>
+                                            <a href="{{ route('admin.show_dashboard') }}">Dashboard</a>
+                                        </li>
+                                        <li>
                                             <a href="{{ route('admin.show_report') }}">Lihat Laporan</a>
+                                        </li>
+                                        <li>
+                                            <a href="{{ route('admin.show_disclaimers') }}">Lihat Sanggahan</a>
                                         </li>
                                     </ul>
                                 </div>

@@ -40,7 +40,11 @@ Route::get('/admin/laporan/all', [AdminController::class, 'show_laporan'])->midd
 Route::get('/admin/laporan/lihat/{id}', [AdminController::class, 'view_laporan'])->middleware('is_admin')->name('admin.view_report');
 Route::post('/admin/laporan/respon', [AdminController::class, 'respon_laporan'])->middleware('is_admin')->name('admin.respon_report');
 
-Route::get('/admin/sanggahan/{tipe}', [AdminController::class, 'show_sanggahan'])->name('admin.show_disclaimers');
+Route::get('/admin/sanggahan/all', [AdminController::class, 'show_sanggahan'])->name('admin.show_disclaimers');
+Route::get('/admin/sanggahan/lihat/{id}', [AdminController::class, 'view_sanggahan'])->middleware('is_admin')->name('admin.view_disclaimers');
+Route::post('/admin/sanggahan/respon', [AdminController::class, 'respon_sanggahan'])->middleware('is_admin')->name('admin.respon_disclaimer');
+
+Route::get('/admin/sanggahan/temp', [AdminController::class, 'getAllDisclaimer'])->name('admin.getAllDisclaimer');
 
 // Route::get('/admin', [AdminController::class, 'show'])->middleware('auth')->name('get_account_setting');
 // Route::get('/admin/logout', [AdminController::class, 'logout'])->name('destroy_admin_login');

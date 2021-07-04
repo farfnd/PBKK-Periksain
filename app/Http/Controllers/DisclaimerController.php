@@ -85,7 +85,7 @@ class DisclaimerController extends Controller
         $qrService = app()->make('SimpleQRService');
         $qr = $qrService->generateQR_disclaimer($result['data']);
 
-        return view('sanggahan.disclaimer_post_read', ['disclaimer' => $result['data'], 'qr' => $qr]);
+        return view('sanggahan.disclaimer_post_success', ['disclaimer' => $result['data'], 'qr' => $qr]);
     }
 
     /**

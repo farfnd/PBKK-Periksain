@@ -68,7 +68,7 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title">123</h5>
+                                            <h5 class="card-title">{{ $total_laporan }}</h5>
                                             <p class="stats-text">Total Laporan</p>
                                         </div>
                                         <div class="stats-icon change-danger">
@@ -81,7 +81,7 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title">Rp. 123.000,00</h5>
+                                            <h5 class="card-title">{{ $total_rugi }}</h5>
                                             <p class="stats-text">Total Kerugian</p>
                                         </div>
                                         <div class="stats-icon change-danger">
@@ -94,7 +94,7 @@
                                 <div class="card card-transparent stats-card">
                                     <div class="card-body">
                                         <div class="stats-info">
-                                            <h5 class="card-title">123</h5>
+                                            <h5 class="card-title">{{ $total_user }}</h5>
                                             <p class="stats-text">Total Users</p>
                                         </div>
                                         <div class="stats-icon change-success">
@@ -128,41 +128,21 @@
                                                     </tr>
                                                 </thead>
                                                 <tbody>
+                                                    @foreach ($reports as $report)
                                                     <tr>
-                                                        <td>03/04/2001</td>
-                                                        <td>Rekening</td>
-                                                        <td>Rp. 120.000,00</td>
-                                                        <td><span class="badge badge-warning">Menunggu Persetujuan</span></td>
-                                                        <td><a href="#">[Lihat]</a></td>
+                                                        <td>{{ $report->created_at }}</td>
+                                                        <td>{{ $report->tipe_laporan }}</td>
+                                                        <td>Rp. {{ number_format($report->total_kerugian,2,',','.') }}</td>
+                                                        <?php
+                                                            if( $report->terverifikasi ){
+                                                                echo '<td><span class="badge badge-success">Terverifikasi</span></td>';
+                                                            }else{
+                                                                echo '<td><span class="badge badge-danger">Belum Diverifikasi</span></td>';
+                                                            }
+                                                        ?>
+                                                        <td><a href="/admin/laporan/lihat/{{ $report->id }}">Lihat</a></td>
                                                     </tr>
-                                                    <tr>
-                                                        <td>03/04/2001</td>
-                                                        <td>Rekening</td>
-                                                        <td>Rp. 120.000,00</td>
-                                                        <td><span class="badge badge-success">Disetujui</span></td>
-                                                        <td><a href="#">[Lihat]</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>03/04/2001</td>
-                                                        <td>Rekening</td>
-                                                        <td>Rp. 120.000,00</td>
-                                                        <td><span class="badge badge-danger">Ditolak</span></td>
-                                                        <td><a href="#">[Lihat]</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>03/04/2001</td>
-                                                        <td>Rekening</td>
-                                                        <td>Rp. 120.000,00</td>
-                                                        <td><span class="badge badge-danger">Ditolak</span></td>
-                                                        <td><a href="#">[Lihat]</a></td>
-                                                    </tr>
-                                                    <tr>
-                                                        <td>03/04/2001</td>
-                                                        <td>Rekening</td>
-                                                        <td>Rp. 120.000,00</td>
-                                                        <td><span class="badge badge-danger">Ditolak</span></td>
-                                                        <td><a href="#">[Lihat]</a></td>
-                                                    </tr>
+                                                    @endforeach
                                                 </tbody>
                                             </table> 
                                         </div>     

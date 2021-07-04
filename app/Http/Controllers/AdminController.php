@@ -3,10 +3,12 @@
 namespace App\Http\Controllers;
 
 use App\Models\Report;
+use App\Models\Disclaimer;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use App\Models\User;
 use App\Services\ReportService;
+use Illuminate\Support\Facades\DB;
 
 class AdminController extends Controller
 {
@@ -31,7 +33,25 @@ class AdminController extends Controller
     }
 
     function show_dashboard(){
-        return view('admin.dashboard');
+        // Get Total Laporan
+        $total_laporan = Report::count();
+        $total_user = User::count();
+        $total_rugi = 0;
+        $report5 = Report::take(10)->get();
+
+        // return $report5;
+
+        $query = Report::all();
+        foreach($query as $data){
+            $total_rugi += (int) $data->total_kerugian;
+        }
+
+        return view('admin.dashboard', [
+            'total_laporan' => $total_laporan,
+            'total_user' => $total_user,
+            'total_rugi' => "Rp. ".number_format($total_rugi,2,',','.'),
+            'reports' => $report5
+        ]);
     }
 
     function auth(Request $request){
@@ -77,7 +97,7 @@ class AdminController extends Controller
         if($result["tipe_laporan"] == 'rekening'){
             return view('admin.view_bank', ['report' => $result]);            
         }else{
-            return 'view belum ada';
+            return view('admin.view_phone', ['report' => $result]);
         }
     }
 
@@ -89,15 +109,70 @@ class AdminController extends Controller
         $row->terverifikasi = $status == 'verifikasi' ? 1 : 0;
         $row->save();
 
-        $result = $this->reportService->readReportbyID($id);
-        if($request->tipe_laporan == 'rekening'){
-            return view('admin.view_bank', ['report' => $result]);            
-        }else{
-            return 'view belum ada';
-        }
+        return $this->show_laporan();
+        // $result = $this->reportService->readReportbyID($id);
+        // if($request->tipe_laporan == 'rekening'){
+        //     return view('admin.view_bank', ['report' => $result]);            
+        // }else{
+        //     return 'view belum ada';
+        // }
     }
 
     function getAllReport(){
         return Report::all();
+    }
+
+    // Sanggahan
+    function show_sanggahan(){
+        // return view('admin.show_disclaimer');
+        $result = DB::table('disclaimers')
+            ->join('reports', 'disclaimers.id_laporan', '=', 'reports.id')
+            ->select('disclaimers.id', 'reports.tipe_laporan', 'reports.nama_terlapor', 'disclaimers.created_at', 'disclaimers.terverifikasi')
+            ->get();
+        return view('admin.show_disclaimer', ['disclaimers' => $result]);
+    }
+
+    function view_sanggahan($id){
+        // $result = $this->reportService->readReportbyID($id);
+        $result = DB::table('disclaimers')
+            ->join('reports', 'disclaimers.id_laporan', '=', 'reports.id')
+            ->join('users', 'disclaimers.user_id', '=', 'users.id')
+            ->select('disclaimers.id', 'disclaimers.id_laporan', 'disclaimers.sanggahan', 'reports.nama_terlapor', 'users.first_name', 'users.last_name', 'disclaimers.terverifikasi')
+            ->where('disclaimers.id', $id)
+            ->first();
+        
+        // return json_encode($result);
+
+        return view('admin.view_disclaimer', [
+            'sanggahan' => $result
+        ]);
+    }
+
+    function respon_sanggahan(Request $request){
+        $id = $request->id;
+        $status = $request->status_respon;
+
+        $row = Disclaimer::findOrFail($id);
+        $row->terverifikasi = $status == 'verifikasi' ? 1 : 0;
+        $row->save();
+
+        return $this->show_sanggahan();
+    }
+
+    function getAllDisclaimer(){
+        // return Report::all();
+        // $result = DB::table('disclaimers')
+        //     ->join('reports', 'disclaimers.id_laporan', '=', 'reports.id')
+        //     ->select('disclaimers.id', 'reports.tipe_laporan', 'reports.nama_terlapor', 'disclaimers.created_at', 'disclaimers.terverifikasi')
+        //     ->get();
+
+        $result = DB::table('disclaimers')
+            ->join('reports', 'disclaimers.id_laporan', '=', 'reports.id')
+            ->join('users', 'disclaimers.user_id', '=', 'users.id')
+            ->select('disclaimers.id', 'disclaimers.sanggahan', 'reports.nama_terlapor', 'users.first_name', 'users.last_name')
+            ->get();
+            
+        return $result;
+        
     }
 }

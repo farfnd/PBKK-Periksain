@@ -256,9 +256,17 @@ class ReportController extends Controller
     {
         if($this->reportService->deleteReport($request['id']));{
             $reports = $this->getReportByUser();
-            return view('laporan.report_history', ['reports' => $reports, 'profile_msg_read_info'=>'Laporan berhasil dihapus!']);
+            if(Auth::user()->role == 'admin'){
+                return redirect(route('admin.show_report'));
+            }else{
+                return view('laporan.report_history', ['reports' => $reports, 'profile_msg_read_info'=>'Laporan berhasil dihapus!']);
+            }
         }
         $reports = $this->getReportByUser();
-        return view('laporan.report_history', ['reports' => $reports, 'profile_msg_error_info'=>'Laporan gagal dihapus!']);
+        if(Auth::user()->role == 'admin'){
+            return redirect(route('admin.show_report'));
+        }else{
+            return view('laporan.report_history', ['reports' => $reports, 'profile_msg_error_info'=>'Laporan gagal dihapus!']);
+        }
     }
 }
