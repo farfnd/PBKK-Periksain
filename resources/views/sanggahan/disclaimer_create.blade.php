@@ -76,7 +76,7 @@
                                             <p></p>
                                             <p><b>ID Laporan</b></p>
                                             <div class="form-group">
-                                                <input type="text" class="form-control" id="id_laporan" placeholder="ID Laporan" multiple name="id_laporan" value="{{old('id_laporan')}}">
+                                                <input type="text" class="form-control" id="id_laporan" placeholder="ID Laporan" multiple name="id_laporan" value="<?php if(isset($_GET['id'])) echo $_GET['id']; ?> {{old('id_laporan')}}">
                                                 @if ($errors->has('id_laporan'))
                                                     <span class="text-danger">{{ $errors->first('id_laporan') }}</span>
                                                 @endif

@@ -63,9 +63,9 @@ class HomeController extends Controller
 
     public function get_report_image($id, $filename)
     {
-        if(Auth::user()->id != $id && Auth::user()->role != 'admin'){
-            return route('show_404');
-        }
+        // if(Auth::user()->id != $id && Auth::user()->role != 'admin'){
+        //     return route('show_404');
+        // }
 
         $storagePath = storage_path('app/report_images/' . $id . '/' . $filename);
         return response()->file($storagePath);

@@ -267,4 +267,14 @@ class ReportController extends Controller
             return view('laporan.report_history', ['profile_msg_error_info'=>'Laporan gagal dihapus!']);
         }
     }
+
+    function view_laporan($id){
+        $result = $this->reportService->readReportbyID($id);
+        // return $result;
+        if($result["tipe_laporan"] == 'rekening'){
+            return view('laporan.report_view_detail_bank', ['report' => $result]);            
+        }else{
+            return view('laporan.report_view_detail_phone', ['report' => $result]);
+        }
+    }
 }

@@ -170,7 +170,7 @@
             </div>
         </div>
 
-        <form id="form_hapus" method="POST" action="{{route('report.destroy')}}" style="display: none;">
+        <form id="form_hapus" method="POST" action="{{route('disclaimer.destroy')}}" style="display: none;">
             @method('DELETE')
             @csrf
             <input hidden type="text" name="id" id="form_hapus_id">

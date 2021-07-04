@@ -60,6 +60,8 @@ Route::post('/akun/laporkan/rekening', [ReportController::class, 'store_bank'])-
 Route::post('/akun/laporkan/telepon', [ReportController::class, 'store_phone'])->middleware('auth')->name('report.store_phone');
 Route::get('/akun/laporan/{id}', [ReportController::class, 'show'])->middleware('auth')->name('report.show');
 Route::get('/akun/laporan/{id}/edit', [ReportController::class, 'edit'])->middleware('auth')->name('report.edit');
+Route::get('/cek/laporan/{id}/lihat', [ReportController::class, 'view_laporan'])->middleware('auth')->name('report.view');
+
 Route::put('/akun/laporan/{id}', [ReportController::class, 'update'])->middleware('auth')->name('report.update');
 Route::delete('/akun/laporan/riwayat', [ReportController::class, 'destroy'])->middleware('auth')->name('report.destroy');
 

@@ -149,10 +149,10 @@
                                                     </th>
                                                     <td>{{$report->created_at}}</td>
                                                     <td>
-                                                        <?php echo "Rp".number_format($report->total_kerugian,2,',','.'); ?>
+                                                        <?php echo "Rp. ".number_format($report->total_kerugian,2,',','.'); ?>
                                                     </td>
                                                     <td>
-                                                        <a href="#">Selengkapnya</a>
+                                                        <a href="/cek/laporan/{{ $report->id }}/lihat">Selengkapnya</a>
                                                     </td>
                                                 </tr>
                                                 @endforeach

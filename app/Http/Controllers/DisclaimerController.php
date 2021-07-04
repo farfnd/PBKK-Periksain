@@ -168,13 +168,13 @@ class DisclaimerController extends Controller
     {
         if($this->disclaimerService->deleteDisclaimer($request['id']));{
             if(Auth::user()->role == 'admin'){
-                return redirect(route('admin.show_disclaimer'));
+                return redirect(route('admin.show_disclaimers'));
             }else{
                 return view('sanggahan.disclaimer_history', ['profile_msg_read_info'=>'Sanggahan berhasil dihapus!']);
             }
         }
         if(Auth::user()->role == 'admin'){
-            return redirect(route('admin.show_disclaimer'));
+            return redirect(route('admin.show_disclaimers'));
         }else{
             return view('sanggahan.disclaimer_history', ['profile_msg_error_info'=>'Sanggahan gagal dihapus!']);
         }

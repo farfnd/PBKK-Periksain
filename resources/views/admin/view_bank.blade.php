@@ -10,7 +10,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in Admin - Lihat Laporan</title>
+        <title>Periksa.in Admin - Lihat Laporan Rekening</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -34,7 +34,9 @@
         <![endif]-->
     </head>
     <body>
-        
+        @php
+            $count=1;
+        @endphp
         <div class='loader'>
             <div class='spinner-grow text-primary' role='status'>
                 <span class='sr-only'>Loading...</span>
@@ -52,79 +54,106 @@
                     <div class="page-info container">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Admin</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Lihat Laporan</li>
+                                <li class="breadcrumb-item"><a href="/#header">Admin</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Lihat Laporan Rekening</li>
                             </ol>
                         </nav>
                     </div>
-                    <div class="main-wrapper container">
-                        <div class="row">
-                            <div class="col-md-12">
-                                <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>LAPORAN DETAIL</b></h5>
-                                    <!-- <p class="page-desc" style="text-align:center;">Laporkan penipuan yang terjadi agar yang lainnya tidak terkena penipuan yang sama.</p> -->
-                                </div>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="page-title">
+                                <h5 class="card-title" style="text-align:center; "><b>Detail Laporan</b></h5>
                             </div>
                         </div>
+                    </div>
+                    <div class="main-wrapper container">
                         <div class="row">
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Laporan Nomor Rekening</h5>
-                                        <p><b>Terverifikasi : <?php if($report->terverifikasi) echo '<h6 class="badge bg-success text-white">Terverifikasi</h6>'; else echo '<h6 class="badge bg-danger text-white">Belum Terverifikasi</h6>'; ?></b></p>
+                                        <h5 class="card-title">Informasi Laporan</h5>
+                                        <!-- <p>Using the most basic table markup, here’s how <code>.table</code>-based tables look in Bootstrap.</p> -->
+                                        <table class="table">
+                                            <thead>
+                                                <tr>
+                                                    <!-- <th scope="col">#</th>
+                                                    <th scope="col">First</th>
+                                                    <th scope="col">Last</th>
+                                                    <th scope="col">Handle</th> -->
+                                                </tr>
+                                            </thead>
+                                            <tbody>
+                                                <tr>
+                                                    <th scope="row">Nama Pemilik Rekening</th>
+                                                    <td>
+                                                    {{ $report->nama_terlapor }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">BANK</th>
+                                                    <td>
+                                                    {{ $report->bank }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Nomor Rekening</th>
+                                                    <td>
+                                                    {{ $report->nomor_rekening }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Platform (kontak)</th>
+                                                    <td>
+                                                    {{ $report->platform." (".$report->kontak_pelaku.")" }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Kronologi</th>
+                                                    <td>
+                                                    {{ $report->kronologi }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Total Kerugian</th>
+                                                    <td>
+                                                    Belum Tersedia
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">File Pendukung</th>
+                                                    <td>
+                                                    @if($report->file_bukti)
+                                                        @foreach (json_decode($report->file_bukti) as $bukti)
+                                                            <img src="{{route('show_report_image', ['id' => $report->user_id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
+                                                        @endforeach
+                                                    @else
+                                                        <p>Data tidak ditemukan</p>
+                                                    @endif
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Status Verifikasi</th>
+                                                    <td>
+                                                        <?php
+                                                            if($report->terverifikasi){
+                                                                echo '<h6 class="badge bg-success text-white">Terverifikasi</h6>';
+                                                            }else{
+                                                                echo '<h6 class="badge bg-danger text-white">Belum Terverifikasi</h6>';
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                </tr>
+
+                                            </tbody>
+                                        </table>
                                         <form method="POST" id="form_respon" action="{{route('admin.respon_report')}}" enctype="multipart/form-data">
                                             @csrf
-                                            <p><b>Informasi Rekening</b></p>
-                                            <div class="form-group">
-                                                <!-- <label for="settings_firstname">Nama Pemilik Rekening</label> -->
-                                                <input type="text" class="form-control" id="nama_terlapor" placeholder="Nama Pemilik Rekening" name="nama_terlapor" value="{{ $report->nama_terlapor }}" disabled="">
-                                            </div>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="bank" placeholder="Bank" name="bank" value="{{ $report->bank }}" disabled="">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="nomor_rekening" placeholder="Nomor Rekening" name="nomor_rekening" value="{{ $report->nomor_rekening }}" disabled="">
-                                                </div>
-                                            </div>
-                                            <p></p>
-                                            <p><b>Kontak Pelaku</b></p>
-                                            <div class="form-row">
-                                                <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="platform" placeholder="platform" name="platform" value="{{ $report->platform }}" disabled="">
-                                                </div>
-                                                <div class="form-group col-md-6">
-                                                    <input type="text" class="form-control" id="kontak_pelaku" placeholder="Kontak" name="kontak_pelaku" value="{{ $report->kontak_pelaku }}" disabled="">
-                                                </div>
-                                            </div>
-                                            <p></p>
-                                            <p><b>Kronologi</b></p>
-                                            <div class="form-group">
-                                                <textarea class="form-control" id="kronologi" rows="5" placeholder="Ceritakan konologi selengkap mungkin" name="kronologi" disabled="">{{ $report->kronologi }}</textarea>
-                                            </div>
-                                            <p></p>
-                                            <p><b>Total Kerugian</b></p>
-                                            <div class="form-group">
-                                                <input type="number" class="form-control" id="total_kerugian" placeholder="Rp." multiple name="total_kerugian" value="{{ $report->total_kerugian }}" disabled="">
-                                            </div>
-                                            <p></p>
-                                            <p><b>File-file Pendukung</b></p>
-                                            <div class="form-group">
-                                                @if($report->file_bukti)
-                                                    @foreach (json_decode($report->file_bukti) as $bukti)
-                                                        <img src="{{route('show_report_image', ['id' => $report->user_id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
-                                                    @endforeach
-                                                @else
-                                                    <p>Data tidak ditemukan</p>
-                                                @endif
-                                            </div>
                                             <input type="text" class="form-control" name="tipe_laporan" value="rekening" hidden>
                                             <input type="text" class="form-control" name="id" value="{{ $report->id }}" hidden>
                                             <input type="text" class="form-control" name="status_respon" id="status_respon" value="" hidden>
-                                            
                                             <button type="button" class="btn btn-success" onclick="verifikasi()">Diverifikasi</button>
                                             <button type="button" class="btn btn-danger" onclick="tolak()">Tangguhkan</button>
-                                            <a href="/admin/laporan/all"><button type="button" class="btn btn-primary">Kembali</button></a>
+                                            <a href="/admin/sanggahan/all"><button type="button" class="btn btn-primary">Kembali</button></a>
                                         </form>
                                     </div>
                                 </div>
@@ -160,15 +189,6 @@
                 $('#status_respon').val("tolak");
                 $('#form_respon').submit();
             }
-        </script>
-        <script type="text/javascript">
-
-            
-            $(function () {                
-                $('#tombol_hapus').on('click', function () {
-                    document.getElementById("form_hapus").submit(); 
-                });
-            });
         </script>
     </body>
 </html>

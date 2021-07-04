@@ -10,7 +10,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in - Laporkan Penipuan</title>
+        <title>Periksa.in - Lihat Detail Laporan</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -54,15 +54,15 @@
                     <div class="page-info container">
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
-                                <li class="breadcrumb-item"><a href="/#header">Periksa</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Nomor Telepon</li>
+                                <li class="breadcrumb-item"><a href="/#header">Laporan</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Lihat Detail Laporan</li>
                             </ol>
                         </nav>
                     </div>
                     <div class="row">
                         <div class="col-md-12">
                             <div class="page-title">
-                                <h5 class="card-title" style="text-align:center; "><b>Hasil Periksa Nomor Telepon</b></h5>
+                                <h5 class="card-title" style="text-align:center; "><b>Detail Laporan</b></h5>
                             </div>
                         </div>
                     </div>
@@ -71,13 +71,7 @@
                             <div class="col-xl">
                                 <div class="card">
                                     <div class="card-body">
-                                        <h5 class="card-title">Informasi Nomor Telepon</h5>
-                                        @isset($data->first()->kontak_pelaku)
-                                            <div class="alert alert-danger outline-alert" role="alert" style="text-align:center;">Hati-hati, nomor telepon ini memiliki catatan laporan penipuan!</div>
-                                        @else
-                                            <div class="alert alert-success outline-alert" role="alert" style="text-align:center;">Nomor telepon ini tidak memiliki riwayat laporan penipuan!</div>
-                                        @endisset
-
+                                        <h5 class="card-title">Informasi Laporan</h5>
                                         <!-- <p>Using the most basic table markup, here’s how <code>.table</code>-based tables look in Bootstrap.</p> -->
                                         <table class="table">
                                             <thead>
@@ -90,70 +84,83 @@
                                             </thead>
                                             <tbody>
                                                 <tr>
-                                                    <th scope="row">Nomor Telepon</th>
+                                                    <th scope="row">ID Laporan</th>
                                                     <td>
-                                                    @isset($data->first()->kontak_pelaku)
-                                                        {{ $data->first()->kontak_pelaku }}
-                                                    @else
-                                                        {{ $no_telepon }}
-                                                    @endisset
+                                                    {{ $report->id }} (<a href="/akun/sanggahan/buat?id={{ $report->id }}">Sanggah laporan ini</a>)
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row">Nama Pemilik</th>
+                                                    <th scope="row">Nama Pemilik Rekening</th>
                                                     <td>
-                                                    @isset($data->first()->nama_terlapor)
-                                                        {{ $data->first()->nama_terlapor }}
-                                                    @else
-                                                        Tidak diketahui
-                                                    @endisset
+                                                    {{ $report->nama_terlapor }}
                                                     </td>
                                                 </tr>
                                                 <tr>
-                                                    <th scope="row">Provider</th>
-                                                    <td> - </td>
+                                                    <th scope="row">BANK</th>
+                                                    <td>
+                                                    {{ $report->bank }}
+                                                    </td>
                                                 </tr>
-                                            </tbody>
-                                        </table>       
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
+                                                <tr>
+                                                    <th scope="row">Nomor Rekening</th>
+                                                    <td>
+                                                    {{ $report->nomor_rekening }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Platform (kontak)</th>
+                                                    <td>
+                                                    {{ $report->platform." (".$report->kontak_pelaku.")" }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Kronologi</th>
+                                                    <td>
+                                                    {{ $report->kronologi }}
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Total Kerugian</th>
+                                                    <td>
+                                                    Belum Tersedia
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">File Pendukung</th>
+                                                    <td>
+                                                    @if($report->file_bukti)
+                                                        @foreach (json_decode($report->file_bukti) as $bukti)
+                                                            <img src="{{route('show_report_image', ['id' => $report->user_id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
+                                                        @endforeach
+                                                    @else
+                                                        <p>Data tidak ditemukan</p>
+                                                    @endif
+                                                    </td>
+                                                </tr>
+                                                <tr>
+                                                    <th scope="row">Status Verifikasi</th>
+                                                    <td>
+                                                        <?php
+                                                            if($report->terverifikasi){
+                                                                echo '<h6 class="badge bg-success text-white">Terverifikasi</h6>';
+                                                            }else{
+                                                                echo '<h6 class="badge bg-danger text-white">Belum Terverifikasi</h6>';
+                                                            }
+                                                        ?>
+                                                    </td>
+                                                </tr>
 
-                        <div class="row">
-                            <div class="col-xl">
-                                <div class="card">
-                                    <div class="card-body">
-                                    <h5 class="card-title">Riwayat Laporan</h5>
-                                        <!-- <p>Use the modifier classes <code>.thead-light</code> or <code>.thead-dark</code> to make <code>&lt;thead&gt;</code>s appear light or dark gray.</p> -->
-                                        <table class="table">
-                                            <thead class="thead-dark">
-                                                <tr>
-                                                    <th scope="col">No.</th>
-                                                    <th scope="col">Waktu Pelaporan</th>
-                                                    <th scope="col">Total Kerugian</th>
-                                                    <th scope="col">Selengkapnya</th>
-                                                </tr>
-                                            </thead>
-                                            <tbody>
-                                                @foreach ($data as $report)
-                                                <tr>
-                                                    <th scope="row"><?php
-                                                        echo $count++;
-                                                    ?>
-                                                    </th>
-                                                    <td>{{$report->created_at}}</td>
-                                                    <td>
-                                                        <?php echo "Rp".number_format($report->total_kerugian,2,',','.'); ?>
-                                                    </td>
-                                                    <td>
-                                                        <a href="/cek/laporan/{{ $report->id }}/lihat">Selengkapnya</a>
-                                                    </td>
-                                                </tr>
-                                                @endforeach
                                             </tbody>
-                                        </table> 
-                                        {{ $data->links() }}  
+                                        </table>
+                                        <form method="POST" id="form_respon" action="{{route('admin.respon_report')}}" enctype="multipart/form-data">
+                                            @csrf
+                                            <input type="text" class="form-control" name="tipe_laporan" value="rekening" hidden>
+                                            <input type="text" class="form-control" name="id" value="{{ $report->id }}" hidden>
+                                            <input type="text" class="form-control" name="status_respon" id="status_respon" value="" hidden>
+                                            <!-- <button type="button" class="btn btn-success" onclick="verifikasi()">Diverifikasi</button>
+                                            <button type="button" class="btn btn-danger" onclick="tolak()">Tangguhkan</button> -->
+                                            <button type="button" class="btn btn-primary" onclick="window.history.back()">Kembali</button>
+                                        </form>
                                     </div>
                                 </div>
                             </div>
@@ -178,5 +185,16 @@
         <script src="/connect_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="/connect_assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <script src="/connect_assets/js/connect.min.js"></script>
+        <script>
+            function verifikasi(){
+                $('#status_respon').val("verifikasi");
+                $('#form_respon').submit();
+            }
+
+            function tolak(){
+                $('#status_respon').val("tolak");
+                $('#form_respon').submit();
+            }
+        </script>
     </body>
 </html>
