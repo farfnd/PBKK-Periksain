@@ -85,33 +85,18 @@ class DisclaimerController extends Controller
         $qrService = app()->make('SimpleQRService');
         $qr = $qrService->generateQR_disclaimer($result['data']);
 
-        return view('sanggahan.disclaimer_read', ['disclaimer' => $result['data'], 'qr' => $qr]);
+        return view('sanggahan.disclaimer_post_success', ['disclaimer' => $result['data'], 'qr' => $qr]);
     }
 
     /**
      * Display the specified resource.
      *
-     * @param  $id
+     * @param  \App\Models\Disclaimer  $disclaimer
      * @return \Illuminate\Http\Response
      */
-    public function show($id)
+    public function show(Disclaimer $disclaimer)
     {
-        $result = ['status' => 200];
-
-        // read using services
-        try{
-            $result['data'] = $this->disclaimerService->readDisclaimer($id);
-        }catch(Exception $e){
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
-            die($result);
-        }
-
-        $qrService = app()->make('SimpleQRService');
-        $qr = $qrService->generateQR_disclaimer($result['data']);
-        return view('sanggahan.disclaimer_read', ['disclaimer' => $result['data'], 'qr' => $qr]);
+        //
     }
 
     /**
@@ -120,42 +105,21 @@ class DisclaimerController extends Controller
      * @param  \App\Models\Disclaimer  $disclaimer
      * @return \Illuminate\Http\Response
      */
-    public function edit($id)
+    public function edit(Disclaimer $disclaimer)
     {
-        $data = $this->disclaimerService->readDisclaimer($id);
-        return view('sanggahan.disclaimer_edit', ['disclaimer' => $data]);
+        //
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\StoreDisclaimer  $request
-     * @param  $id
+     * @param  \Illuminate\Http\Request  $request
+     * @param  \App\Models\Disclaimer  $disclaimer
      * @return \Illuminate\Http\Response
      */
-    public function update(StoreDisclaimer $request, $id)
+    public function update(Request $request, Disclaimer $disclaimer)
     {
-        $input = $request->except(['_token']);
-        $result = ['status' => 200];
-        
-        // save using services
-        try{
-            // dd($input); die();
-            if($this->disclaimerService->editDisclaimer($id, $input)){
-                $result['data'] = $this->disclaimerService->readDisclaimer($id);
-            }
-        }catch(Exception $e){
-            $result = [
-                'status' => 500,
-                'error' => $e->getMessage()
-            ];
-            die($result);
-        }
-
-        $qrService = app()->make('SimpleQRService');
-        $qr = $qrService->generateQR_disclaimer($result['data']);
-
-        return view('sanggahan.disclaimer_read', ['disclaimer' => $result['data'], 'qr' => $qr, 'profile_msg_read_info'=>'Sanggahan berhasil diperbarui!']);
+        //
     }
 
     /**
@@ -164,19 +128,8 @@ class DisclaimerController extends Controller
      * @param  \App\Models\Disclaimer  $disclaimer
      * @return \Illuminate\Http\Response
      */
-    public function destroy(Request $request)
+    public function destroy(Disclaimer $disclaimer)
     {
-        if($this->disclaimerService->deleteDisclaimer($request['id']));{
-            if(Auth::user()->role == 'admin'){
-                return redirect(route('admin.show_disclaimer'));
-            }else{
-                return view('sanggahan.disclaimer_history', ['profile_msg_read_info'=>'Sanggahan berhasil dihapus!']);
-            }
-        }
-        if(Auth::user()->role == 'admin'){
-            return redirect(route('admin.show_disclaimer'));
-        }else{
-            return view('sanggahan.disclaimer_history', ['profile_msg_error_info'=>'Sanggahan gagal dihapus!']);
-        }
+        //
     }
 }

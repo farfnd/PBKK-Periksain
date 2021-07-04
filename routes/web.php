@@ -66,10 +66,6 @@ Route::delete('/akun/laporan/riwayat', [ReportController::class, 'destroy'])->mi
 Route::get('/akun/sanggahan/riwayat', [DisclaimerController::class, 'index'])->middleware('auth')->name('get_disclaimer_history');
 Route::get('/akun/sanggahan/buat', [DisclaimerController::class, 'create'])->middleware('auth')->name('disclaimer.create');
 Route::post('/akun/sanggahan/buat', [DisclaimerController::class, 'store'])->middleware('auth')->name('disclaimer.store');
-Route::get('/akun/sanggahan/{id}', [DisclaimerController::class, 'show'])->middleware('auth')->name('disclaimer.show');
-Route::get('/akun/sanggahan/{id}/edit', [DisclaimerController::class, 'edit'])->middleware('auth')->name('disclaimer.edit');
-Route::put('/akun/sanggahan/{id}', [DisclaimerController::class, 'update'])->middleware('auth')->name('disclaimer.update');
-Route::delete('/akun/sanggahan/riwayat', [DisclaimerController::class, 'destroy'])->middleware('auth')->name('disclaimer.destroy');
 
 Route::get('/akun/verifikasi', [UserController::class, 'show_verify'])->middleware('auth')->name('get_verify_form');
 Route::post('/akun/verifikasi', [UserController::class, 'post_verify'])->middleware('auth')->name('post_verify_form');

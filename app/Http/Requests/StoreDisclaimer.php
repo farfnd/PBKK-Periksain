@@ -23,22 +23,12 @@ class StoreDisclaimer extends FormRequest
      */
     public function rules()
     {
-        if($this->method() == 'POST'){
-            return [
-                    'id_laporan' => 'required|exists:reports,id',
-                    'sanggahan' => 'required',
-                    'file_bukti' => 'required',
-                    'file_bukti.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
-                ];
-        }
-        if($this->method() == 'PUT'){
-            return [
-                    'id_laporan' => 'required|exists:reports,id',
-                    'sanggahan' => 'required',
-                    'file_bukti' => 'required|sometimes',
-                    'file_bukti.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
-                ];
-        }
+        return [
+                'id_laporan' => 'required|exists:reports,id',
+                'sanggahan' => 'required',
+                'file_bukti' => 'required',
+                'file_bukti.*' => 'image|mimes:jpeg,png,jpg,svg|max:2048',
+            ];
     }
 
     public function messages()

@@ -24,7 +24,7 @@ class ReportService
         return $result;
     }
     
-    // read all by user
+    // read all
     public function readUserReports(){
         return $this->reportRepository->getReportByUserID();
     }

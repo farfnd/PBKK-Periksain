@@ -41,41 +41,6 @@ class DisclaimerRepository{
         return Disclaimer::where('user_id', Auth::user()->id)->get();
         // return "TEST";
     }
-
-    public function getDisclaimer($id){
-        return Disclaimer::where('user_id', Auth::user()->id)
-                        ->where('id', $id)
-                        ->firstOrFail();
-    }
-
-    public function putDisclaimer($id, $input){
-        $disclaimer = $this->getDisclaimer($id);
-
-        if(!$disclaimer->file_bukti){
-            $names = [];
-        }
-
-        if($disclaimer->file_bukti){
-            $names = json_decode($disclaimer->file_bukti);
-        }
-
-        if(isset($input['file_bukti'])){
-            foreach($input['file_bukti'] as $userImage)
-            {
-                $hash_name = pathinfo($userImage->hashName());
-                $imageName = md5(time().$hash_name['filename']).'.'.$userImage->extension();
-                Storage::putFileAs('disclaimer_images/'.Auth::user()->id, $userImage, $imageName);
-                array_push($names, $imageName);
-            }
-            $input['file_bukti'] = json_encode($names);
-        }
-
-        return $disclaimer->update($input);
-    }
-
-    public function destroyDisclaimer($id){
-        return Disclaimer::destroy($id);
-    }
 }
 
 ?>

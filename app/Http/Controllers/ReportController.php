@@ -169,7 +169,7 @@ class ReportController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  $id
+     * @param  \App\Models\Report  $report
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
@@ -187,7 +187,7 @@ class ReportController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request, $id
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
@@ -255,16 +255,18 @@ class ReportController extends Controller
     public function destroy(Request $request)
     {
         if($this->reportService->deleteReport($request['id']));{
+            $reports = $this->getReportByUser();
             if(Auth::user()->role == 'admin'){
                 return redirect(route('admin.show_report'));
             }else{
-                return view('laporan.report_history', ['profile_msg_read_info'=>'Laporan berhasil dihapus!']);
+                return view('laporan.report_history', ['reports' => $reports, 'profile_msg_read_info'=>'Laporan berhasil dihapus!']);
             }
         }
+        $reports = $this->getReportByUser();
         if(Auth::user()->role == 'admin'){
             return redirect(route('admin.show_report'));
         }else{
-            return view('laporan.report_history', ['profile_msg_error_info'=>'Laporan gagal dihapus!']);
+            return view('laporan.report_history', ['reports' => $reports, 'profile_msg_error_info'=>'Laporan gagal dihapus!']);
         }
     }
 }

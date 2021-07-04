@@ -73,7 +73,7 @@ class HomeController extends Controller
 
     public function get_disclaimer_image($id, $filename)
     {
-        if(Auth::user()->id != $id && Auth::user()->role != 'admin'){
+        if(Auth::user()->id != $id){
             return route('show_404');
         }
 

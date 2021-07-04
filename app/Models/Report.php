@@ -14,5 +14,5 @@ class Report extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'terverifikasi', 'tipe_laporan', 'nama_terlapor', 'bank', 'nomor_rekening', 'platform', 'kontak_pelaku', 'kronologi', 'total_kerugian', 'file_bukti', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id','tipe_laporan', 'nama_terlapor', 'bank', 'nomor_rekening', 'platform', 'kontak_pelaku', 'kronologi', 'total_kerugian', 'file_bukti', 'created_at', 'updated_at'];
 }

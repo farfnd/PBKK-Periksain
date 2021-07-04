@@ -24,23 +24,12 @@ class DisclaimerService
         return $result;
     }
     
-    // read all by user
+    // read
     public function readUserDisclaimer(){
         return $this->disclaimerRepository->getDisclaimerByUserID();
     }
 
-    // read one disclaimer
-    public function readDisclaimer($id){
-        return $this->disclaimerRepository->getDisclaimer($id);
-    }
-
     // update
-    public function editDisclaimer($id, $input){
-        return $this->disclaimerRepository->putDisclaimer($id, $input);
-    }
 
     // delete
-    public function deleteDisclaimer($id){
-        return $this->disclaimerRepository->destroyDisclaimer($id);
-    }
 }

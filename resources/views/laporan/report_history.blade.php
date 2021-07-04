@@ -91,7 +91,61 @@
                                         <h5 class="card-title">RIWAYAT PELAPORAN ANDA</h5>
                                         <!-- <p>DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.</p> -->
                                         <table id="tabel_riwayat" class="display" style="width:100%">
-                                            
+                                            <!-- <thead>
+                                                <tr>
+                                                    <th>ID</th>
+                                                    <th>Tipe</th>
+                                                    <th>Nomor</th>
+                                                    <th>Waktu Pelaporan</th>
+                                                    <th>Status</th>
+                                                    <th>Aksi</th>
+                                                </tr>
+                                            </thead>
+                                            <tbody id="report_content">
+                                                @foreach ($reports as $report)
+                                                <tr>
+                                                    <td>
+                                                        <a href="{{route('report.show', $report->id)}}">{{ $report->id }}</a>
+                                                    </td>
+                                                    <td>
+                                                        @if($report->tipe_laporan == 'rekening')
+                                                        Rekening
+                                                        @else
+                                                        Telepon
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        @if($report->tipe_laporan == 'rekening')
+                                                        {{ $report->nomor_rekening }}
+                                                        @else
+                                                        {{ $report->kontak_pelaku }}
+                                                        @endif
+                                                    </td>
+                                                    <td>{{$report->created_at}}</td>
+                                                    <td>
+                                                        @if($report->terverifikasi)
+                                                            <h6 class="badge bg-success text-white">Terverifikasi</h6>
+                                                        @else
+                                                            <h6 class="badge bg-danger text-white">Belum Terverifikasi</h6>
+                                                        @endif
+                                                    </td>
+                                                    <td>
+                                                        <ul class="list-inline m-0">
+                                                            @if(!$report->terverifikasi)
+                                                            <li class="list-inline-item">
+                                                                <a class="btn btn-primary btn-sm rounded-0 text-white"  role="button" data-toggle="tooltip" data-placement="top" title="Edit" href="{{ route('report.edit', ['id' => $report->id]) }}"><i class="fa fa-edit"></i></a>
+                                                            </li>
+                                                            @endif
+                                                            <li class="list-inline-item">
+                                                                <button type="button" class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModal" data-html="{{$report->id}}">
+                                                                    <i class="fa fa-trash"></i>
+                                                                </button>
+                                                            </li>
+                                                        </ul>
+                                                    </td>
+                                                </tr>
+                                                @endforeach
+                                            </tbody> -->
                                         </table>
                                     </div>
                                 </div>
@@ -181,8 +235,7 @@
                 }).done(function(msg) {
                     msg.forEach(item => {        
                         const temp_set = new Array();
-                        var id = `<a href="/akun/laporan/`+item["id"]+`">`+item["id"]+`</a>`;
-                        temp_set.push(id);
+                        temp_set.push(item["id"]);
                         temp_set.push("Rekening");
                         temp_set.push(item["nomor_rekening"]);
                         temp_set.push(item["created_at"].replace("T", " ").replace(".000000Z", ""));
@@ -227,8 +280,7 @@
                 }).done(function(msg) {
                     msg.forEach(item => {
                         const temp_set = new Array();
-                        var id = `<a href="/akun/laporan/`+item["id"]+`">`+item["id"]+`</a>`;
-                        temp_set.push(id);
+                        temp_set.push(item["id"]);
                         temp_set.push("Telepon");
                         temp_set.push(item["kontak_pelaku"]);
                         temp_set.push(item["created_at"].replace("T", " ").replace(".000000Z", ""));

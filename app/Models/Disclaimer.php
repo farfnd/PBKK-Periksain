@@ -14,5 +14,5 @@ class Disclaimer extends Model
      *
      * @var array
      */
-    protected $fillable = ['user_id', 'id_laporan', 'sanggahan', 'file_bukti', 'terverifikasi', 'created_at', 'updated_at'];
+    protected $fillable = ['user_id', 'id_laporan', 'sanggahan', 'file_bukti', 'created_at', 'updated_at'];
 }
