@@ -23,11 +23,13 @@ class DisclaimerFactory extends Factory
     public function definition()
     {
         $users = \App\Models\User::pluck('id')->toArray();
+        $reports = \App\Models\Report::pluck('id')->toArray();
         return [
             'user_id' => $this->faker->randomElement($users),
+            'id_laporan' => $this->faker->randomElement($reports),
             'sanggahan' => $this->faker->sentence(15),
-            'file' => $this->faker->sentence(15)
-            
+            // 'file' => $this->faker->sentence(15),
+            'terverifikasi' => 0
         ];
     }
 

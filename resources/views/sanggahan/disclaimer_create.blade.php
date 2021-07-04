@@ -61,7 +61,7 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>Sanggahan Laporan</b></h5>
+                                    <h5 class="card-title" style="text-align:center; "><b>Sanggah Laporan</b></h5>
                                     <p class="page-desc" style="text-align:center;">Sanggah laporan seseorang yang berusaha merusak nama baik Anda.</p>
                                 </div>
                             </div>
