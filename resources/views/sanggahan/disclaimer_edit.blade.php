@@ -10,7 +10,7 @@
         <!-- The above 6 meta tags *must* come first in the head; any other head content must come *after* these tags -->
         
         <!-- Title -->
-        <title>Periksa.in - Laporkan Penipuan</title>
+        <title>Periksa.in - Edit Sanggahan</title>
 
         <!-- Styles -->
         <link href="https://fonts.googleapis.com/css?family=Lato:400,700,900&display=swap" rel="stylesheet">
@@ -53,8 +53,8 @@
                         <nav aria-label="breadcrumb">
                             <ol class="breadcrumb">
                                 <li class="breadcrumb-item"><a href="#">Akun</a></li>
-                                <li class="breadcrumb-item"><a href="{{ route('disclaimer.create') }}">Buat Sanggahan</a></li>
-                                <li class="breadcrumb-item active" aria-current="page">Sanggahan Terkirim</li>
+                                <li class="breadcrumb-item"><a href="{{ route('get_disclaimer_history') }}">Riwayat Sanggahan</a></li>
+                                <li class="breadcrumb-item active" aria-current="page">Edit Sanggahan</li>
                             </ol>
                         </nav>
                     </div>
@@ -62,8 +62,8 @@
                         <div class="row">
                             <div class="col-md-12">
                                 <div class="page-title">
-                                    <h5 class="card-title" style="text-align:center; "><b>Sanggahan Terkirim</b></h5>
-                                    <p class="page-desc" style="text-align:center;">Sanggahan Anda berhasil terkirim dengan detail sebagai berikut.</p>
+                                    <h5 class="card-title" style="text-align:center; "><b>EDIT SANGGAHAN</b></h5>
+                                    <p class="page-desc" style="text-align:center;">Sanggah laporan seseorang yang berusaha merusak nama baik Anda.</p>
                                 </div>
                             </div>
                         </div>
@@ -72,31 +72,54 @@
                                 <div class="card">
                                     <div class="card-body">
                                         <h5 class="card-title">Sanggahan</h5>
-                                        <form method="POST" action="{{route('disclaimer.store')}}">
+                                        <form method="POST" action="{{route('disclaimer.update', ['id' => $disclaimer->id])}}" enctype="multipart/form-data">
+                                            @method('PUT')
+                                            @csrf
                                             <p></p>
                                             <p><b>ID Laporan</b></p>
                                             <div class="form-group">
-                                                <input type="number" class="form-control" id="id_laporan" name="id_laporan" value="{{$disclaimer->id_laporan}}" readonly>
+                                                <input type="text" class="form-control" id="id_laporan" placeholder="ID Laporan" multiple name="id_laporan" value="{{$disclaimer->id_laporan}}">
+                                                @if ($errors->has('id_laporan'))
+                                                    <span class="text-danger">{{ $errors->first('id_laporan') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
-                                            <p><b>Keterangan Sanggahan</b></p>
+                                            <p><b>Keterangan</b></p>
                                             <div class="form-group">
-                                                <textarea class="form-control" id="sanggahan" rows="5" name="sanggahan" readonly>{{$disclaimer->sanggahan}}</textarea>
+                                                <textarea class="form-control" id="sanggahan" rows="5" placeholder="Tuliskan sanggahan anda" name="sanggahan">{{$disclaimer->sanggahan}}</textarea>
+                                                
+                                                @if ($errors->has('sanggahan'))
+                                                    <span class="text-danger">{{ $errors->first('sanggahan') }}</span>
+                                                @endif
                                             </div>
                                             <p></p>
                                             <p><b>File-file Pendukung</b></p>
-                                            @foreach (json_decode($disclaimer->file_bukti) as $bukti)
-                                                <img src="{{route('show_report_image', ['id' => Auth::user()->id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
-                                            @endforeach
-                                            <p></p>
-                                            <p><b>Kode QR</b></p>
-                                            <div class="row">
-                                                <div class="col-md-12">
-                                                    {{$qr}}
-                                                </div>
+                                            <div class="form-group">
+                                                <label for="file_bukti">Wajib menyertakan foto/tangkapan layar yang dapat mendukung sanggahan Anda.</label>
+                                                <p>Foto harus bertipe .jpeg, .png, .jpg, atau .svg, dengan ukuran kurang dari 2 MB.</p>
+                                                @if($disclaimer->file_bukti)
+                                                    @foreach (json_decode($disclaimer->file_bukti) as $bukti)
+                                                        <img src="{{route('show_disclaimer_image', ['id' => Auth::user()->id, 'filename' => $bukti])}}" width="200px" alt="Data tidak ditemukan">
+                                                    @endforeach
+                                                @else
+                                                    <p>Data tidak ditemukan</p>
+                                                @endif
+                                                <input type="file" class="form-control" id="file_bukti" placeholder="File Pendukung" multiple name="file_bukti[]">
+                                                @if(!$disclaimer->file_bukti)
+                                                    @if ($errors->has('file_bukti'))
+                                                        <span class="text-danger">{{ $errors->first('file_bukti') }}</span>
+                                                    @endif
+                                                    @foreach ($errors->get('file_bukti.*') as $messages)
+                                                        <span class="text-danger">File {{$loop->index + 1}}:</span>
+                                                        @foreach ($messages as $message)
+                                                            <br>
+                                                            <span class="text-danger">{{ $message }}</span>
+                                                        @endforeach
+                                                        <br>
+                                                    @endforeach
+                                                @endif
                                             </div>
-                                            <p></p>
-                                            <a type="submit" class="btn btn-primary col-md-12" href="/" >Kembali ke halaman utama</a>
+                                            <button type="submit" class="btn btn-primary">Submit</button>
                                         </form>
                                     </div>
                                 </div>

@@ -72,10 +72,20 @@
                             <div class="col">
                                 <div class="card">
                                     <div class="card-body">
+                                        @isset($profile_msg_read_info)
+                                            <div class="alert alert-success" role="alert">
+                                                {{ $profile_msg_read_info }}
+                                            </div>
+                                        @endisset
+                                        @isset($profile_msg_error_info)
+                                            <div class="alert alert-danger" role="alert">
+                                                {{ $profile_msg_read_info }}
+                                            </div>
+                                        @endisset
                                         <h5 class="card-title">RIWAYAT SANGGAHAN ANDA</h5>
                                         <!-- <p>DataTables has most features enabled by default, so all you need to do to use it with your own tables is to call the construction function: <code>$().DataTable();</code>.</p> -->
-                                        <table id="zero-conf" class="display" style="width:100%">
-                                            <thead>
+                                        <table id="tabel_riwayat" class="display" style="width:100%">
+                                            {{-- <thead>
                                                 <tr>
                                                     <th>ID Sanggahan</th>
                                                     <th>Tanggal Sanggahan</th>
@@ -85,12 +95,12 @@
                                             <tbody>
                                                 @foreach ($disclaimers as $disclaimer)
                                                 <tr>
-                                                    <td>{{ $disclaimer->id_sanggahan }}</td>
+                                                    <td>{{ $disclaimer->id }}</td>
                                                     <td>{{ $disclaimer->created_at }}</td>
                                                     <td>Disetujui</td>
                                                 </tr>
                                                 @endforeach
-                                            </tbody>
+                                            </tbody> --}}
                                         </table>
                                     </div>
                                 </div>
@@ -109,39 +119,123 @@
                 </div>
             </div>
         </div>
+
+        <!-- Modal -->
+        <div class="modal fade" id="deleteModal" tabindex="-1" aria-labelledby="deleteModalLabel" aria-hidden="true">
+            <div class="modal-dialog modal-dialog-centered">
+                <div class="modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="deleteModalLabel">Apakah Anda yakin akan menghapus sanggahan ini?</h5>
+                        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                    </div>
+                    <div class="modal-body">
+                        Tindakan ini tidak bisa dibatalkan.
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-primary" data-bs-dismiss="modal">Batal</button>
+                        <button type="button" class="btn btn-danger" id="tombol_hapus">Hapus</button>
+                    </div>
+                </div>
+            </div>
+        </div>
         
+        <form id="form_hapus" method="POST" action="{{route('disclaimer.destroy')}}" style="display: none;">
+            @method('DELETE')
+            @csrf
+            <input hidden type="text" name="id" id="form_hapus_id">
+        </form>
+
         <!-- Javascripts -->
+        <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js" integrity="sha384-IQsoLXl5PILFhosVNubq5LC7Qb9DXgDA9i+tQ8Zj3iwWAwPtgFTxbJ8NT4GN1R8p" crossorigin="anonymous"></script>
+        
+        <script src="/connect_assets/plugins/bootstrap/js/bootstrap.bundle.min.js"></script>
         <script src="/connect_assets/plugins/jquery/jquery-3.6.0.min.js"></script>
-        <script src="/connect_assets/plugins/bootstrap/popper.min.js"></script>
-        <script src="/connect_assets/plugins/bootstrap/js/bootstrap.min.js"></script>
         <script src="/connect_assets/plugins/jquery-slimscroll/jquery.slimscroll.min.js"></script>
         <script src="/connect_assets/plugins/DataTables/datatables.min.js"></script>
         <script src="/connect_assets/js/connect.min.js"></script>
         <script src="/connect_assets/js/pages/datatables.js"></script>
 
+        <script>
+            function changeModalID(id) {
+                // alert(id);
+                $('#form_hapus_id').val(id);
+            }
+        </script>
         <script type="text/javascript">
-            $(function() {
+        // Waiting document ready
+        $(function() {
+                const dataset = new Array();
+
                 $.ajax({
-                    url: "/api/user/getDisclaimerReport",
+                    url: "/api/user/getDisclaimer",
+                    async: false,
                     headers: { 'Authorization': '{{ session("Authorization") }}' }
                 }).done(function(msg) {
-                    msg.forEach(item => {
-                        var content = `
-                        <tr>
-                            <td>`+ item["id"] +`</td>
-                            <td>Sanggahan</td>
-                            <td>
-                            `+ item["tanggal_sanggahan"] +`
-                            </td>
-                            <td>`+ item["created_at"] +`</td>
-                            
-                        </tr>
-                        `;
-                        $("#report_content").append(content);
+                    msg.forEach(item => {        
+                        const temp_set = new Array();
+                        var id = `<a href="/akun/sanggahan/`+item["id"]+`">`+item["id"]+`</a>`;
+                        temp_set.push(id);
+                        temp_set.push(item["created_at"].replace("T", " ").replace(".000000Z", ""));
+                        var aksi = "";
+                        var status = "";
+                        if(item["terverifikasi"] == false){
+                            status = `<h6 class="badge bg-danger text-white">Belum Terverifikasi</h6>`;
+                            aksi = `
+                            <ul class="list-inline m-0">
+                                <li class="list-inline-item">
+                                    <a class="btn btn-primary btn-sm rounded-0 text-white"  role="button" data-toggle="tooltip" data-placement="top" title="Edit" href="/akun/sanggahan/`+item["id"]+`/edit"><i class="fa fa-edit"></i></a>
+                                </li>
+                                <li class="list-inline-item">
+                                    <button type="button" class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModal" data-html="` + item["id"] + `" onclick="changeModalID(` + item["id"] + `)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                            `;
+                        }else{
+                            status =`<h6 class="badge bg-success text-white">Terverifikasi</h6>`;                            
+                            aksi = `
+                            <ul class="list-inline m-0">
+                                <li class="list-inline-item">
+                                    <button type="button" class="btn btn-danger btn-sm rounded-0" data-toggle="tooltip" data-placement="top" title="Hapus" data-bs-toggle="modal" data-bs-target="#deleteModal" data-html="`+item["id"]+`" onclick="changeModalID(` + item["id"] + `)">
+                                        <i class="fa fa-trash"></i>
+                                    </button>
+                                </li>
+                            </ul>
+                            `;
+                        }
+                        temp_set.push(status);
+                        temp_set.push(aksi);
+                        dataset.push(temp_set);
                     });
                 });
+
+                $('#tabel_riwayat').DataTable( {
+                    data: dataset,
+                    columns: [
+                        { title: "ID" },
+                        { title: "Tanggal Sanggahan" },
+                        { title: "Status" },
+                        { title: "Aksi" }
+                    ]
+                } );
             });
-            
+            $(function () {
+                $('[data-tooltip="tooltip"]').tooltip({
+                    trigger: 'hover'
+                });
+
+                $('[data-toggle="tooltip"]').on('click', function () {
+                    $(this).tooltip('hide');
+                    let id_sanggahan = $(this).attr('data-html');
+
+                    document.getElementById("id").value = id_sanggahan;
+                });
+                
+                $('#tombol_hapus').on('click', function () {
+                    document.getElementById("form_hapus").submit(); 
+                });
+            });
         </script>
     </body>
 </html>
